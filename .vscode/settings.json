@@ -1,5 +1,13 @@
 {
   "files.associations": {
     "wrangler.json": "jsonc"
-  }
+  },
+  "json.schemas": [
+    {
+      "url": "./src/geojson/building.schema.json",
+      "fileMatch": [
+        "src/geojson/buildings/*.json"
+      ],
+    }
+  ]
 }
