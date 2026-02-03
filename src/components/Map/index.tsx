@@ -1,16 +1,15 @@
 'use client';
 
 import styles from './index.module.scss';
-import { default as GMap, ViewState, MapRef, Source, Layer } from 'react-map-gl/maplibre';
+import { default as GMap, ViewState, MapRef } from 'react-map-gl/maplibre';
 import * as mapLib from 'maplibre-gl';
 import { useGeoLocation } from '@/hooks/useGeoLocation';
 import { useGeoJSONBuilder } from '@/hooks/useGeoJSONBuilder';
 import { useSearchParams } from 'next/navigation';
-import { useRef, useCallback, type MouseEvent } from 'react';
+import { useRef } from 'react';
 import Location from './Location';
 import AccuracyCircle from './AccuracyCircle';
-import MarkerPoints from './MarkerPoints';
-import GeoJSONPanel from './GeoJSONPanel';
+import GeoJSONPanel from '../../hooks/useGeoJSONBuilder/components/GeoJSONPanel';
 import { getNumSearchParam } from '@/utils/searchParam';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
@@ -36,37 +35,10 @@ export default function Map() {
       accuracy: getNumSearchParam(searchParams, 'acc'),
     },
   });
-  const {
-    points,
-    addPoint,
-    removePoint,
-    updatePoint,
-    clearPoints,
-    copyToClipboard,
-    polygonFeature,
-    selectedColor,
-    setSelectedColor,
-  } = useGeoJSONBuilder();
-
-  const handleMapContextMenu = useCallback(
-    (e: MouseEvent<HTMLDivElement>) => {
-      e.preventDefault();
-
-      if (!mapRef.current) return;
-
-      const canvas = mapRef.current.getCanvas();
-      const rect = canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      const lngLat = mapRef.current.unproject([x, y]);
-      addPoint(lngLat.lng, lngLat.lat);
-    },
-    [addPoint],
-  );
+  const { buildPolygon, panel: geoJSONBuilderPanel, handleMapContextMenu } = useGeoJSONBuilder();
 
   return (
-    <div className={styles.map} onContextMenu={handleMapContextMenu}>
+    <div className={styles.map} onContextMenu={handleMapContextMenu(mapRef)}>
       <GMap
         ref={mapRef}
         mapLib={mapLib}
@@ -76,46 +48,16 @@ export default function Map() {
         maxZoom={MAX_ZOOM}
         minZoom={MIN_ZOOM}
       >
-        {coord && (
-          <>
-            <Location coord={coord} />
-            <AccuracyCircle coord={coord} />
-          </>
-        )}
-        <Source
-          id="building-polygon"
-          type="geojson"
-          data={{
-            type: 'FeatureCollection',
-            features: polygonFeature ? [polygonFeature] : [],
-          }}
-        >
-          <Layer
-            id="building-fill"
-            type="fill"
-            paint={{
-              'fill-color': selectedColor,
-              'fill-opacity': 0.4,
-            }}
-          />
-          <Layer
-            id="building-outline"
-            type="line"
-            paint={{
-              'line-color': selectedColor,
-              'line-width': 2,
-            }}
-          />
-        </Source>
-        <MarkerPoints points={points} onRemovePoint={removePoint} onUpdatePoint={updatePoint} />
+        {/* 現在地表示 */}
+        {coord && <Location coord={coord} />}
+        {coord && <AccuracyCircle coord={coord} />}
+
+        {/* GeoJSON Builder */}
+        {buildPolygon}
       </GMap>
-      <GeoJSONPanel
-        points={points}
-        onClear={clearPoints}
-        onCopy={copyToClipboard}
-        selectedColor={selectedColor}
-        onSelectColor={setSelectedColor}
-      />
+
+      {/* GeoJSON Builder */}
+      {geoJSONBuilderPanel}
     </div>
   );
 }

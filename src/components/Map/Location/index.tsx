@@ -8,10 +8,8 @@ interface Props {
 
 export default function Location({ coord }: Props) {
   return (
-    <>
-      <Marker longitude={coord.longitude} latitude={coord.latitude} color="red">
-        <div className={styles.location}></div>
-      </Marker>
-    </>
+    <Marker longitude={coord.longitude} latitude={coord.latitude} color="red">
+      <div className={styles.location}></div>
+    </Marker>
   );
 }

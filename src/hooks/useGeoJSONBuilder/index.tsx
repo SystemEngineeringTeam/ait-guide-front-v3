@@ -1,9 +1,15 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, type MouseEvent } from 'react';
 import { Feature, FeatureCollection, Point, Polygon } from 'geojson';
+import { type MapRef } from 'react-map-gl/maplibre';
+import MarkerPoints from './components/MarkerPoints';
+import BuildPolygon from './components/BuildPolygon';
+import GeoJSONPanel from './components/GeoJSONPanel';
 
 export const BUILDING_FILL_COLORS = ['#c4d5ff', '#d0c4ff', '#ffe2c4', '#ffc4e2', '#ffc4c4', '#ff0000'] as const;
 
 export type BuildingFillColor = (typeof BUILDING_FILL_COLORS)[number];
+
+export type PolygonFeature = Feature<Polygon> | null;
 
 export interface BuildingPoint {
   id: string;
@@ -32,16 +38,31 @@ export const useGeoJSONBuilder = () => {
   }, []);
 
   const updatePoint = useCallback((id: string, longitude: number, latitude: number) => {
-    setPoints((prev) =>
-      prev.map((point) => (point.id === id ? { ...point, longitude, latitude } : point)),
-    );
+    setPoints((prev) => prev.map((point) => (point.id === id ? { ...point, longitude, latitude } : point)));
   }, []);
 
   const clearPoints = useCallback(() => {
     setPoints([]);
   }, []);
 
-  const polygonFeature = useMemo<Feature<Polygon> | null>(() => {
+  const handleMapContextMenu = useCallback(
+    (mapRef: React.RefObject<MapRef | null>) => (e: MouseEvent<HTMLDivElement>) => {
+      e.preventDefault();
+
+      if (!mapRef.current) return;
+
+      const canvas = mapRef.current.getCanvas();
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const lngLat = mapRef.current.unproject([x, y]);
+      addPoint(lngLat.lng, lngLat.lat);
+    },
+    [addPoint],
+  );
+
+  const polygonFeature = useMemo<PolygonFeature>(() => {
     if (points.length < 3) return null;
 
     const ring = points.map((point) => [point.longitude, point.latitude]);
@@ -103,16 +124,38 @@ export const useGeoJSONBuilder = () => {
     document.body.removeChild(textarea);
   }, [generateGeoJSON]);
 
+  const panel = (
+    <GeoJSONPanel
+      points={points}
+      onClear={clearPoints}
+      onCopy={copyToClipboard}
+      selectedColor={selectedColor}
+      onSelectColor={setSelectedColor}
+    />
+  );
+  const buildPolygon = (
+    <>
+      <MarkerPoints points={points} onRemovePoint={removePoint} onUpdatePoint={updatePoint} />
+      <BuildPolygon polygonFeature={polygonFeature} selectedColor={selectedColor} />
+    </>
+  );
+
   return {
     points,
+    polygonFeature,
+    selectedColor,
+
     addPoint,
     removePoint,
     updatePoint,
     clearPoints,
     generateGeoJSON,
     copyToClipboard,
-    polygonFeature,
-    selectedColor,
     setSelectedColor,
+    handleMapContextMenu,
+
+    // components
+    panel,
+    buildPolygon,
   };
 };
