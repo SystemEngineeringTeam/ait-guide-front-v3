@@ -1,5 +1,5 @@
 import MapPage from '@/page/MapPage';
 
-export default function Home() {
+export default function Page() {
   return <MapPage />;
 }
