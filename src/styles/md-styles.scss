@@ -1,0 +1,163 @@
+.md-content {
+  a {
+    margin-inline: 3px;
+    padding-inline: 3px;
+    color: $color-primary;
+    text-decoration: none;
+    border-bottom: 1px solid $color-primary;
+    transition: color 0.3s;
+  }
+
+  h1 {
+    margin: 45px 0 10px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  }
+
+  h2 {
+    margin: 45px 0 10px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  h3 {
+    margin: 35px 0 10px;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  h4 {
+    margin: 35px 0 10px;
+    font-size: 1.2rem;
+  }
+
+  h5 {
+    margin: 20px 0 10px;
+    font-size: 1rem;
+  }
+
+  h6 {
+    margin: 20px 0 10px;
+    font-size: 0.8rem;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  img {
+    max-width: 100%;
+    border: 1px solid #eee;
+  }
+
+  iframe {
+    max-width: 100%;
+  }
+
+  ul,
+  ol {
+    margin: 20px 0;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  ul {
+    padding-left: 2em;
+    list-style: inside;
+
+    ul {
+      list-style-type: circle;
+    }
+  }
+
+  pre > code {
+    display: block;
+    padding: 10.5px;
+    margin: 0 0 11px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #333333;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #f5f5f5;
+  }
+
+  table {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin: 20px 0;
+    margin-bottom: 30px;
+
+    th {
+      padding: 8px;
+      line-height: 1.6;
+      vertical-align: top;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    td {
+      padding: 8px;
+      line-height: 1.6;
+      vertical-align: top;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    tr:nth-child(odd) td {
+      background-color: #f9f9f9;
+    }
+  }
+
+  h1:first-child,
+  h2:first-child,
+  h3:first-child,
+  h4:first-child,
+  h5:first-child,
+  h6:first-child {
+    margin-top: 0;
+  }
+
+  h1 + h1,
+  h1 + h2,
+  h1 + h3,
+  h1 + h4,
+  h1 + h5,
+  h1 + h6,
+  h2 + h1,
+  h2 + h2,
+  h2 + h3,
+  h2 + h4,
+  h2 + h5,
+  h2 + h6,
+  h3 + h1,
+  h3 + h2,
+  h3 + h3,
+  h3 + h4,
+  h3 + h5,
+  h3 + h6,
+  h4 + h1,
+  h4 + h2,
+  h4 + h3,
+  h4 + h4,
+  h4 + h5,
+  h4 + h6,
+  h5 + h1,
+  h5 + h2,
+  h5 + h3,
+  h5 + h4,
+  h5 + h5,
+  h5 + h6,
+  h6 + h1,
+  h6 + h2,
+  h6 + h3,
+  h6 + h4,
+  h6 + h5,
+  h6 + h6 {
+    margin-top: 0;
+  }
+}

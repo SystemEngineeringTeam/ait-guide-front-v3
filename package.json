@@ -27,6 +27,7 @@
 		"eslint": "^9",
 		"eslint-config-next": "15.4.6",
 		"prettier": "^3.8.1",
+		"sass": "^1.97.3",
 		"typescript": "^5.7.4",
 		"wrangler": "^4.62.0"
 	}

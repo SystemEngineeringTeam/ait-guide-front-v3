@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
+import '@/styles/global.scss';
 
 const notoSansJP = Noto_Sans_JP({
   variable: '--font-noto-sans-jp',
