@@ -25,8 +25,7 @@ export default function MarkerPoints({ points, onRemovePoint, onUpdatePoint }: M
             setSelectedPointId(point.id);
           }}
           onDragStart={(e) => {
-            const originalEvent = (e as { originalEvent?: { stopPropagation?: () => void } })
-              .originalEvent;
+            const originalEvent = (e as { originalEvent?: { stopPropagation?: () => void } }).originalEvent;
             originalEvent?.stopPropagation?.();
             setSelectedPointId(null);
           }}
@@ -43,6 +42,7 @@ export default function MarkerPoints({ points, onRemovePoint, onUpdatePoint }: M
               closeButton={true}
               closeOnClick={false}
               onClose={() => setSelectedPointId(null)}
+              offset={[0, -10]}
             >
               <div className={styles.popup}>
                 <p className={styles.coordinates}>
