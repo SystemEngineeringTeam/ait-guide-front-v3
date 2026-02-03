@@ -1,0 +1,7 @@
+.mapPage {
+  &[data-ctrl-down='true'] {
+    canvas {
+      cursor: default;
+    }
+  }
+}

@@ -4,6 +4,7 @@ import { type MapRef } from 'react-map-gl/maplibre';
 import MarkerPoints from './components/MarkerPoints';
 import BuildPolygon from './components/BuildPolygon';
 import GeoJSONPanel from './components/GeoJSONPanel';
+import { HandleMapContextMenuFn } from '@/components/Map';
 
 export const BUILDING_FILL_COLORS = ['#c4d5ff', '#d0c4ff', '#ffe2c4', '#ffc4e2', '#ffc4c4', '#ff0000'] as const;
 
@@ -45,7 +46,7 @@ export const useGeoJSONBuilder = () => {
     setPoints([]);
   }, []);
 
-  const handleMapContextMenu = useCallback(
+  const handleMapContextMenu: HandleMapContextMenuFn = useCallback(
     (mapRef: React.RefObject<MapRef | null>) => (e: MouseEvent<HTMLDivElement>) => {
       e.preventDefault();
 
