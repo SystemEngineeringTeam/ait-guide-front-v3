@@ -50,7 +50,6 @@ export default function MarkerPoints({ points, onRemovePoint, onUpdatePoint }: M
               longitude={point.longitude}
               latitude={point.latitude}
               closeButton={true}
-              closeOnClick={false}
               onClose={() => setSelectedPointId(null)}
               offset={[0, -10]}
             >
