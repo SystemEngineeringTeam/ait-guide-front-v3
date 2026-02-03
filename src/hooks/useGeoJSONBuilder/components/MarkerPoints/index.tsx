@@ -1,6 +1,6 @@
-import { Marker, Popup } from 'react-map-gl/maplibre';
+import { Marker, MarkerDragEvent, Popup } from 'react-map-gl/maplibre';
 import { BuildingPoint } from '@/hooks/useGeoJSONBuilder';
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import styles from './MarkerPoints.module.scss';
 
 interface MarkerPointsProps {
@@ -12,6 +12,26 @@ interface MarkerPointsProps {
 export default function MarkerPoints({ points, onRemovePoint, onUpdatePoint }: MarkerPointsProps) {
   const [selectedPointId, setSelectedPointId] = useState<string | null>(null);
 
+  const handleClick = useCallback(
+    (pointId: string) => (e: { originalEvent: MouseEvent }) => {
+      e.originalEvent.stopPropagation();
+      setSelectedPointId(pointId);
+    },
+    [],
+  );
+
+  const handleDragStart = useCallback((e: MarkerDragEvent) => {
+    const originalEvent = (e as { originalEvent?: { stopPropagation?: () => void } }).originalEvent;
+    originalEvent?.stopPropagation?.();
+  }, []);
+
+  const handleDragEnd = useCallback(
+    (pointId: string) => (e: MarkerDragEvent) => {
+      onUpdatePoint(pointId, e.lngLat.lng, e.lngLat.lat);
+    },
+    [onUpdatePoint],
+  );
+
   return (
     <>
       {points.map((point) => (
@@ -20,19 +40,9 @@ export default function MarkerPoints({ points, onRemovePoint, onUpdatePoint }: M
           longitude={point.longitude}
           latitude={point.latitude}
           draggable
-          onClick={(e) => {
-            e.originalEvent.stopPropagation();
-            setSelectedPointId(point.id);
-          }}
-          onDragStart={(e) => {
-            const originalEvent = (e as { originalEvent?: { stopPropagation?: () => void } }).originalEvent;
-            originalEvent?.stopPropagation?.();
-            setSelectedPointId(null);
-          }}
-          onDragEnd={(e) => {
-            onUpdatePoint(point.id, e.lngLat.lng, e.lngLat.lat);
-            setSelectedPointId(null);
-          }}
+          onClick={handleClick(point.id)}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd(point.id)}
         >
           <div className={styles.marker} />
           {selectedPointId === point.id && (
