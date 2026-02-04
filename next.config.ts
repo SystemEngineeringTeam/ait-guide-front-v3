@@ -1,4 +1,8 @@
 import type { NextConfig } from 'next';
+import createMDX from '@next/mdx';
+import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare';
+
+initOpenNextCloudflareForDev();
 
 const nextConfig: NextConfig = {
   pageExtensions: ['tsx', 'mdx'],
@@ -6,9 +10,6 @@ const nextConfig: NextConfig = {
     additionalData: '@use "@/styles/modules" as *;',
   },
 };
+const withMDX = createMDX({});
 
-export default nextConfig;
-
-import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare';
-
-initOpenNextCloudflareForDev();
+export default withMDX(nextConfig);

@@ -1,4 +1,10 @@
-.md-content {
+.content {
+  padding: 100px 10px;
+  width: 100%;
+  max-width: 700px;
+  margin-inline: auto;
+  overflow-x: hidden;
+
   a {
     margin-inline: 3px;
     padding-inline: 3px;
@@ -9,38 +15,28 @@
   }
 
   h1 {
-    margin: 45px 0 10px;
-    font-size: 1.6rem;
+    font-size: 180%;
     font-weight: 700;
+    padding-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 10px;
     border-bottom: 2px solid rgba(0, 0, 0, 0.1);
   }
 
   h2 {
-    margin: 45px 0 10px;
-    font-size: 1.4rem;
+    font-size: 150%;
+    margin: 30px 0;
+    margin-bottom: 10px;
     font-weight: 700;
+    padding-bottom: 10px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
 
   h3 {
-    margin: 35px 0 10px;
-    font-size: 1.4rem;
+    margin: 30px 0;
+    margin-bottom: 10px;
+    font-size: 125%;
     font-weight: 700;
-  }
-
-  h4 {
-    margin: 35px 0 10px;
-    font-size: 1.2rem;
-  }
-
-  h5 {
-    margin: 20px 0 10px;
-    font-size: 1rem;
-  }
-
-  h6 {
-    margin: 20px 0 10px;
-    font-size: 0.8rem;
   }
 
   p {
@@ -111,53 +107,5 @@
     tr:nth-child(odd) td {
       background-color: #f9f9f9;
     }
-  }
-
-  h1:first-child,
-  h2:first-child,
-  h3:first-child,
-  h4:first-child,
-  h5:first-child,
-  h6:first-child {
-    margin-top: 0;
-  }
-
-  h1 + h1,
-  h1 + h2,
-  h1 + h3,
-  h1 + h4,
-  h1 + h5,
-  h1 + h6,
-  h2 + h1,
-  h2 + h2,
-  h2 + h3,
-  h2 + h4,
-  h2 + h5,
-  h2 + h6,
-  h3 + h1,
-  h3 + h2,
-  h3 + h3,
-  h3 + h4,
-  h3 + h5,
-  h3 + h6,
-  h4 + h1,
-  h4 + h2,
-  h4 + h3,
-  h4 + h4,
-  h4 + h5,
-  h4 + h6,
-  h5 + h1,
-  h5 + h2,
-  h5 + h3,
-  h5 + h4,
-  h5 + h5,
-  h5 + h6,
-  h6 + h1,
-  h6 + h2,
-  h6 + h3,
-  h6 + h4,
-  h6 + h5,
-  h6 + h6 {
-    margin-top: 0;
   }
 }
