@@ -5,7 +5,7 @@ import { default as GMap, ViewState, MapRef } from 'react-map-gl/maplibre';
 import * as mapLib from 'maplibre-gl';
 import { useGeoLocation } from '@/hooks/useGeoLocation';
 import { useSearchParams } from 'next/navigation';
-import { useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import Location from './Location';
 import AccuracyCircle from './AccuracyCircle';
 import { getNumSearchParam } from '@/utils/searchParam';
@@ -28,10 +28,15 @@ export type HandleMapContextMenuFn = (
   mapRef: React.RefObject<MapRef | null>,
 ) => (e: React.MouseEvent<HTMLDivElement>) => void;
 
+export type HandleMapClickFn = (
+  mapRef: React.RefObject<MapRef | null>,
+) => (e: React.MouseEvent<HTMLDivElement>) => void;
+
 interface Props {
   children?: React.ReactNode;
   className?: string;
   handleMapContextMenu?: HandleMapContextMenuFn;
+  handleMapClick?: HandleMapClickFn;
 
   maxPitch?: number;
   minZoom?: number;
@@ -43,6 +48,7 @@ export default function Map({
   children,
   className,
   handleMapContextMenu,
+  handleMapClick,
 
   maxPitch = MAX_PITCH,
   minZoom = MIN_ZOOM,
@@ -50,6 +56,8 @@ export default function Map({
   initialViewState = INIT_VIEW_STATE,
 }: Props) {
   const mapRef = useRef<MapRef>(null);
+  const isMouseDownRef = useRef(false);
+  const isDraggingRef = useRef(false);
   const searchParams = useSearchParams();
   const coord = useGeoLocation({
     override: {
@@ -59,8 +67,40 @@ export default function Map({
     },
   });
 
+  const handleMouseDown = useCallback(() => {
+    isMouseDownRef.current = true;
+    isDraggingRef.current = false;
+  }, []);
+
+  const handleMouseMove = useCallback(() => {
+    if (!isMouseDownRef.current) return;
+    isDraggingRef.current = true;
+  }, []);
+
+  const handleMouseUp = useCallback(() => {
+    isMouseDownRef.current = false;
+  }, []);
+
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (isDraggingRef.current) {
+        isDraggingRef.current = false;
+        return;
+      }
+      handleMapClick?.(mapRef)(e);
+    },
+    [handleMapClick],
+  );
+
   return (
-    <div className={classNames(styles.map, className)} onContextMenu={handleMapContextMenu?.(mapRef)}>
+    <div
+      className={classNames(styles.map, className)}
+      onContextMenu={handleMapContextMenu?.(mapRef)}
+      onClick={handleClick}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+    >
       <GMap
         ref={mapRef}
         mapLib={mapLib}

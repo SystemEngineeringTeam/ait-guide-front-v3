@@ -4,7 +4,7 @@ import { type MapRef } from 'react-map-gl/maplibre';
 import MarkerPoints from './components/MarkerPoints';
 import BuildPolygon from './components/BuildPolygon';
 import GeoJSONPanel from './components/GeoJSONPanel';
-import { HandleMapContextMenuFn } from '@/components/Map';
+import { HandleMapClickFn, HandleMapContextMenuFn } from '@/components/Map';
 import { BuildingFillColor, DEFAULT_COLOR } from '@/consts/colors';
 
 export type PolygonFeature = Feature<Polygon> | null;
@@ -20,16 +20,52 @@ export const useGeoJSONBuilder = () => {
   const [points, setPoints] = useState<BuildingPoint[]>([]);
   const [selectedColor, setSelectedColor] = useState<BuildingFillColor>(DEFAULT_COLOR);
 
-  const addPoint = useCallback((longitude: number, latitude: number) => {
-    const newPoint: BuildingPoint = {
+  const createPoint = useCallback((longitude: number, latitude: number) => {
+    return {
       id: `point-${Date.now()}-${Math.random()}`,
       longitude,
       latitude,
       timestamp: Date.now(),
-    };
-    setPoints((prev) => [...prev, newPoint]);
-    return newPoint;
+    } as BuildingPoint;
   }, []);
+
+  const addPoint = useCallback(
+    (longitude: number, latitude: number) => {
+      const newPoint = createPoint(longitude, latitude);
+      setPoints((prev) => [...prev, newPoint]);
+      return newPoint;
+    },
+    [createPoint],
+  );
+
+  const insertPointAt = useCallback(
+    (index: number, longitude: number, latitude: number) => {
+      const newPoint = createPoint(longitude, latitude);
+      setPoints((prev) => {
+        const next = [...prev];
+        const insertIndex = Math.max(0, Math.min(index, next.length));
+        next.splice(insertIndex, 0, newPoint);
+        return next;
+      });
+      return newPoint;
+    },
+    [createPoint],
+  );
+
+  const getDistanceToSegment = useCallback(
+    (p: { x: number; y: number }, v: { x: number; y: number }, w: { x: number; y: number }) => {
+      const l2 = (v.x - w.x) ** 2 + (v.y - w.y) ** 2;
+      if (l2 === 0) return Math.hypot(p.x - v.x, p.y - v.y);
+      const t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
+      const clampedT = Math.max(0, Math.min(1, t));
+      const projection = {
+        x: v.x + clampedT * (w.x - v.x),
+        y: v.y + clampedT * (w.y - v.y),
+      };
+      return Math.hypot(p.x - projection.x, p.y - projection.y);
+    },
+    [],
+  );
 
   const removePoint = useCallback((id: string) => {
     setPoints((prev) => prev.filter((p) => p.id !== id));
@@ -58,6 +94,53 @@ export const useGeoJSONBuilder = () => {
       addPoint(lngLat.lng, lngLat.lat);
     },
     [addPoint],
+  );
+
+  const handleMapClick: HandleMapClickFn = useCallback(
+    (mapRef: React.RefObject<MapRef | null>) => (e: MouseEvent<HTMLDivElement>) => {
+      if (!mapRef.current) return;
+      if (points.length < 2) return;
+
+      const canvas = mapRef.current.getCanvas();
+      const rect = canvas.getBoundingClientRect();
+      const clickPoint = {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      };
+
+      const projectedPoints = points.map((point) => mapRef.current!.project([point.longitude, point.latitude]));
+
+      let minDistance = Number.POSITIVE_INFINITY;
+      let insertIndex = -1;
+      const lastIndex = projectedPoints.length - 1;
+
+      for (let i = 0; i < projectedPoints.length - 1; i += 1) {
+        const v = projectedPoints[i];
+        const w = projectedPoints[i + 1];
+        const distance = getDistanceToSegment(clickPoint, v, w);
+        if (distance < minDistance) {
+          minDistance = distance;
+          insertIndex = i + 1;
+        }
+      }
+
+      if (projectedPoints.length > 2) {
+        const v = projectedPoints[lastIndex];
+        const w = projectedPoints[0];
+        const distance = getDistanceToSegment(clickPoint, v, w);
+        if (distance < minDistance) {
+          minDistance = distance;
+          insertIndex = points.length;
+        }
+      }
+
+      const THRESHOLD_PX = 10;
+      if (insertIndex < 0 || minDistance > THRESHOLD_PX) return;
+
+      const lngLat = mapRef.current.unproject([clickPoint.x, clickPoint.y]);
+      insertPointAt(insertIndex, lngLat.lng, lngLat.lat);
+    },
+    [getDistanceToSegment, insertPointAt, points],
   );
 
   const polygonFeature = useMemo<PolygonFeature>(() => {
@@ -144,6 +227,7 @@ export const useGeoJSONBuilder = () => {
     selectedColor,
 
     handleMapContextMenu,
+    handleMapClick,
 
     // components
     panel,
