@@ -10,7 +10,7 @@ interface Props {
   onClose: () => void;
 }
 
-const SNAP_POINTS = [0, 0.1, 0.2, 1];
+const SNAP_POINTS = [0, 0.1, 1];
 
 export default function BottomSheet({ children, open, onClose }: Props) {
   const sheetRef = useRef<SheetRef>(null);
@@ -36,7 +36,7 @@ export default function BottomSheet({ children, open, onClose }: Props) {
       onClose={onClose}
       onSnap={handleSnap}
       snapPoints={SNAP_POINTS}
-      initialSnap={2}
+      initialSnap={1}
       tweenConfig={{
         duration: 0.4,
         ease: 'easeInOut',

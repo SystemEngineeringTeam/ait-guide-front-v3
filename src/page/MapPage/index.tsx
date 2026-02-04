@@ -9,35 +9,34 @@ import FacilityHighlight from '@/components/FacilityHighlight';
 import FacilityData from '@/components/FacilityData';
 import LocationIndicator from '@/components/LocationIndicator';
 import MapControlPanel from '@/components/MapControlPanel';
-import { type MapRef } from 'react-map-gl/maplibre';
 import { GeoLocationCoordinates } from '@/hooks/useGeoLocation';
 import { GEO_JSON_ENTRANCES } from '@/consts/entrances';
 import EntranceMarkers from '@/components/EntranceMarkers';
 import { useSelectedFacilityId } from '@/hooks/useSelectedFacilityId';
+import { useBottomSheet } from '@/hooks/useBottomSheet';
 
 export default function MapPage() {
+  const { isOpen: bottomSheetOpen, open: openBottomSheet, close: closeBottomSheet } = useBottomSheet();
   const [selectedId, setSelectedId] = useSelectedFacilityId();
   const [coord, setCoord] = useState<GeoLocationCoordinates>();
   const [bearing, setBearing] = useState(0);
-  const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [hoverId, setHoverId] = useState<string | undefined>();
-  const mapRef = useRef<MapRef>(null);
 
   const handleClickFeature: HandleClickFeatureFn = useCallback((id) => {
     setSelectedId(id);
-    setBottomSheetOpen(true);
+    openBottomSheet();
   }, []);
 
   const handleBottomSheetClose = useCallback(() => {
-    setBottomSheetOpen(false);
+    closeBottomSheet();
     setSelectedId(undefined);
   }, []);
 
   return (
     <>
-      <MapControlPanel mapRef={mapRef} coord={coord} bearing={bearing} />
+      <MapControlPanel coord={coord} bearing={bearing} />
 
-      <Map ref={mapRef} onClickFeature={handleClickFeature} onHoverFeature={setHoverId} onRotate={setBearing}>
+      <Map onClickFeature={handleClickFeature} onHoverFeature={setHoverId} onRotate={setBearing}>
         <LocationIndicator onChange={setCoord} />
         <FacilitiesPolygons facilities={GEO_JSON_FACILITIES} />
         <EntranceMarkers entrances={GEO_JSON_ENTRANCES} />

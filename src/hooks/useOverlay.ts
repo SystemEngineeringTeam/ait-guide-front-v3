@@ -1,9 +1,9 @@
-import { atom, useAtom } from 'jotai';
+import { atom, useAtom, useSetAtom } from 'jotai';
 import { useCallback } from 'react';
 
 const openAtom = atom(false);
 
-export function useOverlayOpen() {
+export function useOverlay() {
   const [isOpen, setIsOpen] = useAtom(openAtom);
 
   const toggle = useCallback(() => {
@@ -24,4 +24,12 @@ export function useOverlayOpen() {
     close,
     toggle,
   };
+}
+
+export function useOverlayClose() {
+  const setIsOpen = useSetAtom(openAtom);
+
+  return useCallback(() => {
+    setIsOpen(false);
+  }, []);
 }

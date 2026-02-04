@@ -8,6 +8,8 @@ import classNames from 'classnames';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { GEO_JSON_FACILITIES } from '@/consts/facilities';
 import { COORD_AIT_CENTER } from '@/consts/coords';
+import { useFlyToEvent } from '@/hooks/useFlyTo';
+import { useResetNorhEvent } from '@/hooks/useResetNorth';
 
 const MIN_PITCH = 0 as const;
 const MAX_PITCH = 0 as const;
@@ -37,7 +39,6 @@ export type HandleRotateFn = (bearing: number) => void;
 interface Props {
   children?: React.ReactNode;
   className?: string;
-  ref?: React.RefObject<MapRef | null>;
 
   onMapContextMenu?: HandleMapContextMenuFn;
   onMapClick?: HandleMapClickFn;
@@ -55,7 +56,6 @@ interface Props {
 export default function Map({
   children,
   className,
-  ref,
 
   onMapContextMenu,
   onMapClick,
@@ -71,8 +71,19 @@ export default function Map({
 }: Props) {
   const isMouseDownRef = useRef(false);
   const isDraggingRef = useRef(false);
-  const innerRef = useRef<MapRef>(null);
-  const mapRef = ref ?? innerRef;
+  const mapRef = useRef<MapRef>(null);
+
+  useFlyToEvent((coord) => {
+    mapRef.current?.flyTo({
+      center: coord,
+      zoom: 18,
+      duration: 1000,
+    });
+  });
+
+  useResetNorhEvent(() => {
+    mapRef.current?.resetNorth({ duration: 500 });
+  });
 
   const handleMouseDown = useCallback(() => {
     isMouseDownRef.current = true;

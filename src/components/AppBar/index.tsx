@@ -3,11 +3,11 @@
 import styles from './index.module.scss';
 import IconButton from '@/components/IconButton';
 import { MapIcon, QuestionIcon, SearchIcon } from '@/components/Icons';
-import { useOverlayOpen } from '@/hooks/useOverlayOpen';
+import { useOverlay } from '@/hooks/useOverlay';
 import Link, { type LinkProps } from 'next/link';
 
 export default function AppBar() {
-  const { close, open } = useOverlayOpen();
+  const { close, open } = useOverlay();
 
   return (
     <div className={styles.wrapper}>

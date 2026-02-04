@@ -7,6 +7,9 @@ import { useCallback } from 'react';
 import { GEO_JSON_FACILITIES, GeoJSONFacilities } from '@/consts/facilities';
 import { FACILITY_TYPES } from '@/consts/facilityType';
 import { useSelectedFacilityId } from '@/hooks/useSelectedFacilityId';
+import { useOverlayClose } from '@/hooks/useOverlay';
+import { useFlyToFacility } from '@/hooks/useFlyTo';
+import { useBottomSheetOpen } from '@/hooks/useBottomSheet';
 
 const GROUPED_FACILITY_MAP: GeoJSONFacilities[][] = FACILITY_TYPES.map((type) =>
   GEO_JSON_FACILITIES.filter((f): f is GeoJSONFacilities => f.type === type),
@@ -14,14 +17,20 @@ const GROUPED_FACILITY_MAP: GeoJSONFacilities[][] = FACILITY_TYPES.map((type) =>
 
 export default function FacilityList() {
   const [selectedId, setSelectedId] = useSelectedFacilityId();
+  const openBottomSheet = useBottomSheetOpen();
+  const closeOverlay = useOverlayClose();
   const router = useRouter();
+  const flyTo = useFlyToFacility();
 
   const handleClickFacility = useCallback(
     (id: string) => () => {
       setSelectedId(id);
+      openBottomSheet();
       router.push('/');
+      flyTo(id);
+      closeOverlay();
     },
-    [router, setSelectedId],
+    [router, setSelectedId, flyTo, closeOverlay, openBottomSheet],
   );
 
   return (

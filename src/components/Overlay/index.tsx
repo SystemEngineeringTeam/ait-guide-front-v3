@@ -2,14 +2,14 @@
 
 import { useEffect } from 'react';
 import styles from './index.module.scss';
-import { useOverlayOpen } from '@/hooks/useOverlayOpen';
+import { useOverlay } from '@/hooks/useOverlay';
 
 interface Props {
   children?: React.ReactNode;
 }
 
 export default function Overlay({ children }: Props) {
-  const { isOpen, close } = useOverlayOpen();
+  const { isOpen, close } = useOverlay();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

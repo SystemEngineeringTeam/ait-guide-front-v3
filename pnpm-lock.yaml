@@ -20,6 +20,9 @@ importers:
       '@opennextjs/cloudflare':
         specifier: ^1.15.1
         version: 1.16.2(next@16.1.5(react-dom@19.1.5(react@19.1.5))(react@19.1.5)(sass@1.97.3))(wrangler@4.62.0)
+      '@turf/center':
+        specifier: ^7.3.3
+        version: 7.3.3
       '@turf/turf':
         specifier: ^7.3.3
         version: 7.3.3
