@@ -16,17 +16,17 @@ interface GeoJSONPanelProps {
   onSelectColor: (color: BuildingFillColor) => void;
 }
 
-export default function GeoJSONPanel({ 
-  points, 
+export default function GeoJSONPanel({
+  points,
   entrances,
   buildMode,
   onChangeBuildMode,
-  onClear, 
+  onClear,
   onClearEntrances,
-  onCopy, 
-  onPaste, 
-  selectedColor, 
-  onSelectColor 
+  onCopy,
+  onPaste,
+  selectedColor,
+  onSelectColor,
 }: GeoJSONPanelProps) {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -149,7 +149,7 @@ export default function GeoJSONPanel({
               </>
             ) : (
               <button className={styles.clearButton} onClick={onClearEntrances} disabled={entrances.length === 0}>
-                🗑️ 出入り口をクリア
+                🗑️ クリア
               </button>
             )}
           </div>

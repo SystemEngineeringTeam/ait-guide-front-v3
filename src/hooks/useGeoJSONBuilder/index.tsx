@@ -111,6 +111,7 @@ export const useGeoJSONBuilder = () => {
 
   const clearPoints = useCallback(() => {
     setPoints([]);
+    setSelectedPointId(null);
     localStorage.removeItem(POINTS_STORAGE_KEY);
   }, []);
 
@@ -131,17 +132,13 @@ export const useGeoJSONBuilder = () => {
     setEntrances((prev) => prev.filter((e) => e.id !== id));
   }, []);
 
-  const updateEntrance = useCallback(
-    (id: string, updates: Partial<Omit<Entrance, 'id' | 'timestamp'>>) => {
-      setEntrances((prev) =>
-        prev.map((entrance) => (entrance.id === id ? { ...entrance, ...updates } : entrance)),
-      );
-    },
-    [],
-  );
+  const updateEntrance = useCallback((id: string, updates: Partial<Omit<Entrance, 'id' | 'timestamp'>>) => {
+    setEntrances((prev) => prev.map((entrance) => (entrance.id === id ? { ...entrance, ...updates } : entrance)));
+  }, []);
 
   const clearEntrances = useCallback(() => {
     setEntrances([]);
+    setSelectedEntranceId(null);
     localStorage.removeItem(ENTRANCES_STORAGE_KEY);
   }, []);
 
@@ -157,7 +154,7 @@ export const useGeoJSONBuilder = () => {
       const y = e.clientY - rect.top;
 
       const lngLat = mapRef.current.unproject([x, y]);
-      
+
       if (buildMode === 'polygon') {
         addPoint(lngLat.lng, lngLat.lat);
       } else if (buildMode === 'entrance') {

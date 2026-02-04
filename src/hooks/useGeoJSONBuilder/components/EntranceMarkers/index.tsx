@@ -47,48 +47,48 @@ export default function EntranceMarkers({
   const entranceLinesGeoJSON = useMemo(() => {
     const features = entrances.flatMap((entrance) => {
       const { longitude, latitude, rotation, width } = entrance;
-      
+
       // 回転角度をラジアンに変換
       const angleRad = (rotation * Math.PI) / 180;
-      
+
       // 壁に垂直な方向（線の方向）
       const perpX = Math.cos(angleRad);
       const perpY = Math.sin(angleRad);
-      
+
       // 幅方向（線と垂直な方向）
       const widthX = -Math.sin(angleRad);
       const widthY = Math.cos(angleRad);
-      
+
       // 線の長さ（メートル単位で0.5m）
       const lineLength = 0.5;
-      
+
       // 緯度経度での近似的なオフセット（小さなスケールなので簡易計算）
       const metersToLng = 1 / (111320 * Math.cos((latitude * Math.PI) / 180));
       const metersToLat = 1 / 110540;
-      
+
       // 幅の半分だけ左右にオフセット
       const halfWidth = width / 2;
-      
+
       // 左側の線
       const line1Start = [
-        longitude + (widthX * halfWidth - perpX * lineLength / 2) * metersToLng,
-        latitude + (widthY * halfWidth - perpY * lineLength / 2) * metersToLat,
+        longitude + (widthX * halfWidth - (perpX * lineLength) / 2) * metersToLng,
+        latitude + (widthY * halfWidth - (perpY * lineLength) / 2) * metersToLat,
       ];
       const line1End = [
-        longitude + (widthX * halfWidth + perpX * lineLength / 2) * metersToLng,
-        latitude + (widthY * halfWidth + perpY * lineLength / 2) * metersToLat,
+        longitude + (widthX * halfWidth + (perpX * lineLength) / 2) * metersToLng,
+        latitude + (widthY * halfWidth + (perpY * lineLength) / 2) * metersToLat,
       ];
-      
+
       // 右側の線
       const line2Start = [
-        longitude + (-widthX * halfWidth - perpX * lineLength / 2) * metersToLng,
-        latitude + (-widthY * halfWidth - perpY * lineLength / 2) * metersToLat,
+        longitude + (-widthX * halfWidth - (perpX * lineLength) / 2) * metersToLng,
+        latitude + (-widthY * halfWidth - (perpY * lineLength) / 2) * metersToLat,
       ];
       const line2End = [
-        longitude + (-widthX * halfWidth + perpX * lineLength / 2) * metersToLng,
-        latitude + (-widthY * halfWidth + perpY * lineLength / 2) * metersToLat,
+        longitude + (-widthX * halfWidth + (perpX * lineLength) / 2) * metersToLng,
+        latitude + (-widthY * halfWidth + (perpY * lineLength) / 2) * metersToLat,
       ];
-      
+
       return [
         {
           type: 'Feature' as const,

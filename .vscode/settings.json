@@ -5,9 +5,7 @@
   "json.schemas": [
     {
       "url": "./src/consts/buildings/building.schema.json",
-      "fileMatch": [
-        "src/consts/buildings/geojson/*.json"
-      ],
+      "fileMatch": ["src/consts/buildings/geojson/*.json"]
     }
   ]
 }

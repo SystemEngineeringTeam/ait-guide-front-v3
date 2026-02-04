@@ -9,7 +9,13 @@ import BuildingPolygons from '@/components/BuildingsPolygon';
 import { GEO_JSON_DATA } from '@/consts/buildings';
 
 export default function GeoJsonBuildPage() {
-  const { buildPolygon, entranceMarkers, panel: geoJSONBuilderPanel, handleMapContextMenu, handleMapClick } = useGeoJSONBuilder();
+  const {
+    buildPolygon,
+    entranceMarkers,
+    panel: geoJSONBuilderPanel,
+    handleMapContextMenu,
+    handleMapClick,
+  } = useGeoJSONBuilder();
   const [ctrlKeyPressed, setCtrlKeyPressed] = useState(false);
 
   useEffect(() => {
