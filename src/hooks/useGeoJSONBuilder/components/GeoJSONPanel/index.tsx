@@ -37,9 +37,9 @@ export default function GeoJSONPanel({
   return (
     <div className={`${styles.panel} ${isOpen ? styles.open : styles.closed}`}>
       <div className={styles.header}>
-        <h3>GeoJSON ビルダー</h3>
         <button className={styles.toggleButton} onClick={() => setIsOpen(!isOpen)} aria-label="パネルを切り替え">
-          {isOpen ? '▼' : '▲'}
+          <span className={styles.title}>GeoJSON ビルダー</span>
+          <span>{isOpen ? '▼' : '▲'}</span>
         </button>
       </div>
 

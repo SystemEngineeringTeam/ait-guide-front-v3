@@ -38,15 +38,24 @@
 }
 
 .toggleButton {
+  width: 100%;
   background: none;
   border: none;
   font-size: 12px;
   cursor: pointer;
   padding: 0;
   color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
   &:hover {
     color: #333;
+  }
+
+  .title {
+    font-size: 16px;
+    font-weight: 400;
   }
 }
 
