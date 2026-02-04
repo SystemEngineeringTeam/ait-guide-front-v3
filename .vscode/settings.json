@@ -4,9 +4,9 @@
   },
   "json.schemas": [
     {
-      "url": "./src/geojson/building.schema.json",
+      "url": "./src/consts/buildings/building.schema.json",
       "fileMatch": [
-        "src/geojson/buildings/*.json"
+        "src/consts/buildings/geojson/*.json"
       ],
     }
   ]

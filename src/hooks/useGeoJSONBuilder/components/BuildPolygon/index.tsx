@@ -10,7 +10,6 @@ interface Props {
 export default function BuildPolygon({ polygonFeature, selectedColor }: Props) {
   return (
     <Source
-      id="building-polygon"
       type="geojson"
       data={{
         type: 'FeatureCollection',
@@ -18,7 +17,6 @@ export default function BuildPolygon({ polygonFeature, selectedColor }: Props) {
       }}
     >
       <Layer
-        id="building-fill"
         type="fill"
         paint={{
           'fill-color': selectedColor,
@@ -26,7 +24,6 @@ export default function BuildPolygon({ polygonFeature, selectedColor }: Props) {
         }}
       />
       <Layer
-        id="building-outline"
         type="line"
         paint={{
           'line-color': selectedColor,

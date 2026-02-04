@@ -1,4 +1,4 @@
-import { GeoJSONData } from '@/geojson';
+import { GeoJSONData } from '@/consts/buildings';
 
 export function darkenColor(hex: string, amount: number = 0.3): string {
   const num = parseInt(hex.replace('#', ''), 16);

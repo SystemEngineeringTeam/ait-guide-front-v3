@@ -1,6 +1,6 @@
 'use client';
 
-import { GeoJSONData } from '@/geojson';
+import { GeoJSONData } from '@/consts/buildings';
 import { Layer, Source } from 'react-map-gl/maplibre';
 import { darkenColor, getFeaturesColor } from '@/utils/color';
 import { DEFAULT_COLOR } from '@/consts/colors';
@@ -25,6 +25,7 @@ export default function BuildingPolygons({ data }: Props) {
           return (
             <Source key={i} type="geojson" data={building.data}>
               <Layer
+                id={building.id?.toString()}
                 type="fill"
                 paint={{
                   'fill-color': color,

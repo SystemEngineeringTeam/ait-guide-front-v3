@@ -48,9 +48,8 @@ export default function AccuracyCircle({ coord, animation }: Props) {
   });
 
   return (
-    <Source id="accuracy" type="geojson" data={data}>
+    <Source type="geojson" data={data}>
       <Layer
-        id="accuracy-fill"
         type="fill"
         paint={{
           'fill-color': 'blue',

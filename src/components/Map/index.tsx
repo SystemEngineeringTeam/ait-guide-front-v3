@@ -1,7 +1,7 @@
 'use client';
 
 import styles from './index.module.scss';
-import { default as GMap, ViewState, MapRef } from 'react-map-gl/maplibre';
+import { default as GMap, ViewState, MapRef, MapLayerMouseEvent } from 'react-map-gl/maplibre';
 import * as mapLib from 'maplibre-gl';
 import { useGeoLocation } from '@/hooks/useGeoLocation';
 import { useSearchParams } from 'next/navigation';
@@ -11,6 +11,7 @@ import AccuracyCircle from './AccuracyCircle';
 import { getNumSearchParam } from '@/utils/searchParam';
 import classNames from 'classnames';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { GEO_JSON_DATA } from '@/consts/buildings';
 
 const MAX_PITCH = 85 as const;
 const MAX_ZOOM = 18 as const;
@@ -32,11 +33,15 @@ export type HandleMapClickFn = (
   mapRef: React.RefObject<MapRef | null>,
 ) => (e: React.MouseEvent<HTMLDivElement>) => void;
 
+export type HandleClickFeatureFn = (id: string) => void;
+
 interface Props {
   children?: React.ReactNode;
   className?: string;
-  handleMapContextMenu?: HandleMapContextMenuFn;
-  handleMapClick?: HandleMapClickFn;
+
+  onMapContextMenu?: HandleMapContextMenuFn;
+  onMapClick?: HandleMapClickFn;
+  onClickFeature?: HandleClickFeatureFn;
 
   maxPitch?: number;
   minZoom?: number;
@@ -47,8 +52,10 @@ interface Props {
 export default function Map({
   children,
   className,
-  handleMapContextMenu,
-  handleMapClick,
+
+  onMapContextMenu,
+  onMapClick,
+  onClickFeature,
 
   maxPitch = MAX_PITCH,
   minZoom = MIN_ZOOM,
@@ -59,8 +66,9 @@ export default function Map({
     <Suspense>
       <InnerMap
         className={className}
-        handleMapContextMenu={handleMapContextMenu}
-        handleMapClick={handleMapClick}
+        onMapContextMenu={onMapContextMenu}
+        onMapClick={onMapClick}
+        onClickFeature={onClickFeature}
         maxPitch={maxPitch}
         minZoom={minZoom}
         maxZoom={maxZoom}
@@ -75,8 +83,10 @@ export default function Map({
 function InnerMap({
   children,
   className,
-  handleMapContextMenu,
-  handleMapClick,
+
+  onMapContextMenu,
+  onMapClick,
+  onClickFeature: handleClickFeatures_,
 
   maxPitch = MAX_PITCH,
   minZoom = MIN_ZOOM,
@@ -109,7 +119,7 @@ function InnerMap({
     isMouseDownRef.current = false;
   }, []);
 
-  const handleClick = useCallback(
+  const handleClickOuter = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (isDraggingRef.current) {
         isDraggingRef.current = false;
@@ -120,16 +130,26 @@ function InnerMap({
       if (target.closest('.maplibregl-popup') || target.closest('.maplibregl-marker')) {
         return;
       }
-      handleMapClick?.(mapRef)(e);
+      onMapClick?.(mapRef)(e);
     },
-    [handleMapClick],
+    [onMapClick],
+  );
+
+  const onClickFeature = useCallback(
+    (e: MapLayerMouseEvent) => {
+      const feature = e.features?.[0];
+      if (!feature) return;
+
+      handleClickFeatures_?.(feature.layer.id);
+    },
+    [handleClickFeatures_],
   );
 
   return (
     <div
       className={classNames(styles.map, className)}
-      onContextMenu={handleMapContextMenu?.(mapRef)}
-      onClick={handleClick}
+      onContextMenu={onMapContextMenu?.(mapRef)}
+      onClick={handleClickOuter}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
@@ -142,6 +162,8 @@ function InnerMap({
         maxPitch={maxPitch}
         maxZoom={maxZoom}
         minZoom={minZoom}
+        onClick={onClickFeature}
+        interactiveLayerIds={GEO_JSON_DATA.map((b) => b.id).filter((id): id is string => id != undefined)}
       >
         {/* 現在地表示 */}
         {coord && <Location coord={coord} />}

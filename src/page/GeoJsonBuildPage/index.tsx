@@ -6,7 +6,7 @@ import PageLayout from '@/layout/PageLayout';
 import Map from '@/components/Map';
 import { useEffect, useState } from 'react';
 import BuildingPolygons from '@/components/BuildingsPolygon';
-import { GEO_JSON_DATA } from '@/geojson';
+import { GEO_JSON_DATA } from '@/consts/buildings';
 
 export default function GeoJsonBuildPage() {
   const { buildPolygon, panel: geoJSONBuilderPanel, handleMapContextMenu, handleMapClick } = useGeoJSONBuilder();
@@ -33,7 +33,7 @@ export default function GeoJsonBuildPage() {
   return (
     <PageLayout className={styles.mapPage} data-ctrl-down={ctrlKeyPressed}>
       {geoJSONBuilderPanel}
-      <Map handleMapContextMenu={handleMapContextMenu} handleMapClick={handleMapClick} minZoom={0} maxZoom={24}>
+      <Map onMapContextMenu={handleMapContextMenu} onMapClick={handleMapClick} minZoom={0} maxZoom={24}>
         {buildPolygon}
         <BuildingPolygons data={GEO_JSON_DATA} />
       </Map>
