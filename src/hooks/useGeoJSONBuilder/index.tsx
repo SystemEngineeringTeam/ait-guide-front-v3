@@ -5,10 +5,7 @@ import MarkerPoints from './components/MarkerPoints';
 import BuildPolygon from './components/BuildPolygon';
 import GeoJSONPanel from './components/GeoJSONPanel';
 import { HandleMapContextMenuFn } from '@/components/Map';
-
-export const BUILDING_FILL_COLORS = ['#c4d5ff', '#d0c4ff', '#ffe2c4', '#ffc4e2', '#ffc4c4', '#ff0000'] as const;
-
-export type BuildingFillColor = (typeof BUILDING_FILL_COLORS)[number];
+import { BuildingFillColor, DEFAULT_COLOR } from '@/consts/colors';
 
 export type PolygonFeature = Feature<Polygon> | null;
 
@@ -21,7 +18,7 @@ export interface BuildingPoint {
 
 export const useGeoJSONBuilder = () => {
   const [points, setPoints] = useState<BuildingPoint[]>([]);
-  const [selectedColor, setSelectedColor] = useState<BuildingFillColor>(BUILDING_FILL_COLORS[0]);
+  const [selectedColor, setSelectedColor] = useState<BuildingFillColor>(DEFAULT_COLOR);
 
   const addPoint = useCallback((longitude: number, latitude: number) => {
     const newPoint: BuildingPoint = {
@@ -98,7 +95,7 @@ export const useGeoJSONBuilder = () => {
       },
     }));
 
-    const features = polygonFeature ? [polygonFeature, ...pointFeatures] : pointFeatures;
+    const features = polygonFeature ? [polygonFeature] : pointFeatures;
 
     return {
       type: 'FeatureCollection',
@@ -121,7 +118,7 @@ export const useGeoJSONBuilder = () => {
     textarea.style.opacity = '0';
     document.body.appendChild(textarea);
     textarea.select();
-    document.execCommand('copy');
+    await navigator.clipboard.writeText(textarea.value);
     document.body.removeChild(textarea);
   }, [generateGeoJSON]);
 
@@ -146,13 +143,6 @@ export const useGeoJSONBuilder = () => {
     polygonFeature,
     selectedColor,
 
-    addPoint,
-    removePoint,
-    updatePoint,
-    clearPoints,
-    generateGeoJSON,
-    copyToClipboard,
-    setSelectedColor,
     handleMapContextMenu,
 
     // components

@@ -1,5 +1,6 @@
+import { BUILDING_FILL_COLORS, BuildingFillColor } from '@/consts/colors';
 import styles from './index.module.scss';
-import { BuildingFillColor, BuildingPoint, BUILDING_FILL_COLORS } from '@/hooks/useGeoJSONBuilder';
+import { BuildingPoint } from '@/hooks/useGeoJSONBuilder';
 import { useState } from 'react';
 
 interface GeoJSONPanelProps {

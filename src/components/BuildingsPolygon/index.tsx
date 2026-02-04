@@ -2,6 +2,8 @@
 
 import { GeoJSONData } from '@/geojson';
 import { Layer, Source } from 'react-map-gl/maplibre';
+import { darkenColor, getFeaturesColor } from '@/utils/color';
+import { DEFAULT_COLOR } from '@/consts/colors';
 
 interface Props {
   data: GeoJSONData[];
@@ -10,25 +12,29 @@ interface Props {
 export default function BuildingPolygons({ data }: Props) {
   return (
     <>
-      {data.map((building) => (
-        <Source key={building.name} type="geojson" data={building.data}>
-          <Layer
-            type="fill"
-            paint={{
-              'fill-color': '#3b82f6',
-              'fill-opacity': 0.3,
-            }}
-          />
-          <Layer
-            id={`line-${building.name}`}
-            type="line"
-            paint={{
-              'line-color': '#2563eb',
-              'line-width': 2,
-            }}
-          />
-        </Source>
-      ))}
+      {data.map((building) => {
+        const color = getFeaturesColor(building) ?? DEFAULT_COLOR;
+        const darkerColor = darkenColor(color, 0.1);
+
+        return (
+          <Source key={building.name} type="geojson" data={building.data}>
+            <Layer
+              type="fill"
+              paint={{
+                'fill-color': color,
+                'fill-opacity': 0.3,
+              }}
+            />
+            <Layer
+              type="line"
+              paint={{
+                'line-color': darkerColor,
+                'line-width': 2,
+              }}
+            />
+          </Source>
+        );
+      })}
     </>
   );
 }
