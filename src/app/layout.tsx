@@ -1,10 +1,17 @@
 import type { Metadata } from 'next';
-import { Noto_Sans_JP } from 'next/font/google';
+import { Noto_Sans_JP, M_PLUS_Rounded_1c } from 'next/font/google';
+import Header from '@/components/Header';
+import classNames from 'classnames';
 import '@/styles/global.scss';
 
 const notoSansJP = Noto_Sans_JP({
   variable: '--font-noto-sans-jp',
   subsets: ['latin'],
+});
+const mPlusRounded1c = M_PLUS_Rounded_1c({
+  variable: '--font-m-plus-rounded-1c',
+  subsets: ['latin'],
+  weight: ['500'],
 });
 
 export const metadata: Metadata = {
@@ -22,7 +29,10 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml"></link>
       </head>
-      <body className={`${notoSansJP.variable} antialiased`}>{children}</body>
+      <body className={classNames(notoSansJP.variable, mPlusRounded1c.variable, 'antialiased')}>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
