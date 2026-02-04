@@ -60,7 +60,7 @@ export default function EntranceMarkers({
       const widthY = Math.cos(angleRad);
 
       // 線の長さ（メートル単位で0.5m）
-      const lineLength = 0.5;
+      const lineLength = 2;
 
       // 緯度経度での近似的なオフセット（小さなスケールなので簡易計算）
       const metersToLng = 1 / (111320 * Math.cos((latitude * Math.PI) / 180));
@@ -149,7 +149,7 @@ export default function EntranceMarkers({
               latitude={entrance.latitude}
               closeButton={true}
               onClose={() => onSelectEntrance(null)}
-              offset={[0, -10]}
+              offset={[0, -50]}
             >
               <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
                 <p className={styles.coordinates}>
