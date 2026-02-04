@@ -1,0 +1,28 @@
+.header {
+  padding: 8px 0 4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  .arrow {
+    width: 24px;
+    height: 24px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    color: #666;
+
+    &[data-up='true'] {
+      transform: rotate(0deg);
+    }
+    &[data-up='false'] {
+      transform: rotate(180deg);
+    }
+  }
+}
