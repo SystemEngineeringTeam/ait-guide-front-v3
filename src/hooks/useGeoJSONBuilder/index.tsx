@@ -191,7 +191,7 @@ export const useGeoJSONBuilder = () => {
       },
     }));
 
-    const features = polygonFeature ? [polygonFeature] : pointFeatures;
+    const features = polygonFeature ? [polygonFeature, ...pointFeatures] : pointFeatures;
 
     return {
       type: 'FeatureCollection',
