@@ -9,10 +9,11 @@ export interface EntranceData {
 }
 
 /**
- * 出入り口の座標から2本の平行線のGeoJSON LineStringフィーチャーを生成
+ * 出入り口の座標から平行線のGeoJSON LineStringフィーチャーを生成
+ * 幅が2mを超える場合、2mごとに追加の線を描画する
  * @param entrance 出入り口データ
  * @param lineLength 線の長さ（メートル）
- * @returns 2本の平行線を表すLineStringフィーチャーの配列
+ * @returns 平行線を表すLineStringフィーチャーの配列
  */
 export function generateEntranceLines(entrance: EntranceData, lineLength: number = 2): Feature<GeoJSON.LineString>[] {
   const { id, longitude, latitude, rotation, width } = entrance;
@@ -32,45 +33,41 @@ export function generateEntranceLines(entrance: EntranceData, lineLength: number
   const metersToLng = 1 / (111320 * Math.cos((latitude * Math.PI) / 180));
   const metersToLat = 1 / 110540;
 
-  // 幅の半分だけ左右にオフセット
   const halfWidth = width / 2;
+  const lineInterval = 2; // 2mごとに線を引く
+  const lines: Feature<GeoJSON.LineString>[] = [];
 
-  // 左側の線
-  const line1Start = [
-    longitude + (widthX * halfWidth - (perpX * lineLength) / 2) * metersToLng,
-    latitude + (widthY * halfWidth - (perpY * lineLength) / 2) * metersToLat,
-  ];
-  const line1End = [
-    longitude + (widthX * halfWidth + (perpX * lineLength) / 2) * metersToLng,
-    latitude + (widthY * halfWidth + (perpY * lineLength) / 2) * metersToLat,
-  ];
+  // 線を配置する位置を計算（-halfWidth から +halfWidth まで lineInterval ごと）
+  const numLines = Math.ceil(width / lineInterval) + 1;
 
-  // 右側の線
-  const line2Start = [
-    longitude + (-widthX * halfWidth - (perpX * lineLength) / 2) * metersToLng,
-    latitude + (-widthY * halfWidth - (perpY * lineLength) / 2) * metersToLat,
-  ];
-  const line2End = [
-    longitude + (-widthX * halfWidth + (perpX * lineLength) / 2) * metersToLng,
-    latitude + (-widthY * halfWidth + (perpY * lineLength) / 2) * metersToLat,
-  ];
+  for (let i = 0; i < numLines; i++) {
+    // -halfWidth から始めて lineInterval ずつ進む
+    const offset = -halfWidth + i * lineInterval;
+    
+    // 最後の線は必ず右端に配置
+    const actualOffset = i === numLines - 1 ? halfWidth : Math.min(offset, halfWidth);
 
-  return [
-    {
+    const lineStart = [
+      longitude + (widthX * actualOffset - (perpX * lineLength) / 2) * metersToLng,
+      latitude + (widthY * actualOffset - (perpY * lineLength) / 2) * metersToLat,
+    ];
+    const lineEnd = [
+      longitude + (widthX * actualOffset + (perpX * lineLength) / 2) * metersToLng,
+      latitude + (widthY * actualOffset + (perpY * lineLength) / 2) * metersToLat,
+    ];
+
+    lines.push({
       type: 'Feature',
       properties: { entranceId: id },
       geometry: {
         type: 'LineString',
-        coordinates: [line1Start, line1End],
+        coordinates: [lineStart, lineEnd],
       },
-    },
-    {
-      type: 'Feature',
-      properties: { entranceId: id },
-      geometry: {
-        type: 'LineString',
-        coordinates: [line2Start, line2End],
-      },
-    },
-  ];
+    });
+
+    // 右端に到達したらループを終了
+    if (actualOffset >= halfWidth) break;
+  }
+
+  return lines;
 }

@@ -114,9 +114,9 @@ export default function EntranceMarkers({
                     幅: {entrance.width.toFixed(1)}m
                     <input
                       type="range"
-                      min="0.5"
-                      max="10"
-                      step="0.5"
+                      min="2"
+                      max="20"
+                      step="2"
                       value={entrance.width}
                       onChange={(e) => onUpdateEntrance(entrance.id, { width: Number(e.target.value) })}
                     />

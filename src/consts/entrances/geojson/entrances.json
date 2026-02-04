@@ -6,13 +6,13 @@
       "properties": {
         "id": "entrance-1770237491659-0.7078894956876955",
         "timestamp": 1770237491659,
-        "rotation": 0,
-        "width": 2,
+        "rotation": 184,
+        "width": 6,
         "type": "entrance"
       },
       "geometry": {
         "type": "Point",
-        "coordinates": [137.11115473676858, 35.18411221432727]
+        "coordinates": [137.11115098597867, 35.184107387121315]
       }
     },
     {
@@ -21,12 +21,110 @@
         "id": "entrance-1770237509728-0.5183011786556604",
         "timestamp": 1770237509728,
         "rotation": 184,
-        "width": 3,
+        "width": 4,
         "type": "entrance"
       },
       "geometry": {
         "type": "Point",
-        "coordinates": [137.11159941112788, 35.18411471511493]
+        "coordinates": [137.11148473418154, 35.184076138395355]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "entrance-1770238927337-0.0940822820296664",
+        "timestamp": 1770238927337,
+        "rotation": 96,
+        "width": 16,
+        "type": "entrance"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [137.11103909434854, 35.18404318694955]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "entrance-1770239122422-0.04177404803212115",
+        "timestamp": 1770239122422,
+        "rotation": 98,
+        "width": 2,
+        "type": "entrance"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [137.1110975403995, 35.18440006124585]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "entrance-1770239136383-0.8914640071495211",
+        "timestamp": 1770239136383,
+        "rotation": 97,
+        "width": 2,
+        "type": "entrance"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [137.11098179982122, 35.18466270342972]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "entrance-1770239170087-0.8176070897863709",
+        "timestamp": 1770239170087,
+        "rotation": 182,
+        "width": 8,
+        "type": "entrance"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [137.11143816775143, 35.18464386141213]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "entrance-1770239183959-0.9924393808853134",
+        "timestamp": 1770239183959,
+        "rotation": 0,
+        "width": 2,
+        "type": "entrance"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [137.1112472562055, 35.18477528002042]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "entrance-1770239188693-0.22459616961589646",
+        "timestamp": 1770239188693,
+        "rotation": 94,
+        "width": 2,
+        "type": "entrance"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [137.11138577358582, 35.184878396233174]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "entrance-1770239200042-0.33963022568548995",
+        "timestamp": 1770239200042,
+        "rotation": 95,
+        "width": 2,
+        "type": "entrance"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [137.11148998205556, 35.18488706615871]
       }
     }
   ]
