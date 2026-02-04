@@ -29,7 +29,6 @@ export default function MapPage() {
 
   const handleBottomSheetClose = useCallback(() => {
     closeBottomSheet();
-    setSelectedId(undefined);
   }, []);
 
   return (
