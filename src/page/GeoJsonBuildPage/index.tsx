@@ -2,7 +2,6 @@
 
 import styles from './index.module.scss';
 import { useGeoJSONBuilder } from '@/hooks/useGeoJSONBuilder';
-import PageLayout from '@/layout/PageLayout';
 import Map from '@/components/Map';
 import { useEffect, useState } from 'react';
 import BuildingPolygons from '@/components/BuildingsPolygon';
@@ -37,13 +36,20 @@ export default function GeoJsonBuildPage() {
   }, []);
 
   return (
-    <PageLayout className={styles.mapPage} data-ctrl-down={ctrlKeyPressed}>
+    <>
       {geoJSONBuilderPanel}
-      <Map onMapContextMenu={handleMapContextMenu} onMapClick={handleMapClick} minZoom={0} maxZoom={24}>
+      <Map
+        className={styles.map}
+        onMapContextMenu={handleMapContextMenu}
+        onMapClick={handleMapClick}
+        minZoom={0}
+        maxZoom={24}
+        data-ctrl-down={ctrlKeyPressed}
+      >
         {entranceMarkers}
         {buildPolygon}
         <BuildingPolygons buildings={GEO_JSON_BUILDINGS} />
       </Map>
-    </PageLayout>
+    </>
   );
 }

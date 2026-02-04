@@ -1,6 +1,5 @@
 'use client';
 
-import PageLayout from '@/layout/PageLayout';
 import Map, { HandleClickFeatureFn } from '@/components/Map';
 import BuildingPolygons from '@/components/BuildingsPolygon';
 import { GEO_JSON_BUILDINGS } from '@/consts/buildings';
@@ -18,23 +17,23 @@ import EntranceMarkers from '@/components/EntranceMarkers';
 export default function MapPage() {
   const [coord, setCoord] = useState<GeoLocationCoordinates>();
   const [bearing, setBearing] = useState(0);
-  const [open, setOpen] = useState(false);
+  const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string>();
   const [hoverId, setHoverId] = useState<string | undefined>();
   const mapRef = useRef<MapRef>(null);
 
   const handleClickFeature: HandleClickFeatureFn = useCallback((id) => {
     setSelectedId(id);
-    setOpen(true);
+    setBottomSheetOpen(true);
   }, []);
 
   const handleBottomSheetClose = useCallback(() => {
-    setOpen(false);
+    setBottomSheetOpen(false);
     setSelectedId(undefined);
   }, []);
 
   return (
-    <PageLayout>
+    <>
       <MapControlPanel mapRef={mapRef} coord={coord} bearing={bearing} />
 
       <Map ref={mapRef} onClickFeature={handleClickFeature} onHoverFeature={setHoverId} onRotate={setBearing}>
@@ -45,9 +44,9 @@ export default function MapPage() {
         {hoverId && <BuildingHighlight id={hoverId} key={`hover-${hoverId}`} outline />}
       </Map>
 
-      <BottomSheet open={open} onClose={handleBottomSheetClose}>
+      <BottomSheet open={bottomSheetOpen} onClose={handleBottomSheetClose}>
         <BuildingData id={selectedId} />
       </BottomSheet>
-    </PageLayout>
+    </>
   );
 }

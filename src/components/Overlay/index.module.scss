@@ -1,0 +1,20 @@
+.overlay {
+  height: 100vh;
+  padding: 100px 20px 100px;
+
+  text-align: center;
+  background-color: rgba($color: $color-background, $alpha: 0.8);
+
+  position: fixed;
+  inset: 0;
+  z-index: $z-overlay;
+
+  transition: all 0.3s ease-in-out;
+  overflow-y: scroll;
+
+  &[data-open='false'] {
+    user-select: none;
+    pointer-events: none;
+    opacity: 0;
+  }
+}

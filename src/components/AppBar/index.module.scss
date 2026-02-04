@@ -5,13 +5,13 @@
   bottom: 20px;
   left: 0;
   right: 0;
-  z-index: $z-top;
+  z-index: $z-always-top;
 
   display: flex;
   justify-content: center;
   gap: $gap-md;
 
-  .abbbar {
+  .appbar {
     width: 100%;
     max-width: 300px;
     height: 56px;

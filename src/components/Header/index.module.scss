@@ -7,7 +7,7 @@
   position: fixed;
   top: 20px;
   left: 20px;
-  z-index: $z-top;
+  z-index: $z-always-top;
 
   .title {
     font-size: $fontsize-lg;

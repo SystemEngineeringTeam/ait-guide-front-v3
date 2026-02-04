@@ -20,6 +20,7 @@
     "@opennextjs/cloudflare": "^1.15.1",
     "@turf/turf": "^7.3.3",
     "classnames": "^2.5.1",
+    "jotai": "^2.17.0",
     "maplibre-gl": "^5.17.0",
     "motion": "^12.30.0",
     "next": "16.1.5",
