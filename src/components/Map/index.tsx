@@ -35,6 +35,8 @@ export type HandleMapClickFn = (
 
 export type HandleClickFeatureFn = (id: string) => void;
 
+export type HandleHoverFeatureFn = (id: string) => void;
+
 interface Props {
   children?: React.ReactNode;
   className?: string;
@@ -42,6 +44,7 @@ interface Props {
   onMapContextMenu?: HandleMapContextMenuFn;
   onMapClick?: HandleMapClickFn;
   onClickFeature?: HandleClickFeatureFn;
+  onHoverFeature?: HandleHoverFeatureFn;
 
   maxPitch?: number;
   minZoom?: number;
@@ -56,6 +59,7 @@ export default function Map({
   onMapContextMenu,
   onMapClick,
   onClickFeature,
+  onHoverFeature,
 
   maxPitch = MAX_PITCH,
   minZoom = MIN_ZOOM,
@@ -69,6 +73,7 @@ export default function Map({
         onMapContextMenu={onMapContextMenu}
         onMapClick={onMapClick}
         onClickFeature={onClickFeature}
+        onHoverFeature={onHoverFeature}
         maxPitch={maxPitch}
         minZoom={minZoom}
         maxZoom={maxZoom}
@@ -86,7 +91,8 @@ function InnerMap({
 
   onMapContextMenu,
   onMapClick,
-  onClickFeature: handleClickFeatures_,
+  onClickFeature,
+  onHoverFeature,
 
   maxPitch = MAX_PITCH,
   minZoom = MIN_ZOOM,
@@ -135,14 +141,24 @@ function InnerMap({
     [onMapClick],
   );
 
-  const onClickFeature = useCallback(
+  const handleClickFeature = useCallback(
     (e: MapLayerMouseEvent) => {
       const feature = e.features?.[0];
       if (!feature) return;
 
-      handleClickFeatures_?.(feature.layer.id);
+      onClickFeature?.(feature.layer.id);
     },
-    [handleClickFeatures_],
+    [onClickFeature],
+  );
+
+  const handleHoverFeature = useCallback(
+    (e: MapLayerMouseEvent) => {
+      const feature = e.features?.[0];
+      if (!feature) return;
+
+      onHoverFeature?.(feature.layer.id);
+    },
+    [onHoverFeature],
   );
 
   return (
@@ -162,7 +178,8 @@ function InnerMap({
         maxPitch={maxPitch}
         maxZoom={maxZoom}
         minZoom={minZoom}
-        onClick={onClickFeature}
+        onClick={handleClickFeature}
+        onMouseMove={handleHoverFeature}
         interactiveLayerIds={GEO_JSON_DATA.map((b) => b.id).filter((id): id is string => id != undefined)}
       >
         {/* 現在地表示 */}

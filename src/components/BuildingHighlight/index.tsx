@@ -6,9 +6,11 @@ import { useMemo } from 'react';
 
 interface Props {
   id: string;
+  outline?: boolean;
+  fill?: boolean;
 }
 
-export default function BuildingHighlight({ id }: Props) {
+export default function BuildingHighlight({ id, outline = false, fill = false }: Props) {
   const building = GEO_JSON_DATA.find((b) => b.id === id);
 
   if (!building) return null;
@@ -19,22 +21,26 @@ export default function BuildingHighlight({ id }: Props) {
   return (
     <>
       <Source type="geojson" data={building.data}>
-        <Layer
-          type="fill"
-          paint={{
-            'fill-color': color,
-            'fill-opacity': 1,
-          }}
-          beforeId={building.id}
-        />
-        <Layer
-          type="line"
-          paint={{
-            'line-color': darkerColor,
-            'line-width': 4,
-          }}
-          beforeId={building.id}
-        />
+        {fill && (
+          <Layer
+            type="fill"
+            paint={{
+              'fill-color': color,
+              'fill-opacity': 1,
+            }}
+            beforeId={building.id}
+          />
+        )}
+        {outline && (
+          <Layer
+            type="line"
+            paint={{
+              'line-color': darkerColor,
+              'line-width': 4,
+            }}
+            beforeId={building.id}
+          />
+        )}
       </Source>
     </>
   );
