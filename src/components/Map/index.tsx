@@ -6,7 +6,7 @@ import * as mapLib from 'maplibre-gl';
 import { useCallback, useRef } from 'react';
 import classNames from 'classnames';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { GEO_JSON_DATA } from '@/consts/buildings';
+import { GEO_JSON_BUILDINGS } from '@/consts/buildings';
 import { COORD_AIT_CENTER } from '@/consts/coords';
 
 const MIN_PITCH = 0 as const;
@@ -157,7 +157,7 @@ export default function Map({
         onClick={handleClickFeature}
         onMouseMove={handleHoverFeature}
         onRotate={handleRotate}
-        interactiveLayerIds={GEO_JSON_DATA.map((b) => b.id).filter((id): id is string => id != undefined)}
+        interactiveLayerIds={GEO_JSON_BUILDINGS.map((b) => b.id).filter((id): id is string => id != undefined)}
       >
         {children}
       </GMap>

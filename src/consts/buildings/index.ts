@@ -10,7 +10,7 @@ import passage9to10 from './geojson/passage-9-10.json';
 import passagePlazaTo10 from './geojson/passage-plaza-10.json';
 import passagePlazaToAiwa from './geojson/passage-plaza-aiwa.json';
 
-export const GEO_JSON_DATA: GeoJSONData[] = [
+export const GEO_JSON_BUILDINGS: GeoJSONData[] = [
   {
     id: '1',
     name: '1号館',

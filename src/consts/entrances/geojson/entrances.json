@@ -1,0 +1,33 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "entrance-1770237491659-0.7078894956876955",
+        "timestamp": 1770237491659,
+        "rotation": 0,
+        "width": 2,
+        "type": "entrance"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [137.11115473676858, 35.18411221432727]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "entrance-1770237509728-0.5183011786556604",
+        "timestamp": 1770237509728,
+        "rotation": 184,
+        "width": 3,
+        "type": "entrance"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [137.11159941112788, 35.18411471511493]
+      }
+    }
+  ]
+}

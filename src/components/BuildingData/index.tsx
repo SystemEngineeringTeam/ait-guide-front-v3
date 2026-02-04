@@ -1,12 +1,12 @@
 import styles from './index.module.scss';
-import { GEO_JSON_DATA } from '@/consts/buildings';
+import { GEO_JSON_BUILDINGS } from '@/consts/buildings';
 
 interface Props {
   id?: string;
 }
 
 export default function BuildingData({ id }: Props) {
-  const building = GEO_JSON_DATA.find((b) => b.id === id);
+  const building = GEO_JSON_BUILDINGS.find((b) => b.id === id);
 
   if (!building) {
     return <section className={styles.container}>Building not found</section>;

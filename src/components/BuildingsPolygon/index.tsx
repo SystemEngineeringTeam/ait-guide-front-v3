@@ -6,13 +6,13 @@ import { darkenColor, getFeaturesColor } from '@/utils/color';
 import { DEFAULT_COLOR } from '@/consts/colors';
 
 interface Props {
-  data: GeoJSONData[];
+  buildings: GeoJSONData[];
 }
 
-export default function BuildingPolygons({ data }: Props) {
+export default function BuildingPolygons({ buildings }: Props) {
   return (
     <>
-      {data
+      {buildings
         .sort((a, b) => {
           if (a.name && !b.name) return 1;
           if (!a.name && b.name) return -1;
@@ -43,7 +43,7 @@ export default function BuildingPolygons({ data }: Props) {
           );
         })}
 
-      {data
+      {buildings
         .filter((b) => b.name)
         .map((building, i) => {
           return (

@@ -1,4 +1,4 @@
-import { GEO_JSON_DATA } from '@/consts/buildings';
+import { GEO_JSON_BUILDINGS } from '@/consts/buildings';
 import { Layer, Source } from 'react-map-gl/maplibre';
 import { DEFAULT_COLOR } from '@/consts/colors';
 import { darkenColor, getFeaturesColor } from '@/utils/color';
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function BuildingHighlight({ id, outline = false, fill = false }: Props) {
-  const building = GEO_JSON_DATA.find((b) => b.id === id);
+  const building = GEO_JSON_BUILDINGS.find((b) => b.id === id);
 
   if (!building) return null;
 

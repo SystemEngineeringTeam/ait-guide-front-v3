@@ -3,7 +3,7 @@
 import PageLayout from '@/layout/PageLayout';
 import Map, { HandleClickFeatureFn } from '@/components/Map';
 import BuildingPolygons from '@/components/BuildingsPolygon';
-import { GEO_JSON_DATA } from '@/consts/buildings';
+import { GEO_JSON_BUILDINGS } from '@/consts/buildings';
 import BottomSheet from '@/components/BottomSheet';
 import { useCallback, useRef, useState } from 'react';
 import BuildingHighlight from '@/components/BuildingHighlight';
@@ -12,6 +12,8 @@ import LocationIndicator from '@/components/LocationIndicator';
 import MapControlPanel from '@/components/MapControlPanel';
 import { type MapRef } from 'react-map-gl/maplibre';
 import { GeoLocationCoordinates } from '@/hooks/useGeoLocation';
+import { GEO_JSON_ENTRANCES } from '@/consts/entrances';
+import EntranceMarkers from '@/components/EntranceMarkers';
 
 export default function MapPage() {
   const [coord, setCoord] = useState<GeoLocationCoordinates>();
@@ -37,7 +39,8 @@ export default function MapPage() {
 
       <Map ref={mapRef} onClickFeature={handleClickFeature} onHoverFeature={setHoverId} onRotate={setBearing}>
         <LocationIndicator onChange={setCoord} />
-        <BuildingPolygons data={GEO_JSON_DATA} />
+        <BuildingPolygons buildings={GEO_JSON_BUILDINGS} />
+        <EntranceMarkers entrances={GEO_JSON_ENTRANCES} />
         {selectedId && <BuildingHighlight id={selectedId} key={`select-${selectedId}`} outline fill />}
         {hoverId && <BuildingHighlight id={hoverId} key={`hover-${hoverId}`} outline />}
       </Map>

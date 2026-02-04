@@ -6,6 +6,10 @@
     {
       "url": "./src/consts/buildings/building.schema.json",
       "fileMatch": ["src/consts/buildings/geojson/*.json"]
-    }
+    },
+    {
+      "url": "./src/consts/entrances/geojson/entrances.schema.json",
+      "fileMatch": ["src/consts/entrances/geojson/*.json"]
+    },
   ]
 }
