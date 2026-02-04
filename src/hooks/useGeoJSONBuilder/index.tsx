@@ -2,15 +2,15 @@ import { useState, useCallback, useMemo, useEffect, type MouseEvent } from 'reac
 import { Feature, FeatureCollection, Point, Polygon } from 'geojson';
 import { type MapRef } from 'react-map-gl/maplibre';
 import MarkerPoints from './components/MarkerPoints';
-import BuildPolygon from './components/BuildPolygon';
+import FacilityPolygon from './components/FacilityPolygon';
 import GeoJSONPanel from './components/GeoJSONPanel';
 import EntranceMarkers from './components/EntranceMarkers';
 import { HandleMapClickFn, HandleMapContextMenuFn } from '@/components/Map';
-import { BuildingFillColor, DEFAULT_COLOR } from '@/consts/colors';
+import { FacilityFillColor, DEFAULT_COLOR } from '@/consts/colors';
 
 export type PolygonFeature = Feature<Polygon> | null;
 
-export interface BuildingPoint {
+export interface FacilityPoint {
   id: string;
   longitude: number;
   latitude: number;
@@ -26,18 +26,18 @@ export interface Entrance {
   timestamp: number;
 }
 
-export type BuildMode = 'polygon' | 'entrance';
+export type FacilityMode = 'polygon' | 'entrance';
 
 const POINTS_STORAGE_KEY = 'geojson-builder:points';
 const ENTRANCES_STORAGE_KEY = 'geojson-builder:entrances';
 
 export const useGeoJSONBuilder = () => {
-  const [points, setPoints] = useState<BuildingPoint[]>([]);
+  const [points, setPoints] = useState<FacilityPoint[]>([]);
   const [entrances, setEntrances] = useState<Entrance[]>([]);
-  const [selectedColor, setSelectedColor] = useState<BuildingFillColor>(DEFAULT_COLOR);
+  const [selectedColor, setSelectedColor] = useState<FacilityFillColor>(DEFAULT_COLOR);
   const [selectedPointId, setSelectedPointId] = useState<string | null>(null);
   const [selectedEntranceId, setSelectedEntranceId] = useState<string | null>(null);
-  const [buildMode, setBuildMode] = useState<BuildMode>('polygon');
+  const [facilityMode, setFacilityMode] = useState<FacilityMode>('polygon');
 
   useEffect(() => {
     const saved = localStorage.getItem(POINTS_STORAGE_KEY);
@@ -60,7 +60,7 @@ export const useGeoJSONBuilder = () => {
       longitude,
       latitude,
       timestamp: Date.now(),
-    } as BuildingPoint;
+    } as FacilityPoint;
   }, []);
 
   const addPoint = useCallback(
@@ -155,19 +155,19 @@ export const useGeoJSONBuilder = () => {
 
       const lngLat = mapRef.current.unproject([x, y]);
 
-      if (buildMode === 'polygon') {
+      if (facilityMode === 'polygon') {
         addPoint(lngLat.lng, lngLat.lat);
-      } else if (buildMode === 'entrance') {
+      } else if (facilityMode === 'entrance') {
         addEntrance(lngLat.lng, lngLat.lat);
       }
     },
-    [addPoint, addEntrance, buildMode],
+    [addPoint, addEntrance, facilityMode],
   );
 
   const handleMapClick: HandleMapClickFn = useCallback(
     (mapRef: React.RefObject<MapRef | null>) => (e: MouseEvent<HTMLDivElement>) => {
       if (!mapRef.current) return;
-      if (buildMode !== 'polygon') return; // ポリゴンモードのみ辺への点挿入を有効化
+      if (facilityMode !== 'polygon') return; // ポリゴンモードのみ辺への点挿入を有効化
       if (points.length < 2) return;
 
       const canvas = mapRef.current.getCanvas();
@@ -209,7 +209,7 @@ export const useGeoJSONBuilder = () => {
       const lngLat = mapRef.current.unproject([clickPoint.x, clickPoint.y]);
       insertPointAt(insertIndex, lngLat.lng, lngLat.lat);
     },
-    [getDistanceToSegment, insertPointAt, points, buildMode],
+    [getDistanceToSegment, insertPointAt, points, facilityMode],
   );
 
   const polygonFeature = useMemo<PolygonFeature>(() => {
@@ -307,7 +307,7 @@ export const useGeoJSONBuilder = () => {
       }
 
       // 新しい点を復元
-      const newPoints: BuildingPoint[] = pointFeatures.map((feature) => {
+      const newPoints: FacilityPoint[] = pointFeatures.map((feature) => {
         const coords = (feature.geometry as Point).coordinates;
         return {
           id: `point-${Date.now()}-${Math.random()}`,
@@ -370,8 +370,8 @@ export const useGeoJSONBuilder = () => {
     <GeoJSONPanel
       points={points}
       entrances={entrances}
-      buildMode={buildMode}
-      onChangeBuildMode={setBuildMode}
+      facilityMode={facilityMode}
+      onChangeFacilityMode={setFacilityMode}
       onClear={clearPoints}
       onClearEntrances={clearEntrances}
       onCopy={copyToClipboard}
@@ -382,7 +382,7 @@ export const useGeoJSONBuilder = () => {
       onSelectColor={setSelectedColor}
     />
   );
-  const buildPolygon = (
+  const facilityPolygon = (
     <>
       <MarkerPoints
         points={points}
@@ -391,7 +391,7 @@ export const useGeoJSONBuilder = () => {
         onRemovePoint={removePoint}
         onUpdatePoint={updatePoint}
       />
-      <BuildPolygon polygonFeature={polygonFeature} selectedColor={selectedColor} />
+      <FacilityPolygon polygonFeature={polygonFeature} selectedColor={selectedColor} />
     </>
   );
 
@@ -412,7 +412,7 @@ export const useGeoJSONBuilder = () => {
     selectedColor,
     selectedPointId,
     selectedEntranceId,
-    buildMode,
+    facilityMode,
 
     handleMapContextMenu,
     handleMapClick,
@@ -425,7 +425,7 @@ export const useGeoJSONBuilder = () => {
 
     // components
     panel,
-    buildPolygon,
+    facilityPolygon,
     entranceMarkers,
   };
 };

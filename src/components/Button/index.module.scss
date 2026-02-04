@@ -12,7 +12,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  transition: all 0.3s ease-in-out;
+  transition: scale 0.3s ease-in-out;
   cursor: pointer;
 
   &:hover[data-active='false'] {

@@ -1,24 +1,25 @@
 'use client';
 
 import Map, { HandleClickFeatureFn } from '@/components/Map';
-import BuildingPolygons from '@/components/BuildingsPolygon';
-import { GEO_JSON_BUILDINGS } from '@/consts/buildings';
+import FacilitiesPolygons from '@/components/FacilitiesPolygon';
+import { GEO_JSON_FACILITIES } from '@/consts/facilities';
 import BottomSheet from '@/components/BottomSheet';
 import { useCallback, useRef, useState } from 'react';
-import BuildingHighlight from '@/components/BuildingHighlight';
-import BuildingData from '@/components/BuildingData';
+import FacilityHighlight from '@/components/FacilityHighlight';
+import FacilityData from '@/components/FacilityData';
 import LocationIndicator from '@/components/LocationIndicator';
 import MapControlPanel from '@/components/MapControlPanel';
 import { type MapRef } from 'react-map-gl/maplibre';
 import { GeoLocationCoordinates } from '@/hooks/useGeoLocation';
 import { GEO_JSON_ENTRANCES } from '@/consts/entrances';
 import EntranceMarkers from '@/components/EntranceMarkers';
+import { useSelectedFacilityId } from '@/hooks/useSelectedFacilityId';
 
 export default function MapPage() {
+  const [selectedId, setSelectedId] = useSelectedFacilityId();
   const [coord, setCoord] = useState<GeoLocationCoordinates>();
   const [bearing, setBearing] = useState(0);
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
-  const [selectedId, setSelectedId] = useState<string>();
   const [hoverId, setHoverId] = useState<string | undefined>();
   const mapRef = useRef<MapRef>(null);
 
@@ -38,14 +39,14 @@ export default function MapPage() {
 
       <Map ref={mapRef} onClickFeature={handleClickFeature} onHoverFeature={setHoverId} onRotate={setBearing}>
         <LocationIndicator onChange={setCoord} />
-        <BuildingPolygons buildings={GEO_JSON_BUILDINGS} />
+        <FacilitiesPolygons facilities={GEO_JSON_FACILITIES} />
         <EntranceMarkers entrances={GEO_JSON_ENTRANCES} />
-        {selectedId && <BuildingHighlight id={selectedId} key={`select-${selectedId}`} outline fill />}
-        {hoverId && <BuildingHighlight id={hoverId} key={`hover-${hoverId}`} outline />}
+        {selectedId && <FacilityHighlight id={selectedId} key={`select-${selectedId}`} outline fill />}
+        {hoverId && <FacilityHighlight id={hoverId} key={`hover-${hoverId}`} outline />}
       </Map>
 
       <BottomSheet open={bottomSheetOpen} onClose={handleBottomSheetClose}>
-        <BuildingData id={selectedId} />
+        <FacilityData id={selectedId} />
       </BottomSheet>
     </>
   );

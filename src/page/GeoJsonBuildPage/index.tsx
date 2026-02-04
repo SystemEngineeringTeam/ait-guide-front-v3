@@ -4,12 +4,12 @@ import styles from './index.module.scss';
 import { useGeoJSONBuilder } from '@/hooks/useGeoJSONBuilder';
 import Map from '@/components/Map';
 import { useEffect, useState } from 'react';
-import BuildingPolygons from '@/components/BuildingsPolygon';
-import { GEO_JSON_BUILDINGS } from '@/consts/buildings';
+import FacilitiesPolygons from '@/components/FacilitiesPolygon';
+import { GEO_JSON_FACILITIES } from '@/consts/facilities';
 
 export default function GeoJsonBuildPage() {
   const {
-    buildPolygon,
+    facilityPolygon,
     entranceMarkers,
     panel: geoJSONBuilderPanel,
     handleMapContextMenu,
@@ -47,8 +47,8 @@ export default function GeoJsonBuildPage() {
         data-ctrl-down={ctrlKeyPressed}
       >
         {entranceMarkers}
-        {buildPolygon}
-        <BuildingPolygons buildings={GEO_JSON_BUILDINGS} />
+        {facilityPolygon}
+        <FacilitiesPolygons facilities={GEO_JSON_FACILITIES} />
       </Map>
     </>
   );

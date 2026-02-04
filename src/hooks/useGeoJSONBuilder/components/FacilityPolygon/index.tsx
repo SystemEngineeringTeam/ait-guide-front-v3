@@ -1,13 +1,13 @@
-import { BuildingFillColor } from '@/consts/colors';
+import { FacilityFillColor } from '@/consts/colors';
 import { PolygonFeature } from '@/hooks/useGeoJSONBuilder';
 import { Layer, Source } from 'react-map-gl/maplibre';
 
 interface Props {
   polygonFeature: PolygonFeature;
-  selectedColor: BuildingFillColor;
+  selectedColor: FacilityFillColor;
 }
 
-export default function BuildPolygon({ polygonFeature, selectedColor }: Props) {
+export default function FacilityPolygon({ polygonFeature, selectedColor }: Props) {
   return (
     <Source
       type="geojson"

@@ -1,4 +1,4 @@
-import { GeoJSONData } from '@/consts/buildings';
+import { GeoJSONData } from '@/consts/facilities';
 
 export function darkenColor(hex: string, amount: number = 0.3): string {
   const num = parseInt(hex.replace('#', ''), 16);
@@ -8,6 +8,6 @@ export function darkenColor(hex: string, amount: number = 0.3): string {
   return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
 }
 
-export function getFeaturesColor(building: GeoJSONData): string | undefined {
-  return building.data.features.map((f) => f?.properties?.color).find((color) => color);
+export function getFeaturesColor(facility: GeoJSONData): string | undefined {
+  return facility.data.features.map((f) => f?.properties?.color).find((color) => color);
 }

@@ -2,6 +2,7 @@ import styles from './index.module.scss';
 import classNames from 'classnames';
 import AppBar from '@/components/AppBar';
 import Overlay from '@/components/Overlay';
+import SearchArea from '@/components/SearchArea';
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -12,7 +13,7 @@ export default function PageLayout({ children, className, ...props }: PageLayout
   return (
     <main className={classNames(styles.pagelayout, className)} {...props}>
       <Overlay>
-        <h1>hi</h1>
+        <SearchArea />
       </Overlay>
       {children}
       <AppBar />

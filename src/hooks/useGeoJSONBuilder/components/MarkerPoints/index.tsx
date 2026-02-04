@@ -1,10 +1,10 @@
 import { Marker, MarkerDragEvent, Popup } from 'react-map-gl/maplibre';
-import { BuildingPoint } from '@/hooks/useGeoJSONBuilder';
+import { FacilityPoint } from '@/hooks/useGeoJSONBuilder';
 import { useCallback } from 'react';
 import styles from './MarkerPoints.module.scss';
 
 interface MarkerPointsProps {
-  points: BuildingPoint[];
+  points: FacilityPoint[];
   selectedPointId: string | null;
   onSelectPoint: (id: string | null) => void;
   onRemovePoint: (id: string) => void;

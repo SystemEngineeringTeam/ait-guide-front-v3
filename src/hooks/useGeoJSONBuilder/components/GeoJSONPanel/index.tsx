@@ -1,28 +1,28 @@
-import { BUILDING_FILL_COLORS, BuildingFillColor } from '@/consts/colors';
+import { FACILITY_FILL_COLORS, FacilityFillColor } from '@/consts/colors';
 import styles from './index.module.scss';
-import { BuildingPoint, Entrance, BuildMode } from '@/hooks/useGeoJSONBuilder';
+import { FacilityPoint, Entrance, FacilityMode } from '@/hooks/useGeoJSONBuilder';
 import { useState } from 'react';
 
 interface GeoJSONPanelProps {
-  points: BuildingPoint[];
+  points: FacilityPoint[];
   entrances: Entrance[];
-  buildMode: BuildMode;
-  onChangeBuildMode: (mode: BuildMode) => void;
+  facilityMode: FacilityMode;
+  onChangeFacilityMode: (mode: FacilityMode) => void;
   onClear: () => void;
   onClearEntrances: () => void;
   onCopy: () => void;
   onPaste: () => Promise<void>;
   onCopyEntrances: () => void;
   onPasteEntrances: () => Promise<void>;
-  selectedColor: BuildingFillColor;
-  onSelectColor: (color: BuildingFillColor) => void;
+  selectedColor: FacilityFillColor;
+  onSelectColor: (color: FacilityFillColor) => void;
 }
 
 export default function GeoJSONPanel({
   points,
   entrances,
-  buildMode,
-  onChangeBuildMode,
+  facilityMode,
+  onChangeFacilityMode,
   onClear,
   onClearEntrances,
   onCopy,
@@ -49,22 +49,22 @@ export default function GeoJSONPanel({
           <div className={styles.modeSelector}>
             <button
               type="button"
-              className={`${styles.modeButton} ${buildMode === 'polygon' ? styles.active : ''}`}
-              onClick={() => onChangeBuildMode('polygon')}
+              className={`${styles.modeButton} ${facilityMode === 'polygon' ? styles.active : ''}`}
+              onClick={() => onChangeFacilityMode('polygon')}
             >
               🏢 ポリゴン
             </button>
             <button
               type="button"
-              className={`${styles.modeButton} ${buildMode === 'entrance' ? styles.active : ''}`}
-              onClick={() => onChangeBuildMode('entrance')}
+              className={`${styles.modeButton} ${facilityMode === 'entrance' ? styles.active : ''}`}
+              onClick={() => onChangeFacilityMode('entrance')}
             >
               🚪 出入り口
             </button>
           </div>
 
           <div className={styles.info}>
-            {buildMode === 'polygon' ? (
+            {facilityMode === 'polygon' ? (
               <>
                 <p className={styles.pointCount}>
                   マーカー: <strong>{points.length}</strong> 個
@@ -83,12 +83,12 @@ export default function GeoJSONPanel({
             )}
           </div>
 
-          {buildMode === 'polygon' && (
+          {facilityMode === 'polygon' && (
             <>
               <div className={styles.colorPicker}>
                 <h4>塗りつぶし色</h4>
                 <div className={styles.colorGrid}>
-                  {BUILDING_FILL_COLORS.map((color) => (
+                  {FACILITY_FILL_COLORS.map((color) => (
                     <button
                       key={color}
                       type="button"
@@ -119,7 +119,7 @@ export default function GeoJSONPanel({
             </>
           )}
 
-          {buildMode === 'entrance' && entrances.length > 0 && (
+          {facilityMode === 'entrance' && entrances.length > 0 && (
             <div className={styles.pointsList}>
               <h4>出入り口一覧</h4>
               <div className={styles.scrollable}>
@@ -139,7 +139,7 @@ export default function GeoJSONPanel({
           )}
 
           <div className={styles.actions}>
-            {buildMode === 'polygon' ? (
+            {facilityMode === 'polygon' ? (
               <>
                 <button className={styles.exportButton} onClick={onCopy} disabled={points.length === 0}>
                   📋 GeoJSON をコピー

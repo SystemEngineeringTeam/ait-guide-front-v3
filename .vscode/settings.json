@@ -4,8 +4,8 @@
   },
   "json.schemas": [
     {
-      "url": "./src/consts/buildings/building.schema.json",
-      "fileMatch": ["src/consts/buildings/geojson/*.json"]
+      "url": "./src/consts/facilities/facilities.schema.json",
+      "fileMatch": ["src/consts/facilities/geojson/*.json"]
     },
     {
       "url": "./src/consts/entrances/geojson/entrances.schema.json",

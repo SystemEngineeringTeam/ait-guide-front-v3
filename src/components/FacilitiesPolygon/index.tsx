@@ -1,31 +1,31 @@
 'use client';
 
-import { GeoJSONData } from '@/consts/buildings';
+import { GeoJSONData } from '@/consts/facilities';
 import { Layer, Source } from 'react-map-gl/maplibre';
 import { darkenColor, getFeaturesColor } from '@/utils/color';
 import { DEFAULT_COLOR } from '@/consts/colors';
 
 interface Props {
-  buildings: GeoJSONData[];
+  facilities: GeoJSONData[];
 }
 
-export default function BuildingPolygons({ buildings }: Props) {
+export default function FacilitiesPolygons({ facilities }: Props) {
   return (
     <>
-      {buildings
+      {facilities
         .sort((a, b) => {
           if (a.type !== 'passage' && b.type === 'passage') return 1;
           if (a.type === 'passage' && b.type !== 'passage') return -1;
           return 0;
         })
-        .map((building, i) => {
-          const color = getFeaturesColor(building) ?? DEFAULT_COLOR;
+        .map((facility, i) => {
+          const color = getFeaturesColor(facility) ?? DEFAULT_COLOR;
           const darkerColor = darkenColor(color, 0.1);
 
           return (
-            <Source key={i} type="geojson" data={building.data}>
+            <Source key={i} type="geojson" data={facility.data}>
               <Layer
-                id={building.id?.toString()}
+                id={facility.id?.toString()}
                 type="fill"
                 paint={{
                   'fill-color': color,
@@ -43,22 +43,22 @@ export default function BuildingPolygons({ buildings }: Props) {
           );
         })}
 
-      {buildings
+      {facilities
         .filter((b) => b.type !== 'passage')
-        .map((building, i) => {
+        .map((facility, i) => {
           return (
             <Source
               key={i}
               type="geojson"
               data={{
-                ...building.data,
-                features: [building.data.features[0]],
+                ...facility.data,
+                features: [facility.data.features[0]],
               }}
             >
               <Layer
                 type="symbol"
                 layout={{
-                  'text-field': building.name,
+                  'text-field': facility.name,
                   'text-size': 14,
                   'text-offset': [0, 0],
                   'text-anchor': 'center',
