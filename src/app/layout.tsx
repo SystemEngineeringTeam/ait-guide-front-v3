@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_JP, M_PLUS_Rounded_1c } from 'next/font/google';
 import Header from '@/components/Header';
+import AppBar from '@/components/AppBar';
 import classNames from 'classnames';
 import '@/styles/global.scss';
 
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body className={classNames(notoSansJP.variable, mPlusRounded1c.variable, 'antialiased')}>
         <Header />
         {children}
+        <AppBar />
       </body>
     </html>
   );
