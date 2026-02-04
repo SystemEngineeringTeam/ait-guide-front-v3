@@ -12,12 +12,12 @@ interface Props {
 export default function BuildingPolygons({ data }: Props) {
   return (
     <>
-      {data.map((building) => {
+      {data.map((building, i) => {
         const color = getFeaturesColor(building) ?? DEFAULT_COLOR;
         const darkerColor = darkenColor(color, 0.1);
 
         return (
-          <Source key={building.name} type="geojson" data={building.data}>
+          <Source key={i} type="geojson" data={building.data}>
             <Layer
               type="fill"
               paint={{
