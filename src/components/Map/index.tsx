@@ -7,15 +7,17 @@ import { useCallback, useRef } from 'react';
 import classNames from 'classnames';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { GEO_JSON_DATA } from '@/consts/buildings';
+import { COORD_AIT_CENTER } from '@/consts/coords';
 
-const MAX_PITCH = 85 as const;
+const MIN_PITCH = 0 as const;
+const MAX_PITCH = 0 as const;
 const MAX_ZOOM = 18 as const;
 const MIN_ZOOM = 16 as const;
 
 const INIT_VIEW_STATE: Partial<ViewState> = {
-  longitude: 137.1134981,
-  latitude: 35.1839876,
-  zoom: 16,
+  longitude: COORD_AIT_CENTER[0],
+  latitude: COORD_AIT_CENTER[1],
+  zoom: 17,
   pitch: 0,
   bearing: 0,
 };
@@ -42,6 +44,7 @@ interface Props {
   onClickFeature?: HandleClickFeatureFn;
   onHoverFeature?: HandleHoverFeatureFn;
 
+  minPitch?: number;
   maxPitch?: number;
   minZoom?: number;
   maxZoom?: number;
@@ -58,6 +61,7 @@ export default function Map({
   onClickFeature,
   onHoverFeature,
 
+  minPitch = MIN_PITCH,
   maxPitch = MAX_PITCH,
   minZoom = MIN_ZOOM,
   maxZoom = MAX_ZOOM,
@@ -137,6 +141,7 @@ export default function Map({
         mapLib={mapLib}
         mapStyle="https://basemaps.cartocdn.com/gl/positron-nolabels-gl-style/style.json"
         initialViewState={initialViewState}
+        minPitch={minPitch}
         maxPitch={maxPitch}
         maxZoom={maxZoom}
         minZoom={minZoom}

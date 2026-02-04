@@ -4,6 +4,7 @@ import styles from './index.module.scss';
 import { useCallback } from 'react';
 import { type MapRef } from 'react-map-gl/maplibre';
 import { GeoLocationCoordinates } from '@/hooks/useGeoLocation';
+import { COORD_AIT_BUILDING_1 } from '@/consts/coords';
 
 interface Props {
   mapRef: React.RefObject<MapRef | null>;
@@ -24,7 +25,7 @@ export default function MapControlPanel({ mapRef, coord }: Props) {
   const handleSchoolClick = useCallback(() => {
     if (mapRef.current) {
       mapRef.current.flyTo({
-        center: [137.1115, 35.184],
+        center: COORD_AIT_BUILDING_1,
         zoom: 18,
         duration: 1000,
       });
