@@ -5,7 +5,7 @@ import { default as GMap, ViewState, MapRef } from 'react-map-gl/maplibre';
 import * as mapLib from 'maplibre-gl';
 import { useGeoLocation } from '@/hooks/useGeoLocation';
 import { useSearchParams } from 'next/navigation';
-import { useCallback, useRef } from 'react';
+import { Suspense, useCallback, useRef } from 'react';
 import Location from './Location';
 import AccuracyCircle from './AccuracyCircle';
 import { getNumSearchParam } from '@/utils/searchParam';
@@ -45,6 +45,34 @@ interface Props {
 }
 
 export default function Map({
+  children,
+  className,
+  handleMapContextMenu,
+  handleMapClick,
+
+  maxPitch = MAX_PITCH,
+  minZoom = MIN_ZOOM,
+  maxZoom = MAX_ZOOM,
+  initialViewState = INIT_VIEW_STATE,
+}: Props) {
+  return (
+    <Suspense>
+      <InnerMap
+        className={className}
+        handleMapContextMenu={handleMapContextMenu}
+        handleMapClick={handleMapClick}
+        maxPitch={maxPitch}
+        minZoom={minZoom}
+        maxZoom={maxZoom}
+        initialViewState={initialViewState}
+      >
+        {children}
+      </InnerMap>
+    </Suspense>
+  );
+}
+
+function InnerMap({
   children,
   className,
   handleMapContextMenu,
