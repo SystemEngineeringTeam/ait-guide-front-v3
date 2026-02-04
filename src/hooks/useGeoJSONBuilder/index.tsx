@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, type MouseEvent } from 'react';
+import { useState, useCallback, useMemo, useEffect, type MouseEvent } from 'react';
 import { Feature, FeatureCollection, Point, Polygon } from 'geojson';
 import { type MapRef } from 'react-map-gl/maplibre';
 import MarkerPoints from './components/MarkerPoints';
@@ -16,9 +16,21 @@ export interface BuildingPoint {
   timestamp: number;
 }
 
+const POINTS_STORAGE_KEY = 'geojson-builder:points';
+
 export const useGeoJSONBuilder = () => {
   const [points, setPoints] = useState<BuildingPoint[]>([]);
   const [selectedColor, setSelectedColor] = useState<BuildingFillColor>(DEFAULT_COLOR);
+  const [selectedPointId, setSelectedPointId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem(POINTS_STORAGE_KEY);
+    if (saved) setPoints(JSON.parse(saved));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(POINTS_STORAGE_KEY, JSON.stringify(points));
+  }, [points]);
 
   const createPoint = useCallback((longitude: number, latitude: number) => {
     return {
@@ -77,6 +89,7 @@ export const useGeoJSONBuilder = () => {
 
   const clearPoints = useCallback(() => {
     setPoints([]);
+    localStorage.removeItem(POINTS_STORAGE_KEY);
   }, []);
 
   const handleMapContextMenu: HandleMapContextMenuFn = useCallback(
@@ -216,7 +229,13 @@ export const useGeoJSONBuilder = () => {
   );
   const buildPolygon = (
     <>
-      <MarkerPoints points={points} onRemovePoint={removePoint} onUpdatePoint={updatePoint} />
+      <MarkerPoints
+        points={points}
+        selectedPointId={selectedPointId}
+        onSelectPoint={setSelectedPointId}
+        onRemovePoint={removePoint}
+        onUpdatePoint={updatePoint}
+      />
       <BuildPolygon polygonFeature={polygonFeature} selectedColor={selectedColor} />
     </>
   );
@@ -225,6 +244,7 @@ export const useGeoJSONBuilder = () => {
     points,
     polygonFeature,
     selectedColor,
+    selectedPointId,
 
     handleMapContextMenu,
     handleMapClick,

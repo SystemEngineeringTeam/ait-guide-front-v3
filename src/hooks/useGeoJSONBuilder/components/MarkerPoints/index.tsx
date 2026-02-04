@@ -1,23 +1,29 @@
 import { Marker, MarkerDragEvent, Popup } from 'react-map-gl/maplibre';
 import { BuildingPoint } from '@/hooks/useGeoJSONBuilder';
-import { useState, useRef, useCallback } from 'react';
+import { useCallback } from 'react';
 import styles from './MarkerPoints.module.scss';
 
 interface MarkerPointsProps {
   points: BuildingPoint[];
+  selectedPointId: string | null;
+  onSelectPoint: (id: string | null) => void;
   onRemovePoint: (id: string) => void;
   onUpdatePoint: (id: string, longitude: number, latitude: number) => void;
 }
 
-export default function MarkerPoints({ points, onRemovePoint, onUpdatePoint }: MarkerPointsProps) {
-  const [selectedPointId, setSelectedPointId] = useState<string | null>(null);
-
+export default function MarkerPoints({
+  points,
+  selectedPointId,
+  onSelectPoint,
+  onRemovePoint,
+  onUpdatePoint,
+}: MarkerPointsProps) {
   const handleClick = useCallback(
     (pointId: string) => (e: { originalEvent: MouseEvent }) => {
       e.originalEvent.stopPropagation();
-      setSelectedPointId(pointId);
+      onSelectPoint(pointId);
     },
-    [],
+    [onSelectPoint],
   );
 
   const handleDragStart = useCallback((e: MarkerDragEvent) => {
@@ -50,7 +56,7 @@ export default function MarkerPoints({ points, onRemovePoint, onUpdatePoint }: M
               longitude={point.longitude}
               latitude={point.latitude}
               closeButton={true}
-              onClose={() => setSelectedPointId(null)}
+              onClose={() => onSelectPoint(null)}
               offset={[0, -10]}
             >
               <div className={styles.popup}>
@@ -61,7 +67,7 @@ export default function MarkerPoints({ points, onRemovePoint, onUpdatePoint }: M
                   className={styles.deleteButton}
                   onClick={() => {
                     onRemovePoint(point.id);
-                    setSelectedPointId(null);
+                    onSelectPoint(null);
                   }}
                 >
                   削除
