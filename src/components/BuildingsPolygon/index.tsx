@@ -12,43 +12,52 @@ interface Props {
 export default function BuildingPolygons({ data }: Props) {
   return (
     <>
-      {data.map((building, i) => {
-        const color = getFeaturesColor(building) ?? DEFAULT_COLOR;
-        const darkerColor = darkenColor(color, 0.1);
-        
-        // 最初のフィーチャーに建物名を追加
-        const modifiedData = {
-          ...building.data,
-          features: building.data.features.map((f, idx) => ({
-            ...f,
-            properties: {
-              ...f.properties,
-              _buildingName: idx === 0 ? building.name : undefined,
-            },
-          })),
-        };
+      {data
+        .sort((a, b) => {
+          if (a.name && !b.name) return 1;
+          if (!a.name && b.name) return -1;
+          return 0;
+        })
+        .map((building, i) => {
+          const color = getFeaturesColor(building) ?? DEFAULT_COLOR;
+          const darkerColor = darkenColor(color, 0.1);
 
-        return (
-          <Source key={i} type="geojson" data={modifiedData}>
-            <Layer
-              type="fill"
-              paint={{
-                'fill-color': color,
-                'fill-opacity': 0.5,
+          return (
+            <Source key={i} type="geojson" data={building.data}>
+              <Layer
+                type="fill"
+                paint={{
+                  'fill-color': color,
+                  'fill-opacity': 0.5,
+                }}
+              />
+              <Layer
+                type="line"
+                paint={{
+                  'line-color': darkerColor,
+                  'line-width': 2,
+                }}
+              />
+            </Source>
+          );
+        })}
+
+      {data
+        .filter((b) => b.name)
+        .map((building, i) => {
+          return (
+            <Source
+              key={i}
+              type="geojson"
+              data={{
+                ...building.data,
+                features: [building.data.features[0]],
               }}
-            />
-            <Layer
-              type="line"
-              paint={{
-                'line-color': darkerColor,
-                'line-width': 2,
-              }}
-            />
-            {building.name && (
+            >
               <Layer
                 type="symbol"
                 layout={{
-                  'text-field': ['get', '_buildingName'],
+                  'text-field': building.name,
                   'text-size': 14,
                   'text-offset': [0, 0],
                   'text-anchor': 'center',
@@ -58,12 +67,10 @@ export default function BuildingPolygons({ data }: Props) {
                   'text-halo-color': '#ffffff',
                   'text-halo-width': 2,
                 }}
-                filter={['!=', ['get', '_buildingName'], null]}
               />
-            )}
-          </Source>
-        );
-      })}
+            </Source>
+          );
+        })}
     </>
   );
 }
