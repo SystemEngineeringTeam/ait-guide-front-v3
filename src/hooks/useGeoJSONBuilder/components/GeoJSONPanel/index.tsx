@@ -70,7 +70,7 @@ export default function GeoJSONPanel({ points, onClear, onCopy, onPaste, selecte
             <button className={styles.exportButton} onClick={onCopy} disabled={points.length === 0}>
               📋 GeoJSON をコピー
             </button>
-            <button className={styles.importButton} onClick={onPaste}>
+            <button className={styles.importButton} onClick={onPaste} disabled={points.length > 0}>
               📥 GeoJSON を貼り付け
             </button>
             <button className={styles.clearButton} onClick={onClear} disabled={points.length === 0}>
