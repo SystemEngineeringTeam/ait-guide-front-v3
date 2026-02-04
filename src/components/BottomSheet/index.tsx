@@ -23,7 +23,7 @@ export default function BottomSheet({ children, open, onClose }: Props) {
 
   const handleHeaderClick = useCallback(
     (up: boolean) => {
-      if (up) sheetRef.current?.snapTo(3);
+      if (up) sheetRef.current?.snapTo(SNAP_POINTS.length - 1);
       else sheetRef.current?.snapTo(1);
     },
     [onClose],
