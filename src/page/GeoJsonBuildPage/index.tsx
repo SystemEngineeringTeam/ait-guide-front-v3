@@ -40,8 +40,8 @@ export default function GeoJsonBuildPage() {
     <PageLayout className={styles.mapPage} data-ctrl-down={ctrlKeyPressed}>
       {geoJSONBuilderPanel}
       <Map onMapContextMenu={handleMapContextMenu} onMapClick={handleMapClick} minZoom={0} maxZoom={24}>
-        {buildPolygon}
         {entranceMarkers}
+        {buildPolygon}
         <BuildingPolygons buildings={GEO_JSON_BUILDINGS} />
       </Map>
     </PageLayout>
