@@ -1,4 +1,5 @@
-import { BuildingFillColor, PolygonFeature } from '@/hooks/useGeoJSONBuilder';
+import { BuildingFillColor } from '@/consts/colors';
+import { PolygonFeature } from '@/hooks/useGeoJSONBuilder';
 import { Layer, Source } from 'react-map-gl/maplibre';
 
 interface Props {
