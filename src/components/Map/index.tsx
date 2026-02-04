@@ -35,6 +35,7 @@ export type HandleHoverFeatureFn = (id: string | undefined) => void;
 interface Props {
   children?: React.ReactNode;
   className?: string;
+  ref?: React.RefObject<MapRef | null>;
 
   onMapContextMenu?: HandleMapContextMenuFn;
   onMapClick?: HandleMapClickFn;
@@ -50,6 +51,7 @@ interface Props {
 export default function Map({
   children,
   className,
+  ref,
 
   onMapContextMenu,
   onMapClick,
@@ -61,9 +63,10 @@ export default function Map({
   maxZoom = MAX_ZOOM,
   initialViewState = INIT_VIEW_STATE,
 }: Props) {
-  const mapRef = useRef<MapRef>(null);
   const isMouseDownRef = useRef(false);
   const isDraggingRef = useRef(false);
+  const innerRef = useRef<MapRef>(null);
+  const mapRef = ref ?? innerRef;
 
   const handleMouseDown = useCallback(() => {
     isMouseDownRef.current = true;

@@ -12,6 +12,7 @@ export interface GeoLocationCoordinates {
 
 interface UseGeoLocationOptions {
   override?: Partial<GeoLocationCoordinates>;
+  onChange?: (coord: GeoLocationCoordinates) => void;
 }
 
 export function useGeoLocation(options?: UseGeoLocationOptions) {
@@ -22,6 +23,15 @@ export function useGeoLocation(options?: UseGeoLocationOptions) {
   useEffect(() => {
     const watchId = navigator.geolocation.watchPosition(({ coords }) => {
       setCoord({
+        accuracy: override?.accuracy ?? coords.accuracy,
+        altitude: override?.altitude ?? coords.altitude,
+        altitudeAccuracy: override?.altitudeAccuracy ?? coords.altitudeAccuracy,
+        heading: override?.heading ?? coords.heading,
+        speed: override?.speed ?? coords.speed,
+        latitude: override?.latitude ?? coords.latitude,
+        longitude: override?.longitude ?? coords.longitude,
+      });
+      options?.onChange?.({
         accuracy: override?.accuracy ?? coords.accuracy,
         altitude: override?.altitude ?? coords.altitude,
         altitudeAccuracy: override?.altitudeAccuracy ?? coords.altitudeAccuracy,

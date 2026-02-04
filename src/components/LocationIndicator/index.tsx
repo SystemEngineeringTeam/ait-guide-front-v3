@@ -1,23 +1,28 @@
 'use client';
 
-import { useGeoLocation } from '@/hooks/useGeoLocation';
+import { GeoLocationCoordinates, useGeoLocation } from '@/hooks/useGeoLocation';
 import { getNumSearchParam } from '@/utils/searchParam';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import Location from './Location';
 import AccuracyCircle from './AccuracyCircle';
 
-export default function LocationIndicator() {
+interface Props {
+  onChange?: (coord: GeoLocationCoordinates) => void;
+}
+
+export default function LocationIndicator({ onChange }: Props) {
   return (
     <Suspense>
-      <Inner />
+      <Inner onChange={onChange} />
     </Suspense>
   );
 }
 
-function Inner() {
+function Inner({ onChange }: Props) {
   const searchParams = useSearchParams();
   const coord = useGeoLocation({
+    onChange,
     override: {
       latitude: getNumSearchParam(searchParams, 'lat'),
       longitude: getNumSearchParam(searchParams, 'lon'),

@@ -1,0 +1,15 @@
+.panel {
+  padding: 5px;
+
+  display: flex;
+  flex-direction: column;
+  gap: $gap-md;
+
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1;
+
+  background-color: $color-background;
+  border-radius: $radius-sm;
+}
