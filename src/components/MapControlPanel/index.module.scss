@@ -12,4 +12,8 @@
 
   background-color: $color-background;
   border-radius: $radius-sm;
+
+  .commpass {
+    rotate: var(--bearing);
+  }
 }

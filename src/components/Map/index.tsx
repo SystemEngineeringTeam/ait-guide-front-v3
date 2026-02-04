@@ -1,7 +1,7 @@
 'use client';
 
 import styles from './index.module.scss';
-import { default as GMap, ViewState, MapRef, MapLayerMouseEvent } from 'react-map-gl/maplibre';
+import { default as GMap, ViewState, MapRef, MapLayerMouseEvent, ViewStateChangeEvent } from 'react-map-gl/maplibre';
 import * as mapLib from 'maplibre-gl';
 import { useCallback, useRef } from 'react';
 import classNames from 'classnames';
@@ -31,8 +31,8 @@ export type HandleMapClickFn = (
 ) => (e: React.MouseEvent<HTMLDivElement>) => void;
 
 export type HandleClickFeatureFn = (id: string) => void;
-
 export type HandleHoverFeatureFn = (id: string | undefined) => void;
+export type HandleRotateFn = (bearing: number) => void;
 
 interface Props {
   children?: React.ReactNode;
@@ -43,6 +43,7 @@ interface Props {
   onMapClick?: HandleMapClickFn;
   onClickFeature?: HandleClickFeatureFn;
   onHoverFeature?: HandleHoverFeatureFn;
+  onRotate?: HandleRotateFn;
 
   minPitch?: number;
   maxPitch?: number;
@@ -60,6 +61,7 @@ export default function Map({
   onMapClick,
   onClickFeature,
   onHoverFeature,
+  onRotate,
 
   minPitch = MIN_PITCH,
   maxPitch = MAX_PITCH,
@@ -127,6 +129,13 @@ export default function Map({
     [onHoverFeature],
   );
 
+  const handleRotate = useCallback(
+    (e: ViewStateChangeEvent) => {
+      onRotate?.(e.viewState.bearing);
+    },
+    [onRotate],
+  );
+
   return (
     <div
       className={classNames(styles.map, className)}
@@ -147,6 +156,7 @@ export default function Map({
         minZoom={minZoom}
         onClick={handleClickFeature}
         onMouseMove={handleHoverFeature}
+        onRotate={handleRotate}
         interactiveLayerIds={GEO_JSON_DATA.map((b) => b.id).filter((id): id is string => id != undefined)}
       >
         {children}

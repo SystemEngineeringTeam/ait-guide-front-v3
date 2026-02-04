@@ -15,6 +15,7 @@ import { GeoLocationCoordinates } from '@/hooks/useGeoLocation';
 
 export default function MapPage() {
   const [coord, setCoord] = useState<GeoLocationCoordinates>();
+  const [bearing, setBearing] = useState(0);
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string>();
   const [hoverId, setHoverId] = useState<string | undefined>();
@@ -32,9 +33,9 @@ export default function MapPage() {
 
   return (
     <PageLayout>
-      <MapControlPanel mapRef={mapRef} coord={coord} />
+      <MapControlPanel mapRef={mapRef} coord={coord} bearing={bearing} />
 
-      <Map ref={mapRef} onClickFeature={handleClickFeature} onHoverFeature={setHoverId}>
+      <Map ref={mapRef} onClickFeature={handleClickFeature} onHoverFeature={setHoverId} onRotate={setBearing}>
         <LocationIndicator onChange={setCoord} />
         <BuildingPolygons data={GEO_JSON_DATA} />
         {selectedId && <BuildingHighlight id={selectedId} key={`select-${selectedId}`} outline fill />}
