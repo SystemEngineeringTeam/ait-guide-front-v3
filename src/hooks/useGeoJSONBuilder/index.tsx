@@ -4,7 +4,7 @@ import { type MapRef } from 'react-map-gl/maplibre';
 import MarkerPoints from './components/MarkerPoints';
 import BuildPolygon from './components/BuildPolygon';
 import GeoJSONPanel from './components/GeoJSONPanel';
-import EntranceMarkers from '@/components/EntranceMarkers';
+import EntranceMarkers from './components/EntranceMarkers';
 import { HandleMapClickFn, HandleMapContextMenuFn } from '@/components/Map';
 import { BuildingFillColor, DEFAULT_COLOR } from '@/consts/colors';
 
