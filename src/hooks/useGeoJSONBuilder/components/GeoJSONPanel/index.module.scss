@@ -54,6 +54,35 @@
   padding: 16px;
 }
 
+.modeSelector {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.modeButton {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  background-color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #0066cc;
+    background-color: #f0f7ff;
+  }
+
+  &.active {
+    border-color: #0066cc;
+    background-color: #0066cc;
+    color: white;
+  }
+}
+
 .info {
   margin-bottom: 16px;
   padding: 12px;
@@ -163,6 +192,13 @@
   margin-left: 8px;
   color: #666;
   word-break: break-all;
+}
+
+.entranceInfo {
+  margin-left: 8px;
+  color: #0066cc;
+  font-weight: 500;
+  font-size: 10px;
 }
 
 .actions {

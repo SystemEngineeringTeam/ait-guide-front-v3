@@ -9,7 +9,7 @@ import BuildingPolygons from '@/components/BuildingsPolygon';
 import { GEO_JSON_DATA } from '@/consts/buildings';
 
 export default function GeoJsonBuildPage() {
-  const { buildPolygon, panel: geoJSONBuilderPanel, handleMapContextMenu, handleMapClick } = useGeoJSONBuilder();
+  const { buildPolygon, entranceMarkers, panel: geoJSONBuilderPanel, handleMapContextMenu, handleMapClick } = useGeoJSONBuilder();
   const [ctrlKeyPressed, setCtrlKeyPressed] = useState(false);
 
   useEffect(() => {
@@ -35,6 +35,7 @@ export default function GeoJsonBuildPage() {
       {geoJSONBuilderPanel}
       <Map onMapContextMenu={handleMapContextMenu} onMapClick={handleMapClick} minZoom={0} maxZoom={24}>
         {buildPolygon}
+        {entranceMarkers}
         <BuildingPolygons data={GEO_JSON_DATA} />
       </Map>
     </PageLayout>

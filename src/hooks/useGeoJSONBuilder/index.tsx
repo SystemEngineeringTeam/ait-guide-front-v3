@@ -4,6 +4,7 @@ import { type MapRef } from 'react-map-gl/maplibre';
 import MarkerPoints from './components/MarkerPoints';
 import BuildPolygon from './components/BuildPolygon';
 import GeoJSONPanel from './components/GeoJSONPanel';
+import EntranceMarkers from './components/EntranceMarkers';
 import { HandleMapClickFn, HandleMapContextMenuFn } from '@/components/Map';
 import { BuildingFillColor, DEFAULT_COLOR } from '@/consts/colors';
 
@@ -16,21 +17,42 @@ export interface BuildingPoint {
   timestamp: number;
 }
 
+export interface Entrance {
+  id: string;
+  longitude: number;
+  latitude: number;
+  rotation: number; // degrees (0-360)
+  width: number; // meters
+  timestamp: number;
+}
+
+export type BuildMode = 'polygon' | 'entrance';
+
 const POINTS_STORAGE_KEY = 'geojson-builder:points';
+const ENTRANCES_STORAGE_KEY = 'geojson-builder:entrances';
 
 export const useGeoJSONBuilder = () => {
   const [points, setPoints] = useState<BuildingPoint[]>([]);
+  const [entrances, setEntrances] = useState<Entrance[]>([]);
   const [selectedColor, setSelectedColor] = useState<BuildingFillColor>(DEFAULT_COLOR);
   const [selectedPointId, setSelectedPointId] = useState<string | null>(null);
+  const [selectedEntranceId, setSelectedEntranceId] = useState<string | null>(null);
+  const [buildMode, setBuildMode] = useState<BuildMode>('polygon');
 
   useEffect(() => {
     const saved = localStorage.getItem(POINTS_STORAGE_KEY);
     if (saved) setPoints(JSON.parse(saved));
+    const savedEntrances = localStorage.getItem(ENTRANCES_STORAGE_KEY);
+    if (savedEntrances) setEntrances(JSON.parse(savedEntrances));
   }, []);
 
   useEffect(() => {
     localStorage.setItem(POINTS_STORAGE_KEY, JSON.stringify(points));
   }, [points]);
+
+  useEffect(() => {
+    localStorage.setItem(ENTRANCES_STORAGE_KEY, JSON.stringify(entrances));
+  }, [entrances]);
 
   const createPoint = useCallback((longitude: number, latitude: number) => {
     return {
@@ -92,6 +114,37 @@ export const useGeoJSONBuilder = () => {
     localStorage.removeItem(POINTS_STORAGE_KEY);
   }, []);
 
+  const addEntrance = useCallback((longitude: number, latitude: number, rotation: number = 0, width: number = 2) => {
+    const newEntrance: Entrance = {
+      id: `entrance-${Date.now()}-${Math.random()}`,
+      longitude,
+      latitude,
+      rotation,
+      width,
+      timestamp: Date.now(),
+    };
+    setEntrances((prev) => [...prev, newEntrance]);
+    return newEntrance;
+  }, []);
+
+  const removeEntrance = useCallback((id: string) => {
+    setEntrances((prev) => prev.filter((e) => e.id !== id));
+  }, []);
+
+  const updateEntrance = useCallback(
+    (id: string, updates: Partial<Omit<Entrance, 'id' | 'timestamp'>>) => {
+      setEntrances((prev) =>
+        prev.map((entrance) => (entrance.id === id ? { ...entrance, ...updates } : entrance)),
+      );
+    },
+    [],
+  );
+
+  const clearEntrances = useCallback(() => {
+    setEntrances([]);
+    localStorage.removeItem(ENTRANCES_STORAGE_KEY);
+  }, []);
+
   const handleMapContextMenu: HandleMapContextMenuFn = useCallback(
     (mapRef: React.RefObject<MapRef | null>) => (e: MouseEvent<HTMLDivElement>) => {
       e.preventDefault();
@@ -104,14 +157,20 @@ export const useGeoJSONBuilder = () => {
       const y = e.clientY - rect.top;
 
       const lngLat = mapRef.current.unproject([x, y]);
-      addPoint(lngLat.lng, lngLat.lat);
+      
+      if (buildMode === 'polygon') {
+        addPoint(lngLat.lng, lngLat.lat);
+      } else if (buildMode === 'entrance') {
+        addEntrance(lngLat.lng, lngLat.lat);
+      }
     },
-    [addPoint],
+    [addPoint, addEntrance, buildMode],
   );
 
   const handleMapClick: HandleMapClickFn = useCallback(
     (mapRef: React.RefObject<MapRef | null>) => (e: MouseEvent<HTMLDivElement>) => {
       if (!mapRef.current) return;
+      if (buildMode !== 'polygon') return; // ポリゴンモードのみ辺への点挿入を有効化
       if (points.length < 2) return;
 
       const canvas = mapRef.current.getCanvas();
@@ -153,7 +212,7 @@ export const useGeoJSONBuilder = () => {
       const lngLat = mapRef.current.unproject([clickPoint.x, clickPoint.y]);
       insertPointAt(insertIndex, lngLat.lng, lngLat.lat);
     },
-    [getDistanceToSegment, insertPointAt, points],
+    [getDistanceToSegment, insertPointAt, points, buildMode],
   );
 
   const polygonFeature = useMemo<PolygonFeature>(() => {
@@ -244,7 +303,11 @@ export const useGeoJSONBuilder = () => {
   const panel = (
     <GeoJSONPanel
       points={points}
+      entrances={entrances}
+      buildMode={buildMode}
+      onChangeBuildMode={setBuildMode}
       onClear={clearPoints}
+      onClearEntrances={clearEntrances}
       onCopy={copyToClipboard}
       onPaste={pasteFromClipboard}
       selectedColor={selectedColor}
@@ -264,17 +327,37 @@ export const useGeoJSONBuilder = () => {
     </>
   );
 
+  const entranceMarkers = (
+    <EntranceMarkers
+      entrances={entrances}
+      selectedEntranceId={selectedEntranceId}
+      onSelectEntrance={setSelectedEntranceId}
+      onRemoveEntrance={removeEntrance}
+      onUpdateEntrance={updateEntrance}
+    />
+  );
+
   return {
     points,
+    entrances,
     polygonFeature,
     selectedColor,
     selectedPointId,
+    selectedEntranceId,
+    buildMode,
 
     handleMapContextMenu,
     handleMapClick,
 
+    // entrance operations
+    addEntrance,
+    removeEntrance,
+    updateEntrance,
+    setSelectedEntranceId,
+
     // components
     panel,
     buildPolygon,
+    entranceMarkers,
   };
 };
