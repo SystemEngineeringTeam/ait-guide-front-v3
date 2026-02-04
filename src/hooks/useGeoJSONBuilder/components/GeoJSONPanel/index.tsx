@@ -7,11 +7,12 @@ interface GeoJSONPanelProps {
   points: BuildingPoint[];
   onClear: () => void;
   onCopy: () => void;
+  onPaste: () => Promise<void>;
   selectedColor: BuildingFillColor;
   onSelectColor: (color: BuildingFillColor) => void;
 }
 
-export default function GeoJSONPanel({ points, onClear, onCopy, selectedColor, onSelectColor }: GeoJSONPanelProps) {
+export default function GeoJSONPanel({ points, onClear, onCopy, onPaste, selectedColor, onSelectColor }: GeoJSONPanelProps) {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
@@ -68,6 +69,9 @@ export default function GeoJSONPanel({ points, onClear, onCopy, selectedColor, o
           <div className={styles.actions}>
             <button className={styles.exportButton} onClick={onCopy} disabled={points.length === 0}>
               📋 GeoJSON をコピー
+            </button>
+            <button className={styles.importButton} onClick={onPaste}>
+              📥 GeoJSON を貼り付け
             </button>
             <button className={styles.clearButton} onClick={onClear} disabled={points.length === 0}>
               🗑️ クリア

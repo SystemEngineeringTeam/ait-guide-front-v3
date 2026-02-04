@@ -172,6 +172,7 @@
 }
 
 .exportButton,
+.importButton,
 .clearButton {
   padding: 10px 12px;
   border: none;
@@ -201,6 +202,19 @@
 
   &:not(:disabled):active {
     background-color: #003d7a;
+  }
+}
+
+.importButton {
+  background-color: #28a745;
+  color: white;
+
+  &:hover {
+    background-color: #218838;
+  }
+
+  &:active {
+    background-color: #1e7e34;
   }
 }
 

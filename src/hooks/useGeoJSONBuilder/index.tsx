@@ -202,27 +202,51 @@ export const useGeoJSONBuilder = () => {
   const copyToClipboard = useCallback(async () => {
     const geojson = generateGeoJSON();
     const json = JSON.stringify(geojson, null, 2);
-
-    if (navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(json);
-      return;
-    }
-
-    const textarea = document.createElement('textarea');
-    textarea.value = json;
-    textarea.style.position = 'fixed';
-    textarea.style.opacity = '0';
-    document.body.appendChild(textarea);
-    textarea.select();
-    await navigator.clipboard.writeText(textarea.value);
-    document.body.removeChild(textarea);
+    await navigator.clipboard.writeText(json);
   }, [generateGeoJSON]);
+
+  const pasteFromClipboard = useCallback(async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+
+      const geojson: FeatureCollection = JSON.parse(text);
+
+      if (!geojson.features || !Array.isArray(geojson.features)) {
+        throw new Error('Invalid GeoJSON format');
+      }
+
+      // ポイントフィーチャーのみを抽出
+      const pointFeatures = geojson.features.filter((feature) => feature.geometry.type === 'Point');
+
+      if (pointFeatures.length === 0) {
+        throw new Error('No point features found in GeoJSON');
+      }
+
+      // 新しい点を復元
+      const newPoints: BuildingPoint[] = pointFeatures.map((feature) => {
+        const coords = (feature.geometry as Point).coordinates;
+        return {
+          id: `point-${Date.now()}-${Math.random()}`,
+          longitude: coords[0],
+          latitude: coords[1],
+          timestamp: Date.now(),
+        };
+      });
+
+      setPoints(newPoints);
+      setSelectedPointId(null);
+    } catch (error) {
+      console.error('Failed to paste GeoJSON:', error);
+      alert('GeoJSONの貼り付けに失敗しました。正しいGeoJSON形式か確認してください。');
+    }
+  }, []);
 
   const panel = (
     <GeoJSONPanel
       points={points}
       onClear={clearPoints}
       onCopy={copyToClipboard}
+      onPaste={pasteFromClipboard}
       selectedColor={selectedColor}
       onSelectColor={setSelectedColor}
     />
