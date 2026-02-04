@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function BottomSheet({ children }: Props) {
-  const [isOpen, setOpen] = useState(true);
+  const [isOpen, setOpen] = useState(false);
 
   return (
     <>
