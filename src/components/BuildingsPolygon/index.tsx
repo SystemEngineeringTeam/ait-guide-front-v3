@@ -14,8 +14,8 @@ export default function BuildingPolygons({ buildings }: Props) {
     <>
       {buildings
         .sort((a, b) => {
-          if (a.name && !b.name) return 1;
-          if (!a.name && b.name) return -1;
+          if (a.type !== 'passage' && b.type === 'passage') return 1;
+          if (a.type === 'passage' && b.type !== 'passage') return -1;
           return 0;
         })
         .map((building, i) => {
@@ -44,7 +44,7 @@ export default function BuildingPolygons({ buildings }: Props) {
         })}
 
       {buildings
-        .filter((b) => b.name)
+        .filter((b) => b.type !== 'passage')
         .map((building, i) => {
           return (
             <Source

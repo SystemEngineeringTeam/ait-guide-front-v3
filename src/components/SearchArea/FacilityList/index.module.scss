@@ -1,0 +1,42 @@
+.facilitylist {
+  height: calc(100vh - $header-height);
+  height: calc(100dvh - $header-height);
+  padding: 10px;
+  text-align: center;
+  background-color: rgba($color: $color-background, $alpha: 0.8);
+  position: fixed;
+  top: $header-height;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  transition: all 0.3s ease-in-out;
+  overflow-y: scroll;
+
+  &[data-focus='false'] {
+    user-select: none;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  h2 {
+    padding: 10px;
+  }
+
+  .container {
+    .buttons {
+      padding: 15px 0;
+      margin-inline: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 10px 30px;
+
+      &:nth-of-type(n + 2) {
+        border-top: 1px dashed;
+      }
+
+      @media (max-width: 800px) {
+        gap: 10px;
+      }
+    }
+  }
+}

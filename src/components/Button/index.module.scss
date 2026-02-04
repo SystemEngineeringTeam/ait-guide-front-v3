@@ -1,0 +1,26 @@
+.button {
+  padding: 7px 10px;
+
+  font-size: 1rem;
+  color: $color-text;
+
+  border: none;
+  box-shadow: 2px 2px 4px $color-shadow;
+  border-radius: 5px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+
+  &:hover[data-active='false'] {
+    scale: 1.05;
+  }
+
+  &[data-active='true'] {
+    scale: 1.05;
+    outline: solid 2px $color-primary;
+  }
+}
