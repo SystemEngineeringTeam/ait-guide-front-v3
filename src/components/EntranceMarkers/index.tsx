@@ -124,7 +124,7 @@ export default function EntranceMarkers({
             id="entrance-lines-layer"
             type="line"
             paint={{
-              'line-color': '#ff0000',
+              'line-color': '#000000',
               'line-width': 3,
             }}
           />

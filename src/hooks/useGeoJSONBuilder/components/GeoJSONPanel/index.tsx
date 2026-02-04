@@ -12,6 +12,8 @@ interface GeoJSONPanelProps {
   onClearEntrances: () => void;
   onCopy: () => void;
   onPaste: () => Promise<void>;
+  onCopyEntrances: () => void;
+  onPasteEntrances: () => Promise<void>;
   selectedColor: BuildingFillColor;
   onSelectColor: (color: BuildingFillColor) => void;
 }
@@ -25,6 +27,8 @@ export default function GeoJSONPanel({
   onClearEntrances,
   onCopy,
   onPaste,
+  onCopyEntrances,
+  onPasteEntrances,
   selectedColor,
   onSelectColor,
 }: GeoJSONPanelProps) {
@@ -148,9 +152,17 @@ export default function GeoJSONPanel({
                 </button>
               </>
             ) : (
-              <button className={styles.clearButton} onClick={onClearEntrances} disabled={entrances.length === 0}>
-                🗑️ クリア
-              </button>
+              <>
+                <button className={styles.exportButton} onClick={onCopyEntrances} disabled={entrances.length === 0}>
+                  📋 出入り口をコピー
+                </button>
+                <button className={styles.importButton} onClick={onPasteEntrances} disabled={entrances.length > 0}>
+                  📥 出入り口を貼り付け
+                </button>
+                <button className={styles.clearButton} onClick={onClearEntrances} disabled={entrances.length === 0}>
+                  🗑️ 出入り口をクリア
+                </button>
+              </>
             )}
           </div>
         </div>

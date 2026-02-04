@@ -4,7 +4,7 @@ import { type MapRef } from 'react-map-gl/maplibre';
 import MarkerPoints from './components/MarkerPoints';
 import BuildPolygon from './components/BuildPolygon';
 import GeoJSONPanel from './components/GeoJSONPanel';
-import EntranceMarkers from './components/EntranceMarkers';
+import EntranceMarkers from '@/components/EntranceMarkers';
 import { HandleMapClickFn, HandleMapContextMenuFn } from '@/components/Map';
 import { BuildingFillColor, DEFAULT_COLOR } from '@/consts/colors';
 
@@ -255,11 +255,39 @@ export const useGeoJSONBuilder = () => {
     };
   }, [points, polygonFeature]);
 
+  const generateEntrancesGeoJSON = useCallback((): FeatureCollection => {
+    const entranceFeatures: Feature<Point>[] = entrances.map((entrance) => ({
+      type: 'Feature',
+      properties: {
+        id: entrance.id,
+        timestamp: entrance.timestamp,
+        rotation: entrance.rotation,
+        width: entrance.width,
+        type: 'entrance',
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [entrance.longitude, entrance.latitude],
+      },
+    }));
+
+    return {
+      type: 'FeatureCollection',
+      features: entranceFeatures,
+    };
+  }, [entrances]);
+
   const copyToClipboard = useCallback(async () => {
     const geojson = generateGeoJSON();
     const json = JSON.stringify(geojson, null, 2);
     await navigator.clipboard.writeText(json);
   }, [generateGeoJSON]);
+
+  const copyEntrancesToClipboard = useCallback(async () => {
+    const geojson = generateEntrancesGeoJSON();
+    const json = JSON.stringify(geojson, null, 2);
+    await navigator.clipboard.writeText(json);
+  }, [generateEntrancesGeoJSON]);
 
   const pasteFromClipboard = useCallback(async () => {
     try {
@@ -297,6 +325,47 @@ export const useGeoJSONBuilder = () => {
     }
   }, []);
 
+  const pasteEntrancesFromClipboard = useCallback(async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+
+      const geojson: FeatureCollection = JSON.parse(text);
+
+      if (!geojson.features || !Array.isArray(geojson.features)) {
+        throw new Error('Invalid GeoJSON format');
+      }
+
+      // 出入り口フィーチャーのみを抽出
+      const entranceFeatures = geojson.features.filter(
+        (feature) => feature.geometry.type === 'Point' && feature.properties?.type === 'entrance',
+      );
+
+      if (entranceFeatures.length === 0) {
+        throw new Error('No entrance features found in GeoJSON');
+      }
+
+      // 新しい出入り口を復元
+      const newEntrances: Entrance[] = entranceFeatures.map((feature) => {
+        const coords = (feature.geometry as Point).coordinates;
+        const props = feature.properties || {};
+        return {
+          id: `entrance-${Date.now()}-${Math.random()}`,
+          longitude: coords[0],
+          latitude: coords[1],
+          rotation: props.rotation || 0,
+          width: props.width || 2,
+          timestamp: Date.now(),
+        };
+      });
+
+      setEntrances(newEntrances);
+      setSelectedEntranceId(null);
+    } catch (error) {
+      console.error('Failed to paste entrances GeoJSON:', error);
+      alert('出入り口GeoJSONの貼り付けに失敗しました。正しいGeoJSON形式か確認してください。');
+    }
+  }, []);
+
   const panel = (
     <GeoJSONPanel
       points={points}
@@ -307,6 +376,8 @@ export const useGeoJSONBuilder = () => {
       onClearEntrances={clearEntrances}
       onCopy={copyToClipboard}
       onPaste={pasteFromClipboard}
+      onCopyEntrances={copyEntrancesToClipboard}
+      onPasteEntrances={pasteEntrancesFromClipboard}
       selectedColor={selectedColor}
       onSelectColor={setSelectedColor}
     />
