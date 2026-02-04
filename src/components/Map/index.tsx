@@ -35,7 +35,7 @@ export type HandleMapClickFn = (
 
 export type HandleClickFeatureFn = (id: string) => void;
 
-export type HandleHoverFeatureFn = (id: string) => void;
+export type HandleHoverFeatureFn = (id: string | undefined) => void;
 
 interface Props {
   children?: React.ReactNode;
@@ -154,9 +154,14 @@ function InnerMap({
   const handleHoverFeature = useCallback(
     (e: MapLayerMouseEvent) => {
       const feature = e.features?.[0];
-      if (!feature) return;
 
-      onHoverFeature?.(feature.layer.id);
+      if (feature) {
+        onHoverFeature?.(feature.layer.id);
+        mapRef.current?.getCanvas().style.setProperty('cursor', 'pointer');
+      } else {
+        onHoverFeature?.(undefined);
+        mapRef.current?.getCanvas().style.setProperty('cursor', 'grab');
+      }
     },
     [onHoverFeature],
   );

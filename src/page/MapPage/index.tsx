@@ -12,27 +12,27 @@ import BuildingData from '@/components/BuildingData';
 export default function MapPage() {
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string>();
-  const [hoverId, setHoverId] = useState<string>();
+  const [hoverId, setHoverId] = useState<string | undefined>();
 
-  const onClickFeature: HandleClickFeatureFn = useCallback((id) => {
+  const handleClickFeature: HandleClickFeatureFn = useCallback((id) => {
     setSelectedId(id);
     setOpen(true);
   }, []);
 
-  const onBottomSheetClose = useCallback(() => {
+  const handleBottomSheetClose = useCallback(() => {
     setOpen(false);
     setSelectedId(undefined);
   }, []);
 
   return (
     <PageLayout>
-      <Map onClickFeature={onClickFeature} onHoverFeature={setHoverId}>
+      <Map onClickFeature={handleClickFeature} onHoverFeature={setHoverId}>
         <BuildingPolygons data={GEO_JSON_DATA} />
         {selectedId && <BuildingHighlight id={selectedId} key={`select-${selectedId}`} outline fill />}
         {hoverId && <BuildingHighlight id={hoverId} key={`hover-${hoverId}`} outline />}
       </Map>
 
-      <BottomSheet open={open} onClose={onBottomSheetClose}>
+      <BottomSheet open={open} onClose={handleBottomSheetClose}>
         <BuildingData id={selectedId} />
       </BottomSheet>
     </PageLayout>
