@@ -14,10 +14,7 @@ export interface EntranceData {
  * @param lineLength 線の長さ（メートル）
  * @returns 2本の平行線を表すLineStringフィーチャーの配列
  */
-export function generateEntranceLines(
-  entrance: EntranceData,
-  lineLength: number = 2,
-): Feature<GeoJSON.LineString>[] {
+export function generateEntranceLines(entrance: EntranceData, lineLength: number = 2): Feature<GeoJSON.LineString>[] {
   const { id, longitude, latitude, rotation, width } = entrance;
 
   // 回転角度をラジアンに変換

@@ -10,6 +10,6 @@
     {
       "url": "./src/consts/entrances/geojson/entrances.schema.json",
       "fileMatch": ["src/consts/entrances/geojson/*.json"]
-    },
+    }
   ]
 }
