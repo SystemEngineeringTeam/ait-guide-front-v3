@@ -9,7 +9,7 @@
   border: solid 3px $color-on-primary;
 
   position: absolute;
-  z-index: 10;
+  z-index: $z-middle;
   transform-origin: center center;
   transform: translate(-50%, -50%);
 }

@@ -8,7 +8,7 @@
   position: fixed;
   top: 20px;
   right: 20px;
-  z-index: 1;
+  z-index: $z-front;
 
   background-color: $color-background;
   border-radius: $radius-sm;
