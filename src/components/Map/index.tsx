@@ -115,6 +115,11 @@ function InnerMap({
         isDraggingRef.current = false;
         return;
       }
+      // PopupやMarker内からのクリックイベントを無視
+      const target = e.target as HTMLElement;
+      if (target.closest('.maplibregl-popup') || target.closest('.maplibregl-marker')) {
+        return;
+      }
       handleMapClick?.(mapRef)(e);
     },
     [handleMapClick],

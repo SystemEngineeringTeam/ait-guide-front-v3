@@ -59,13 +59,14 @@ export default function MarkerPoints({
               onClose={() => onSelectPoint(null)}
               offset={[0, -10]}
             >
-              <div className={styles.popup}>
+              <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
                 <p className={styles.coordinates}>
                   {point.latitude.toFixed(6)}, {point.longitude.toFixed(6)}
                 </p>
                 <button
                   className={styles.deleteButton}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     onRemovePoint(point.id);
                     onSelectPoint(null);
                   }}
