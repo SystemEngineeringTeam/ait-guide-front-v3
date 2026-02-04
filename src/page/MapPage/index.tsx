@@ -8,6 +8,7 @@ import BottomSheet from '@/components/BottomSheet';
 import { useCallback, useState } from 'react';
 import BuildingHighlight from '@/components/BuildingHighlight';
 import BuildingData from '@/components/BuildingData';
+import LocationIndicator from '@/components/LocationIndicator';
 
 export default function MapPage() {
   const [open, setOpen] = useState(false);
@@ -27,6 +28,7 @@ export default function MapPage() {
   return (
     <PageLayout>
       <Map onClickFeature={handleClickFeature} onHoverFeature={setHoverId}>
+        <LocationIndicator />
         <BuildingPolygons data={GEO_JSON_DATA} />
         {selectedId && <BuildingHighlight id={selectedId} key={`select-${selectedId}`} outline fill />}
         {hoverId && <BuildingHighlight id={hoverId} key={`hover-${hoverId}`} outline />}

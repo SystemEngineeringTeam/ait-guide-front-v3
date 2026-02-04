@@ -3,12 +3,7 @@
 import styles from './index.module.scss';
 import { default as GMap, ViewState, MapRef, MapLayerMouseEvent } from 'react-map-gl/maplibre';
 import * as mapLib from 'maplibre-gl';
-import { useGeoLocation } from '@/hooks/useGeoLocation';
-import { useSearchParams } from 'next/navigation';
-import { Suspense, useCallback, useRef } from 'react';
-import Location from './Location';
-import AccuracyCircle from './AccuracyCircle';
-import { getNumSearchParam } from '@/utils/searchParam';
+import { useCallback, useRef } from 'react';
 import classNames from 'classnames';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { GEO_JSON_DATA } from '@/consts/buildings';
@@ -66,50 +61,9 @@ export default function Map({
   maxZoom = MAX_ZOOM,
   initialViewState = INIT_VIEW_STATE,
 }: Props) {
-  return (
-    <Suspense>
-      <InnerMap
-        className={className}
-        onMapContextMenu={onMapContextMenu}
-        onMapClick={onMapClick}
-        onClickFeature={onClickFeature}
-        onHoverFeature={onHoverFeature}
-        maxPitch={maxPitch}
-        minZoom={minZoom}
-        maxZoom={maxZoom}
-        initialViewState={initialViewState}
-      >
-        {children}
-      </InnerMap>
-    </Suspense>
-  );
-}
-
-function InnerMap({
-  children,
-  className,
-
-  onMapContextMenu,
-  onMapClick,
-  onClickFeature,
-  onHoverFeature,
-
-  maxPitch = MAX_PITCH,
-  minZoom = MIN_ZOOM,
-  maxZoom = MAX_ZOOM,
-  initialViewState = INIT_VIEW_STATE,
-}: Props) {
   const mapRef = useRef<MapRef>(null);
   const isMouseDownRef = useRef(false);
   const isDraggingRef = useRef(false);
-  const searchParams = useSearchParams();
-  const coord = useGeoLocation({
-    override: {
-      latitude: getNumSearchParam(searchParams, 'lat'),
-      longitude: getNumSearchParam(searchParams, 'lon'),
-      accuracy: getNumSearchParam(searchParams, 'acc'),
-    },
-  });
 
   const handleMouseDown = useCallback(() => {
     isMouseDownRef.current = true;
@@ -187,10 +141,6 @@ function InnerMap({
         onMouseMove={handleHoverFeature}
         interactiveLayerIds={GEO_JSON_DATA.map((b) => b.id).filter((id): id is string => id != undefined)}
       >
-        {/* 現在地表示 */}
-        {coord && <Location coord={coord} />}
-        {coord && <AccuracyCircle coord={coord} />}
-
         {children}
       </GMap>
     </div>
