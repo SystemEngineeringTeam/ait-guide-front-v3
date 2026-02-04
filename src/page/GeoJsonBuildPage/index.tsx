@@ -33,7 +33,7 @@ export default function GeoJsonBuildPage() {
   return (
     <PageLayout className={styles.mapPage} data-ctrl-down={ctrlKeyPressed}>
       {geoJSONBuilderPanel}
-      <Map handleMapContextMenu={handleMapContextMenu} handleMapClick={handleMapClick} maxZoom={24}>
+      <Map handleMapContextMenu={handleMapContextMenu} handleMapClick={handleMapClick} minZoom={0} maxZoom={24}>
         {buildPolygon}
         <BuildingPolygons data={GEO_JSON_DATA} />
       </Map>
