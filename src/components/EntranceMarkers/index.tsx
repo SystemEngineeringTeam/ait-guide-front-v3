@@ -5,11 +5,10 @@ import { generateEntranceLines } from '@/utils/entrance';
 
 interface EntranceMarkersProps {
   entrances: FeatureCollection;
-  zoom?: number;
-  showAtZoom?: number;
+  show?: boolean;
 }
 
-export default function EntranceMarkers({ entrances, zoom, showAtZoom = 17.5 }: EntranceMarkersProps) {
+export default function EntranceMarkers({ entrances, show = true }: EntranceMarkersProps) {
   // 各出入り口に対して2本の平行線を生成
   const entranceLinesGeoJSON = useMemo(() => {
     const features = entrances.features
@@ -46,7 +45,7 @@ export default function EntranceMarkers({ entrances, zoom, showAtZoom = 17.5 }: 
         paint={{
           'line-color': '#000000',
           'line-width': 3,
-          'line-opacity': zoom && zoom >= showAtZoom ? 1 : 0,
+          'line-opacity': show ? 1 : 0,
         }}
       />
     </Source>
