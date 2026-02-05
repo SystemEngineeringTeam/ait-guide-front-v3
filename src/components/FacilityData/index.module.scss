@@ -2,4 +2,28 @@
   padding: 10px 20px;
 
   text-align: center;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $gap-md;
+
+    .name {
+      font-size: $fontsize-xl;
+      font-weight: bold;
+    }
+
+    .button {
+      height: $fontsize-xl;
+      width: $fontsize-xl;
+
+      display: inline-block;
+
+      & svg {
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
 }
