@@ -3,9 +3,9 @@
 
   font-size: 1rem;
   color: $color-text;
-  background-color: $color-element-background;
-
-  border: none;
+  background-color: $color-background;
+  
+  border: solid 2px $color-element-background;
   border-radius: 5px;
 
   overflow: hidden;
@@ -21,6 +21,11 @@
 
   &[data-active='true'] {
     scale: 1.05;
-    outline: solid 2px $color-primary;
+    border: solid 2px $color-primary;
+  }
+
+  &:disabled {
+    color: $color-disabled;
+    cursor: not-allowed;
   }
 }
