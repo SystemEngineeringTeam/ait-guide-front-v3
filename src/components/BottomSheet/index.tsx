@@ -10,7 +10,7 @@ interface Props {
   onClose: () => void;
 }
 
-const SNAP_POINTS = [0, 0.1, 1];
+const SNAP_POINTS = [0, 0.15, 1];
 
 export default function BottomSheet({ children, open, onClose }: Props) {
   const sheetRef = useRef<SheetRef>(null);
