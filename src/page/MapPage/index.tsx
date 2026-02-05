@@ -2,7 +2,8 @@
 
 import Map, { HandleClickFeatureFn } from '@/components/Map';
 import FacilitiesPolygons from '@/components/FacilitiesPolygon';
-import { GEO_JSON_FACILITIES, GEO_JSON_PASSAGES } from '@/consts/facilities';
+import { GEO_JSON_FACILITIES } from '@/consts/facilities';
+import { GEO_JSON_PASSAGES } from '@/consts/passages';
 import BottomSheet from '@/components/BottomSheet';
 import { useCallback, useRef, useState } from 'react';
 import FacilityHighlight from '@/components/FacilityHighlight';

@@ -1,4 +1,4 @@
-export const FACILITY_TYPES = ['academic', 'cafeteria', 'ground', 'parking', 'other'] as const;
+export const FACILITY_TYPES = ['academic', 'cafeteria', 'clubhouse', 'ground', 'parking', 'gym', 'other'] as const;
 export const PASSAGE_TYPE = 'passage' as const;
 export const ALL_FACILITY_TYPES = [...FACILITY_TYPES, PASSAGE_TYPE] as const;
 

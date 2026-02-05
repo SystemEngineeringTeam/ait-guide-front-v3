@@ -1,6 +1,6 @@
 'use client';
 
-import { GeoJSONData } from '@/consts/facilities';
+import { GeoJSONData } from '@/types/facilities';
 import { Layer, Source } from 'react-map-gl/maplibre';
 import { darkenColor, getFeaturesColor } from '@/utils/color';
 import { DEFAULT_COLOR } from '@/consts/colors';
