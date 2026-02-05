@@ -1,6 +1,10 @@
-import { atom, type Setter } from 'jotai';
+import { atom, useAtom, type Setter } from 'jotai';
 
-export const penguinAtom = atom(false);
+const penguinAtom = atom(false);
+
+export function usePenguin() {
+  return useAtom(penguinAtom);
+}
 
 export function showPenguin(set: Setter) {
   set(penguinAtom, true);
