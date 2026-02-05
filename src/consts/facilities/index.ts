@@ -52,6 +52,9 @@ import parkingBike from './geojson/parking-bike.json';
 import parking1 from './geojson/parking1.json';
 import parking2 from './geojson/parking2.json';
 import parking3 from './geojson/parking3.json';
+import bus from './geojson/bus.json';
+import mainGate from './geojson/main-gate.json';
+import securityRoom from './geojson/security-room.json';
 
 export const GEO_JSON_FACILITIES: GeoJSONFacilities[] = [
   {
@@ -366,4 +369,22 @@ export const GEO_JSON_FACILITIES: GeoJSONFacilities[] = [
     name: 'バイク駐車場',
     data: parkingBike as FeatureCollection,
   },
+  {
+    id: '49',
+    type: 'parking',
+    name: 'バス停',
+    data: bus as FeatureCollection,
+  },
+  {
+    id: '55',
+    type: 'other',
+    name: '正門',
+    data: mainGate as FeatureCollection,
+  },
+  {
+    id: '50',
+    type: 'other',
+    name: '警備室',
+    data: securityRoom as FeatureCollection,
+  }
 ];
