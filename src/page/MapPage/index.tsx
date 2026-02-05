@@ -33,6 +33,7 @@ export default function MapPage() {
   const handleBottomSheetClose = useCallback(() => {
     closeBottomSheet();
   }, []);
+  console.log(zoom);
 
   return (
     <>
@@ -47,7 +48,7 @@ export default function MapPage() {
         <Deers zoom={zoom} />
         <LocationIndicator onChange={setCoord} />
         <FacilitiesPolygons facilities={[...GEO_JSON_FACILITIES, ...GEO_JSON_PASSAGES]} />
-        <EntranceMarkers entrances={GEO_JSON_ENTRANCES} />
+        <EntranceMarkers entrances={GEO_JSON_ENTRANCES} zoom={zoom} />
         {selectedId && <FacilityHighlight id={selectedId} key={`select-${selectedId}`} outline fill />}
         {hoverId && <FacilityHighlight id={hoverId} key={`hover-${hoverId}`} outline />}
       </Map>
