@@ -14,6 +14,7 @@ import { GEO_JSON_ENTRANCES } from '@/consts/entrances';
 import EntranceMarkers from '@/components/EntranceMarkers';
 import { useSelectedFacilityId } from '@/hooks/useSelectedFacilityId';
 import { useBottomSheet } from '@/hooks/useBottomSheet';
+import Deers from '@/components/Deers';
 
 export default function MapPage() {
   const { isOpen: bottomSheetOpen, open: openBottomSheet, close: closeBottomSheet } = useBottomSheet();
@@ -21,6 +22,7 @@ export default function MapPage() {
   const [coord, setCoord] = useState<GeoLocationCoordinates>();
   const [bearing, setBearing] = useState(0);
   const [hoverId, setHoverId] = useState<string | undefined>();
+  const [zoom, setZoom] = useState(17);
 
   const handleClickFeature: HandleClickFeatureFn = useCallback((id) => {
     setSelectedId(id);
@@ -35,7 +37,13 @@ export default function MapPage() {
     <>
       <MapControlPanel coord={coord} bearing={bearing} />
 
-      <Map onClickFeature={handleClickFeature} onHoverFeature={setHoverId} onRotate={setBearing}>
+      <Map
+        onClickFeature={handleClickFeature}
+        onHoverFeature={setHoverId}
+        onRotate={setBearing}
+        onMove={(viewState) => setZoom(viewState.zoom ?? 17)}
+      >
+        <Deers zoom={zoom} />
         <LocationIndicator onChange={setCoord} />
         <FacilitiesPolygons facilities={[...GEO_JSON_FACILITIES, ...GEO_JSON_PASSAGES]} />
         <EntranceMarkers entrances={GEO_JSON_ENTRANCES} />

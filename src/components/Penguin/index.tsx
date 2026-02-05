@@ -4,7 +4,7 @@ import styles from './index.module.scss';
 import { usePenguin } from '@/hooks/usePenguin';
 import { useCallback } from 'react';
 
-export function Penguin() {
+export default function Penguin() {
   const [active, setActive] = usePenguin();
 
   const handleClick = useCallback(() => {

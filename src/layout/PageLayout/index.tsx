@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import AppBar from '@/components/AppBar';
 import Overlay from '@/components/Overlay';
 import SearchArea from '@/components/SearchArea';
-import { Penguin } from '@/components/Penguin';
+import Penguin from '@/components/Penguin';
 
 interface PageLayoutProps {
   children: React.ReactNode;

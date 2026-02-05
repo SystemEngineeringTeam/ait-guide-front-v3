@@ -1,0 +1,65 @@
+$sway: 4deg;
+
+.deer {
+  font-size: var(--fontsize);
+  line-height: var(--fontsize);
+  animation: deerWander var(--dur) ease-in-out var(--delay) infinite;
+  will-change: transform;
+  transform-origin: bottom center;
+  pointer-events: none;
+  position: relative;
+
+  .message {
+    --fs: calc(var(--fontsize) * 0.5);
+    width: calc(var(--fs) * 2);
+    font-size: var(--fs);
+    line-height: var(--fs);
+
+    position: absolute;
+    transform: translateY(-100%);
+  }
+
+  .deerWalk {
+    display: inline-block;
+    animation: deerTrot var(--step-dur) ease-in-out infinite;
+    will-change: transform;
+    transform-origin: 50% 85%;
+
+    .deerIcon {
+      display: inline-block;
+    }
+  }
+}
+
+@keyframes deerWander {
+  0% {
+    transform: translate(0, 0) scaleX(var(--direction));
+  }
+  49% {
+    transform: translate(calc(var(--dx) * var(--direction) * -1)) scaleX(var(--direction));
+  }
+  51% {
+    transform: translate(calc(var(--dx) * var(--direction) * -1)) scaleX(calc(var(--direction) * -1));
+  }
+  100% {
+    transform: translate(0, 0) scaleX(calc(var(--direction) * -1));
+  }
+}
+
+@keyframes deerTrot {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(calc($sway * -1));
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(calc($sway * 1));
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}

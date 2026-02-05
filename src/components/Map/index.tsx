@@ -35,6 +35,7 @@ export type HandleMapClickFn = (
 export type HandleClickFeatureFn = (id: string) => void;
 export type HandleHoverFeatureFn = (id: string | undefined) => void;
 export type HandleRotateFn = (bearing: number) => void;
+export type HandleMoveFn = (viewState: ViewState) => void;
 
 interface Props {
   children?: React.ReactNode;
@@ -45,6 +46,7 @@ interface Props {
   onClickFeature?: HandleClickFeatureFn;
   onHoverFeature?: HandleHoverFeatureFn;
   onRotate?: HandleRotateFn;
+  onMove?: HandleMoveFn;
 
   minPitch?: number;
   maxPitch?: number;
@@ -62,6 +64,7 @@ export default function Map({
   onClickFeature,
   onHoverFeature,
   onRotate,
+  onMove,
 
   minPitch = MIN_PITCH,
   maxPitch = MAX_PITCH,
@@ -147,6 +150,13 @@ export default function Map({
     [onRotate],
   );
 
+  const handleMove = useCallback(
+    (e: ViewStateChangeEvent) => {
+      onMove?.(e.viewState);
+    },
+    [onMove],
+  );
+
   return (
     <div
       className={classNames(styles.map, className)}
@@ -168,6 +178,7 @@ export default function Map({
         onClick={handleClickFeature}
         onMouseMove={handleHoverFeature}
         onRotate={handleRotate}
+        onMove={handleMove}
         interactiveLayerIds={GEO_JSON_FACILITIES.map((b) => b.id).filter((id): id is string => id != undefined)}
       >
         {children}
