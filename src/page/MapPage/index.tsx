@@ -17,6 +17,8 @@ import { useSelectedFacilityId } from '@/hooks/useSelectedFacilityId';
 import { useBottomSheet } from '@/hooks/useBottomSheet';
 import Deers from '@/components/Deers';
 import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
+import RouteLine from '@/components/RouteLine';
+import { useRoute } from '@/hooks/useRoute';
 
 export default function MapPage() {
   const { isOpen: bottomSheetOpen, open: openBottomSheet, close: closeBottomSheet } = useBottomSheet();
@@ -25,6 +27,7 @@ export default function MapPage() {
   const [bearing, setBearing] = useState(0);
   const [hoverId, setHoverId] = useState<string | undefined>();
   const [zoom, setZoom] = useState(17);
+  const route = useRoute();
 
   useKeyboardShortcut({
     onEscape: () => closeBottomSheet(),
@@ -56,6 +59,13 @@ export default function MapPage() {
         onClickNotFeature={handleMapClick}
       >
         <Deers zoom={zoom} />
+        <RouteLine
+          route={[
+            [35.1818472, 137.1097419],
+            [35.1827803, 137.1107841],
+            [35.184813, 137.1149168],
+          ]}
+        />
         <LocationIndicator onChange={setCoord} />
         <FacilitiesPolygons facilities={[...GEO_JSON_FACILITIES, ...GEO_JSON_PASSAGES]} />
         <EntranceMarkers entrances={GEO_JSON_ENTRANCES} zoom={zoom} />

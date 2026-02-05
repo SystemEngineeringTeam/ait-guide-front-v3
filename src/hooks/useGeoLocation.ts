@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { atom, useAtom } from 'jotai';
+import { useEffect } from 'react';
 
 export interface GeoLocationCoordinates {
   accuracy: number;
@@ -10,13 +11,15 @@ export interface GeoLocationCoordinates {
   speed: number | null;
 }
 
+export const locationAtom = atom<GeoLocationCoordinates | undefined>(undefined);
+
 interface UseGeoLocationOptions {
   override?: Partial<GeoLocationCoordinates>;
   onChange?: (coord: GeoLocationCoordinates) => void;
 }
 
 export function useGeoLocation(options?: UseGeoLocationOptions) {
-  const [coord, setCoord] = useState<GeoLocationCoordinates>();
+  const [coord, setCoord] = useAtom(locationAtom);
 
   const override = options?.override;
 
