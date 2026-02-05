@@ -10,6 +10,7 @@ import { GEO_JSON_FACILITIES } from '@/consts/facilities';
 import { COORD_AIT_CENTER } from '@/consts/coords';
 import { useFlyToEvent } from '@/hooks/useFlyTo';
 import { useResetNorhEvent } from '@/hooks/useResetNorth';
+import { FacilityId } from '@/consts/facilityId';
 
 const MIN_PITCH = 0 as const;
 const MAX_PITCH = 60 as const;
@@ -186,7 +187,7 @@ export default function Map({
         onMouseMove={handleHoverFeature}
         onRotate={handleRotate}
         onMove={handleMove}
-        interactiveLayerIds={GEO_JSON_FACILITIES.map((b) => b.id).filter((id): id is string => id != undefined)}
+        interactiveLayerIds={GEO_JSON_FACILITIES.map((b) => b.id).filter((id): id is FacilityId => id != undefined)}
       >
         {children}
       </GMap>

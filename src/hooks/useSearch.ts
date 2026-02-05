@@ -6,6 +6,8 @@ import { atom, useAtom, useAtomValue } from 'jotai';
 
 export const searchAtom = atom('');
 
+const FLAT_ROOMS = Object.values(ROOMS).flatMap((building) => Object.values(building));
+
 export const searchResultsAtom = atom((get) => {
   const search = get(searchAtom);
 
@@ -15,7 +17,7 @@ export const searchResultsAtom = atom((get) => {
       f.candidate?.some((alias) => alias.includes(toHankakuUpperCase(search)))
     );
   });
-  const resRoom = ROOMS.filter((r) => {
+  const resRoom = FLAT_ROOMS.filter((r) => {
     return r.room.includes(toHankakuUpperCase(search));
   });
   const resSecret = SECRETS.filter((s) => {

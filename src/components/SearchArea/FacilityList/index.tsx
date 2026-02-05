@@ -54,6 +54,25 @@ export default function FacilityList() {
           </div>
         ))}
       </div>
+
+      <h2>クラブ一覧</h2>
+      <div className={styles.container}>
+        {GROUPED_FACILITY_MAP.map((g, i) => (
+          <div key={i} className={styles.buttons}>
+            {g.map((f) => (
+              <Button
+                type="button"
+                key={f.id}
+                className={styles.button}
+                onClick={handleSelectFacility(f.id)}
+                data-active={f.id === selectedId}
+              >
+                {f.name}
+              </Button>
+            ))}
+          </div>
+        ))}
+      </div>
     </section>
   );
 }
