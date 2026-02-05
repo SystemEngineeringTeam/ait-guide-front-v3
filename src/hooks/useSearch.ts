@@ -10,7 +10,10 @@ export const searchResultsAtom = atom((get) => {
   const search = get(searchAtom);
 
   const resFacility = GEO_JSON_FACILITIES.filter((f) => {
-    return f.name.includes(toHankakuUpperCase(search));
+    return (
+      f.name.includes(toHankakuUpperCase(search)) ||
+      f.candidate?.some((alias) => alias.includes(toHankakuUpperCase(search)))
+    );
   });
   const resRoom = ROOMS.filter((r) => {
     return r.room.includes(toHankakuUpperCase(search));

@@ -1,10 +1,11 @@
-import { FacilityTypes, PassageType } from "@/consts/facilityType";
-import { FeatureCollection } from "geojson";
+import { FacilityTypes, PassageType } from '@/consts/facilityType';
+import { FeatureCollection } from 'geojson';
 
 export interface GeoJSONFacilities {
   id: string;
   type: FacilityTypes;
   name: string;
+  candidate?: string[];
   data: FeatureCollection;
 }
 

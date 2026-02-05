@@ -175,12 +175,14 @@ export const GEO_JSON_FACILITIES: GeoJSONFacilities[] = [
     id: '32',
     type: 'cafeteria',
     name: '愛和会館',
+    candidate: ['愛和食堂'],
     data: aiwa as FeatureCollection,
   },
   {
     id: '34',
     type: 'cafeteria',
     name: 'セントラルテラス',
+    candidate: ['セントレア'],
     data: centralTerrace as FeatureCollection,
   },
   {
@@ -235,6 +237,7 @@ export const GEO_JSON_FACILITIES: GeoJSONFacilities[] = [
     id: '3',
     type: 'other',
     name: '土木・建築実験棟',
+    candidate: ['2号館実験棟'],
     data: civilEngineeringArchitecture as FeatureCollection,
   },
   {
@@ -337,6 +340,7 @@ export const GEO_JSON_FACILITIES: GeoJSONFacilities[] = [
     id: '35',
     type: 'gym',
     name: '鉀徳館',
+    candidate: ['体育館'],
     data: gym as FeatureCollection,
   },
   {
@@ -385,6 +389,7 @@ export const GEO_JSON_FACILITIES: GeoJSONFacilities[] = [
     id: '50',
     type: 'other',
     name: '警備室',
+    candidate: ['守衛室'],
     data: securityRoom as FeatureCollection,
-  }
+  },
 ];
