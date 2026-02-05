@@ -21,7 +21,7 @@ export default function SearchResults() {
   );
 
   return (
-    <section className={styles.searchResults} id="search-results">
+    <section className={styles.searchResults}>
       <h2>検索結果</h2>
 
       <div className={styles.group} data-hidden={searchResults.secret.length === 0}>

@@ -63,9 +63,8 @@ export default function EntranceMarkers({
     <>
       {/* 出入り口の線を描画 */}
       {entrances.length > 0 && (
-        <Source id="entrance-lines" type="geojson" data={entranceLinesGeoJSON}>
+        <Source type="geojson" data={entranceLinesGeoJSON}>
           <Layer
-            id="entrance-lines-layer"
             type="line"
             paint={{
               'line-color': '#000000',

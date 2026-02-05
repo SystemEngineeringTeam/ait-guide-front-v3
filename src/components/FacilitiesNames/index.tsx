@@ -25,9 +25,8 @@ export default function FacilityNames({ facilities }: Props) {
   };
 
   return (
-    <Source id="facility-labels" type="geojson" data={data}>
+    <Source type="geojson" data={data}>
       <Layer
-        id="facility-names"
         type="symbol"
         layout={{
           'text-field': ['get', 'label'],

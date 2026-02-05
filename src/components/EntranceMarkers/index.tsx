@@ -38,9 +38,8 @@ export default function EntranceMarkers({ entrances, show = true }: EntranceMark
   }
 
   return (
-    <Source id="entrance-lines" type="geojson" data={entranceLinesGeoJSON}>
+    <Source type="geojson" data={entranceLinesGeoJSON}>
       <Layer
-        id="entrance-lines-layer"
         type="line"
         paint={{
           'line-color': '#000000',

@@ -40,17 +40,17 @@ export default function FacilityPolygons({ facilities }: Props) {
   );
 
   return (
-    <Source id="facilities" type="geojson" data={data}>
+    <Source type="geojson" data={data}>
       <Layer
-        id="facility-fill"
-        type="fill"
+        type="fill-extrusion"
         paint={{
-          'fill-color': ['get', 'fill'],
-          'fill-opacity': 0.5,
+          'fill-extrusion-color': ['get', 'fill'],
+          'fill-extrusion-height': ['get', 'height'],
+          'fill-extrusion-base': 0,
+          'fill-extrusion-opacity': 0.8,
         }}
       />
       <Layer
-        id="facility-line"
         type="line"
         paint={{
           'line-color': ['get', 'line'],
