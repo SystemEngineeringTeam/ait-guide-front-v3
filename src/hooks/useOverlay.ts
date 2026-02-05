@@ -1,4 +1,4 @@
-import { atom, useAtom, useSetAtom } from 'jotai';
+import { atom, type Setter, useAtom, useSetAtom } from 'jotai';
 import { useCallback } from 'react';
 
 const openAtom = atom(false);
@@ -32,4 +32,8 @@ export function useOverlayClose() {
   return useCallback(() => {
     setIsOpen(false);
   }, []);
+}
+
+export function setOverlayOpen(set: Setter, open: boolean) {
+  set(openAtom, open);
 }

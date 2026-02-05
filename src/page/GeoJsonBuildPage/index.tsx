@@ -5,7 +5,7 @@ import { useGeoJSONBuilder } from '@/hooks/useGeoJSONBuilder';
 import Map from '@/components/Map';
 import { useEffect, useState } from 'react';
 import FacilitiesPolygons from '@/components/FacilitiesPolygon';
-import { GEO_JSON_FACILITIES } from '@/consts/facilities';
+import { GEO_JSON_FACILITIES, GEO_JSON_PASSAGES } from '@/consts/facilities';
 
 export default function GeoJsonBuildPage() {
   const {
@@ -48,7 +48,7 @@ export default function GeoJsonBuildPage() {
       >
         {entranceMarkers}
         {facilityPolygon}
-        <FacilitiesPolygons facilities={GEO_JSON_FACILITIES} />
+        <FacilitiesPolygons facilities={[...GEO_JSON_FACILITIES, ...GEO_JSON_PASSAGES]} />
       </Map>
     </>
   );

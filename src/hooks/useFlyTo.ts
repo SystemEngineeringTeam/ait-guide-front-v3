@@ -2,7 +2,7 @@ import { COORD_AIT_CENTER } from '@/consts/coords';
 import { GEO_JSON_FACILITIES } from '@/consts/facilities';
 import { Coord } from '@/types/coord';
 import { center } from '@turf/center';
-import { atom, useAtomValue, useSetAtom } from 'jotai';
+import { atom, type Setter, useAtomValue, useSetAtom } from 'jotai';
 import { useCallback, useRef } from 'react';
 
 const coordAtom = atom<Coord>(COORD_AIT_CENTER);
@@ -30,4 +30,8 @@ export function useFlyToEvent(onFlyTo: (coord: Coord) => void) {
     prevCoordRef.current = coord;
     onFlyTo(coord);
   }
+}
+
+export function flyTo(set: Setter, coord: Coord) {
+  set(coordAtom, coord);
 }

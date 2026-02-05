@@ -1,10 +1,11 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import FacilityList from "./FacilityList";
+import { useSearchText } from '@/hooks/useSearch';
+import FacilityList from './FacilityList';
+import SearchResults from './SearchResults';
 
 export default function SearchArea() {
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useSearchText();
 
   return (
     <div>
@@ -15,7 +16,7 @@ export default function SearchArea() {
         placeholder="教室名・建物名で検索"
       />
 
-      <FacilityList />
+      {searchText.length == 0 ? <FacilityList /> : <SearchResults />}
     </div>
   );
 }

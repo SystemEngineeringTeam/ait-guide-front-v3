@@ -11,7 +11,7 @@ import passagePlazaTo10 from './geojson/passage-plaza-10.json';
 import passagePlazaToAiwa from './geojson/passage-plaza-aiwa.json';
 import { FacilityTypes, PassageType } from '@/consts/facilityType';
 
-export const GEO_JSON_FACILITIES: GeoJSONData[] = [
+export const GEO_JSON_FACILITIES: GeoJSONFacilities[] = [
   {
     id: '1',
     type: 'academic',
@@ -54,6 +54,8 @@ export const GEO_JSON_FACILITIES: GeoJSONData[] = [
     name: '愛和会館',
     data: aiwa as FeatureCollection,
   },
+];
+export const GEO_JSON_PASSAGES: GeoJSONPassage[] = [
   {
     type: 'passage',
     data: passage9to10 as FeatureCollection,

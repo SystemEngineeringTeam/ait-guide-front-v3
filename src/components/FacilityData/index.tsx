@@ -8,7 +8,7 @@ interface Props {
 export default function FacilityData({ id }: Props) {
   const facility = GEO_JSON_FACILITIES.find((f) => f.id === id);
 
-  if (!facility || facility.type === 'passage') {
+  if (!facility) {
     return <section className={styles.container}>Facility not found</section>;
   }
 

@@ -12,7 +12,7 @@ import { useFlyToFacility } from '@/hooks/useFlyTo';
 import { useBottomSheetOpen } from '@/hooks/useBottomSheet';
 
 const GROUPED_FACILITY_MAP: GeoJSONFacilities[][] = FACILITY_TYPES.map((type) =>
-  GEO_JSON_FACILITIES.filter((f): f is GeoJSONFacilities => f.type === type),
+  GEO_JSON_FACILITIES.filter((f) => f.type === type),
 );
 
 export default function FacilityList() {
@@ -22,7 +22,7 @@ export default function FacilityList() {
   const router = useRouter();
   const flyTo = useFlyToFacility();
 
-  const handleClickFacility = useCallback(
+  const handleSelectFacility = useCallback(
     (id: string) => () => {
       setSelectedId(id);
       openBottomSheet();
@@ -44,7 +44,7 @@ export default function FacilityList() {
                 type="button"
                 key={f.id}
                 className={styles.button}
-                onClick={handleClickFacility(f.id)}
+                onClick={handleSelectFacility(f.id)}
                 data-active={f.id === selectedId}
               >
                 {f.name}

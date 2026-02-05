@@ -1,30 +1,27 @@
 'use client';
 
+import styles from './index.module.scss';
 import Button from '@/components/Button';
-import { pickupFacilityIdAtom } from '@/stores/pickupAtom';
-import { searchFocusAtom, searchResultsAtom } from '@/stores/searchAtom';
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
-import styles from './index.module.scss';
+import { useSearchResults } from '@/hooks/useSearch';
+import { useSelectedFacilityId } from '@/hooks/useSelectedFacilityId';
 
 export default function SearchResults() {
-  const searchResults = useAtomValue(searchResultsAtom);
-  const [isFocus, setFocus] = useAtom(searchFocusAtom);
-  const setPickup = useSetAtom(pickupFacilityIdAtom);
+  const [selectedId, setSelectedId] = useSelectedFacilityId();
+  const searchResults = useSearchResults();
   const router = useRouter();
 
-  const selectFacility = useCallback(
-    (facilityId: number) => {
-      setFocus(false);
-      setPickup(facilityId);
+  const handleSelectFacility = useCallback(
+    (id: string) => () => {
+      setSelectedId(id);
       router.push('/');
     },
-    [router, setFocus, setPickup],
+    [router, setSelectedId],
   );
 
   return (
-    <section className={styles.searchResults} id="search-results" data-focus={isFocus}>
+    <section className={styles.searchResults} id="search-results">
       <h2>検索結果</h2>
 
       <div className={styles.group} data-hidden={searchResults.secret.length === 0}>
@@ -47,9 +44,8 @@ export default function SearchResults() {
               className={styles.button}
               type="button"
               key={r.id}
-              onClick={() => {
-                selectFacility(r.facilityId);
-              }}
+              onClick={handleSelectFacility(r.facilityId)}
+              data-active={r.facilityId === selectedId}
             >
               {r.room}
             </Button>
@@ -62,14 +58,7 @@ export default function SearchResults() {
         <div className={styles.buttons}>
           {searchResults.facility.length === 0 && <p>なし</p>}
           {searchResults.facility.map((f) => (
-            <Button
-              className={styles.button}
-              type="button"
-              key={f.id}
-              onClick={() => {
-                selectFacility(f.id);
-              }}
-            >
+            <Button className={styles.button} type="button" key={f.id} onClick={handleSelectFacility(f.id)}>
               {f.name}
             </Button>
           ))}
