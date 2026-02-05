@@ -3,11 +3,26 @@
 import styles from './index.module.scss';
 import IconButton from '@/components/IconButton';
 import { MapIcon, QuestionIcon, SearchIcon } from '@/components/Icons';
+import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
 import { useOverlay } from '@/hooks/useOverlay';
 import Link, { type LinkProps } from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function AppBar() {
   const { close, open } = useOverlay();
+  const router = useRouter();
+
+  useKeyboardShortcut({
+    onMap: () => {
+      close();
+      router.push('/');
+    },
+    onHelp: () => {
+      close();
+      router.push('/help');
+    },
+    onSearch: () => open(),
+  });
 
   return (
     <div className={styles.wrapper}>
