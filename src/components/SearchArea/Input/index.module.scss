@@ -1,0 +1,16 @@
+.input {
+  all: unset;
+  box-sizing: border-box;
+
+  width: 100%;
+  max-width: 500px;
+  padding: 10px;
+
+  font-size: $fontsize-md;
+  background-color: $color-element-background;
+  border-radius: $radius-lg;
+
+  &:focus {
+    outline: solid 1px $color-on-eleme-background;
+  }
+}
