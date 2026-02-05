@@ -12,7 +12,7 @@ import { useFlyToEvent } from '@/hooks/useFlyTo';
 import { useResetNorhEvent } from '@/hooks/useResetNorth';
 
 const MIN_PITCH = 0 as const;
-const MAX_PITCH = 0 as const;
+const MAX_PITCH = 60 as const;
 const MAX_ZOOM = 18 as const;
 const MIN_ZOOM = 16 as const;
 
