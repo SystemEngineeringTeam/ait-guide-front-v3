@@ -36,6 +36,18 @@ export default function SearchResults() {
       </div>
 
       <div className={styles.group}>
+        <h3>建物</h3>
+        <div className={styles.buttons}>
+          {searchResults.facility.length === 0 && <p>なし</p>}
+          {searchResults.facility.map((f) => (
+            <Button className={styles.button} type="button" key={f.id} onClick={handleSelectFacility(f.id)}>
+              {f.name}
+            </Button>
+          ))}
+        </div>
+      </div>
+
+      <div className={styles.group}>
         <h3>教室</h3>
         <div className={styles.buttons}>
           {searchResults.room.length === 0 && <p>なし</p>}
@@ -48,18 +60,6 @@ export default function SearchResults() {
               data-active={r.facilityId === selectedId}
             >
               {r.room}
-            </Button>
-          ))}
-        </div>
-      </div>
-
-      <div className={styles.group}>
-        <h3>建物</h3>
-        <div className={styles.buttons}>
-          {searchResults.facility.length === 0 && <p>なし</p>}
-          {searchResults.facility.map((f) => (
-            <Button className={styles.button} type="button" key={f.id} onClick={handleSelectFacility(f.id)}>
-              {f.name}
             </Button>
           ))}
         </div>

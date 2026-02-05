@@ -1,7 +1,7 @@
 import { ID } from '@/utils/id';
 import { FacilityId } from './facilityId';
 
-export interface ROOM {
+export interface Room {
   id: number;
   room: string;
   floor?: `${number}` | `B${number}` | `M${number}`;
@@ -9,7 +9,7 @@ export interface ROOM {
 
 const id = new ID();
 
-export const ROOMS = {
+export const ROOMS: Partial<Record<FacilityId, Record<string, Room>>> = {
   [FacilityId.B1]: {
     '201': { id: id.get(), room: '1-201 ラーニングコモンズ', floor: '2' },
     '203': { id: id.get(), room: '1-203 プレゼンテーションルーム1', floor: '2' },
@@ -715,9 +715,9 @@ export const ROOMS = {
   },
 
   [FacilityId.B10]: {
-    G2105: { id: id.get(), room: 'G2105 事務室', floor: '1' },
-    G2109: { id: id.get(), room: 'G2109 教員控室', floor: '1' },
-    G2110: { id: id.get(), room: 'G2110 応接室', floor: '1' },
+    '2105': { id: id.get(), room: '2105 事務室', floor: '1' },
+    '2109': { id: id.get(), room: '2109 教員控室', floor: '1' },
+    '2110': { id: id.get(), room: '2110 応接室', floor: '1' },
 
     G2207: { id: id.get(), room: 'G2207 言語文化研究室', floor: '2' },
     G2208: { id: id.get(), room: 'G2208 講義室', floor: '2' },
@@ -783,11 +783,11 @@ export const ROOMS = {
   },
 
   [FacilityId.B12]: {
-    'B101': { id: id.get(), room: '12-B101 工房', floor: 'B1' },
-    'B102': { id: id.get(), room: '12-B102 倉庫', floor: 'B1' },
-    'B103': { id: id.get(), room: '12-B103 倉庫', floor: 'B1' },
-    'B104': { id: id.get(), room: '12-B104', floor: 'B1' },
-    'B105': { id: id.get(), room: '12-B105 電気室', floor: 'B1' },
+    B101: { id: id.get(), room: '12-B101 工房', floor: 'B1' },
+    B102: { id: id.get(), room: '12-B102 倉庫', floor: 'B1' },
+    B103: { id: id.get(), room: '12-B103 倉庫', floor: 'B1' },
+    B104: { id: id.get(), room: '12-B104', floor: 'B1' },
+    B105: { id: id.get(), room: '12-B105 電気室', floor: 'B1' },
 
     '101A': { id: id.get(), room: '12-101A 工学研究科長室', floor: '1' },
     '101B': { id: id.get(), room: '12-101B 工学部長室', floor: '1' },
@@ -1419,4 +1419,4 @@ export const ROOMS = {
     '204': { id: id.get(), room: '204 サッカー部', floor: '2' },
     '205': { id: id.get(), room: '205 ラグビー部', floor: '2' },
   },
-} as const satisfies Partial<Record<FacilityId, Record<string, ROOM>>>;
+};

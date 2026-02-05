@@ -1,17 +1,17 @@
 import { ID } from '@/utils/id';
-import { ROOM, ROOMS } from './room';
+import { Room, ROOMS } from './room';
 import { FacilityId } from './facilityId';
 
-export interface CLUB {
+export interface Clug {
   id: number;
   name: string;
   candidate?: string[];
-  room?: ROOM;
+  room?: Room;
 }
 
 const id = new ID();
 
-export const CLUBS: CLUB[] = [
+export const CLUBS: Clug[] = [
   {
     id: id.get(),
     name: 'システム工学研究会',
