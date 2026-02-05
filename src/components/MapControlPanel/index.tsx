@@ -6,6 +6,7 @@ import { GeoLocationCoordinates } from '@/hooks/useGeoLocation';
 import { COORD_AIT_BUILDING_1 } from '@/consts/coords';
 import { useFlyTo } from '@/hooks/useFlyTo';
 import { useResetNorth } from '@/hooks/useResetNorth';
+import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
 
 interface Props {
   coord: GeoLocationCoordinates | undefined;
@@ -15,6 +16,12 @@ interface Props {
 export default function MapControlPanel({ coord, bearing }: Props) {
   const flyTo = useFlyTo();
   const resetNorth = useResetNorth();
+
+  useKeyboardShortcut({
+    onReset: () => {
+      resetNorth();
+    },
+  });
 
   const handleLocationClick = useCallback(() => {
     if (!coord) return;

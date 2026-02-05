@@ -84,11 +84,16 @@ export default function Map({
       center: coord,
       zoom: 18,
       duration: 1000,
+      pitch: 0,
     });
   });
 
   useResetNorhEvent(() => {
-    mapRef.current?.resetNorth({ duration: 500 });
+    mapRef.current?.flyTo({
+      duration: 500,
+      pitch: 0,
+      bearing: 0,
+    });
   });
 
   const handleMouseDown = useCallback(() => {

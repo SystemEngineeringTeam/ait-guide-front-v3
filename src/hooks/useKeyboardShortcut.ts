@@ -5,9 +5,10 @@ interface UseKeyboardShortcutProps {
   onMap?: () => void;
   onHelp?: () => void;
   onEscape?: () => void;
+  onReset?: () => void;
 }
 
-export function useKeyboardShortcut({ onSearch, onMap, onHelp, onEscape }: UseKeyboardShortcutProps) {
+export function useKeyboardShortcut({ onSearch, onMap, onHelp, onEscape, onReset }: UseKeyboardShortcutProps) {
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       //  meta + s
@@ -32,6 +33,12 @@ export function useKeyboardShortcut({ onSearch, onMap, onHelp, onEscape }: UseKe
       if (e.key === 'Escape') {
         e.preventDefault();
         onEscape?.();
+      }
+
+      // r
+      if (!e.metaKey && e.key === 'r') {
+        e.preventDefault();
+        onReset?.();
       }
     };
 
