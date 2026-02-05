@@ -1,5 +1,4 @@
 export enum FacilityId {
-  UNKNOWN = 'unknown',
   B1 = '1',
   B2 = '4',
   B3 = '5',
@@ -55,4 +54,8 @@ export enum FacilityId {
   BUS_STOP = '49',
   MAIN_GATE = '55',
   SECURITY_ROOM = '50',
+  FORMULA_PREFAB = 'todo:formula-prefab',
+  HANGAR = 'todo:hangar',
+  KYUDO_HALL = 'todo:kyudo-hall',
+  GOLF = 'todo:golf',
 }

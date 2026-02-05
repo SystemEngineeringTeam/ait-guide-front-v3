@@ -1,5 +1,6 @@
 import { FeatureCollection } from 'geojson';
 import { GeoJSONFacilities } from '@/types/facilities';
+import { FacilityId } from '@/consts/facilityId';
 import b1 from './geojson/1.json';
 import b2 from './geojson/2.json';
 import b3 from './geojson/3.json';
@@ -26,6 +27,10 @@ import seirexCenter from './geojson/seirex-center.json';
 import clubhouse3 from './geojson/clubhouse3.json';
 import clubhouse4 from './geojson/clubhouse4.json';
 import clubhouse5 from './geojson/clubhouse5.json';
+import hangar from './geojson/hangar.json';
+import kyudoHall from './geojson/kyudo-hall.json';
+import golf from './geojson/golf.json';
+import prefab from './geojson/prefab.json';
 import tennisFieldManagementHouse from './geojson/tennis-field-management-house.json';
 import playgroundManagement from './geojson/playground-management.json';
 import vibration from './geojson/vibration.json';
@@ -55,7 +60,6 @@ import parking3 from './geojson/parking3.json';
 import bus from './geojson/bus.json';
 import mainGate from './geojson/main-gate.json';
 import securityRoom from './geojson/security-room.json';
-import { FacilityId } from '@/consts/facilityId';
 
 export const GEO_JSON_FACILITIES: GeoJSONFacilities[] = [
   {
@@ -205,10 +209,34 @@ export const GEO_JSON_FACILITIES: GeoJSONFacilities[] = [
     data: clubhouse5 as FeatureCollection,
   },
   {
+    id: FacilityId.HANGAR,
+    type: 'clubhouse',
+    name: '格納庫',
+    data: hangar as FeatureCollection,
+  },
+  {
+    id: FacilityId.FORMULA_PREFAB,
+    type: 'clubhouse',
+    name: 'プレハブ',
+    data: prefab as FeatureCollection,
+  },
+  {
     id: FacilityId.TENNIS_HOUSE,
     type: 'clubhouse',
     name: '庭球場管理ハウス',
     data: tennisFieldManagementHouse as FeatureCollection,
+  },
+  {
+    id: FacilityId.KYUDO_HALL,
+    type: 'clubhouse',
+    name: '弓道場',
+    data: kyudoHall as FeatureCollection,
+  },
+  {
+    id: FacilityId.GOLF,
+    type: 'clubhouse',
+    name: 'ゴルフ練習場',
+    data: golf as FeatureCollection,
   },
   {
     id: FacilityId.PLAYGROUND_MANAGEMENT,
