@@ -3,8 +3,8 @@ import { atom, useAtomValue } from 'jotai';
 import { GeoLocationCoordinates, locationAtom } from './useGeoLocation';
 import { selectedFacilityIdAtom } from './useSelectedFacilityId';
 
-async function fetchRoute(location: GeoLocationCoordinates, facilityId: string): Promise<Coord[] | undefined> {
-  if (!location) return undefined;
+async function fetchRoute(location: GeoLocationCoordinates, facilityId: string): Promise<Coord[]> {
+  if (!location) return [];
 
   const apiHost = process.env.NEXT_PUBLIC_API_URL;
 
@@ -17,20 +17,21 @@ async function fetchRoute(location: GeoLocationCoordinates, facilityId: string):
   url.searchParams.append('lng', location.longitude.toString());
   url.searchParams.append('end', facilityId);
 
-  const res = await fetch(url.toString())
-    .then((res) => res.json())
-    .then((data) => data as { route: Coord[] | null })
-    .catch((_e) => undefined);
-
-  if (!res || !res.route) return undefined;
-  return res.route;
+  try {
+    const res = await fetch(url.toString());
+    const data = (await res.json()) as { route: Coord[] | null };
+    return data.route ?? [];
+  } catch (e) {
+    console.error('Failed to fetch route:', e);
+    return [];
+  }
 }
 
-const routeAtom = atom<Promise<Coord[] | undefined>>(async (get) => {
+const routeAtom = atom<Promise<Coord[]>>(async (get) => {
   const location = get(locationAtom);
   const facilityId = get(selectedFacilityIdAtom);
 
-  if (location == undefined || facilityId == undefined) return undefined;
+  if (location == undefined || facilityId == undefined) return [];
 
   return await fetchRoute(location, facilityId);
 });

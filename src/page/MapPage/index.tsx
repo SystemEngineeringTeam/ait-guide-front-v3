@@ -59,18 +59,28 @@ export default function MapPage() {
         onClickNotFeature={handleMapClick}
       >
         <Deers zoom={zoom} />
-        <RouteLine
-          route={[
-            [35.1818472, 137.1097419],
-            [35.1827803, 137.1107841],
-            [35.184813, 137.1149168],
-          ]}
-        />
         <LocationIndicator onChange={setCoord} />
         <FacilitiesPolygons facilities={[...GEO_JSON_FACILITIES, ...GEO_JSON_PASSAGES]} />
         <EntranceMarkers entrances={GEO_JSON_ENTRANCES} zoom={zoom} />
         {selectedId && <FacilityHighlight id={selectedId} key={`select-${selectedId}`} outline fill />}
         {hoverId && <FacilityHighlight id={hoverId} key={`hover-${hoverId}`} outline />}
+        <RouteLine
+          route={[
+            [137.109980, 35.182188],
+            [137.110617, 35.182693],
+            [137.110949, 35.182894],
+            [137.110887, 35.183697],
+            [137.113468, 35.183893],
+            [137.113696, 35.184018],
+            [137.113696, 35.184327],
+            [137.114853, 35.184447],
+            [137.114853, 35.184693],
+            [137.114817, 35.184744],
+            [137.114765, 35.184761],
+            [137.114769, 35.184813],
+            [137.114816, 35.184797],
+          ]}
+        />
       </Map>
 
       <BottomSheet open={bottomSheetOpen} onClose={handleBottomSheetClose}>
