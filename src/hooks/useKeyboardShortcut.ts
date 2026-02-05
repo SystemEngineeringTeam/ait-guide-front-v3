@@ -6,9 +6,19 @@ interface UseKeyboardShortcutProps {
   onHelp?: () => void;
   onEscape?: () => void;
   onReset?: () => void;
+  onFlayToLocation?: () => void;
+  onFlyToUniversity?: () => void;
 }
 
-export function useKeyboardShortcut({ onSearch, onMap, onHelp, onEscape, onReset }: UseKeyboardShortcutProps) {
+export function useKeyboardShortcut({
+  onSearch,
+  onMap,
+  onHelp,
+  onEscape,
+  onReset,
+  onFlayToLocation,
+  onFlyToUniversity,
+}: UseKeyboardShortcutProps) {
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       //  meta + s
@@ -29,6 +39,18 @@ export function useKeyboardShortcut({ onSearch, onMap, onHelp, onEscape, onReset
         onHelp?.();
       }
 
+      // meta + l
+      if (e.metaKey && e.key === 'l') {
+        e.preventDefault();
+        onFlayToLocation?.();
+      }
+
+      // meta + u
+      if (e.metaKey && e.key === 'u') {
+        e.preventDefault();
+        onFlyToUniversity?.();
+      }
+
       // Escape
       if (e.key === 'Escape') {
         e.preventDefault();
@@ -46,5 +68,5 @@ export function useKeyboardShortcut({ onSearch, onMap, onHelp, onEscape, onReset
     return () => {
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [onSearch]);
+  }, [onSearch, onMap, onHelp, onEscape, onReset, onFlayToLocation, onFlyToUniversity]);
 }
