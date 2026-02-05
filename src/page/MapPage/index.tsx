@@ -16,6 +16,7 @@ import EntranceMarkers from '@/components/EntranceMarkers';
 import { useSelectedFacilityId } from '@/hooks/useSelectedFacilityId';
 import { useBottomSheet } from '@/hooks/useBottomSheet';
 import Deers from '@/components/Deers';
+import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
 
 export default function MapPage() {
   const { isOpen: bottomSheetOpen, open: openBottomSheet, close: closeBottomSheet } = useBottomSheet();
@@ -25,6 +26,10 @@ export default function MapPage() {
   const [hoverId, setHoverId] = useState<string | undefined>();
   const [zoom, setZoom] = useState(17);
 
+  useKeyboardShortcut({
+    onEscape: () => closeBottomSheet(),
+  });
+
   const handleClickFeature: HandleClickFeatureFn = useCallback((id) => {
     setSelectedId(id);
     openBottomSheet();
@@ -33,7 +38,11 @@ export default function MapPage() {
   const handleBottomSheetClose = useCallback(() => {
     closeBottomSheet();
   }, []);
-  console.log(zoom);
+
+  const handleMapClick = useCallback(() => {
+    setSelectedId(undefined);
+    closeBottomSheet();
+  }, []);
 
   return (
     <>
@@ -44,6 +53,7 @@ export default function MapPage() {
         onHoverFeature={setHoverId}
         onRotate={setBearing}
         onMove={(viewState) => setZoom(viewState.zoom ?? 17)}
+        onClickNotFeature={handleMapClick}
       >
         <Deers zoom={zoom} />
         <LocationIndicator onChange={setCoord} />

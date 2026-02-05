@@ -33,6 +33,7 @@ export type HandleMapClickFn = (
 ) => (e: React.MouseEvent<HTMLDivElement>) => void;
 
 export type HandleClickFeatureFn = (id: string) => void;
+export type HandleClickNotFeatureFn = () => void;
 export type HandleHoverFeatureFn = (id: string | undefined) => void;
 export type HandleRotateFn = (bearing: number) => void;
 export type HandleMoveFn = (viewState: ViewState) => void;
@@ -44,6 +45,7 @@ interface Props {
   onMapContextMenu?: HandleMapContextMenuFn;
   onMapClick?: HandleMapClickFn;
   onClickFeature?: HandleClickFeatureFn;
+  onClickNotFeature?: HandleClickNotFeatureFn;
   onHoverFeature?: HandleHoverFeatureFn;
   onRotate?: HandleRotateFn;
   onMove?: HandleMoveFn;
@@ -62,6 +64,7 @@ export default function Map({
   onMapContextMenu,
   onMapClick,
   onClickFeature,
+  onClickNotFeature,
   onHoverFeature,
   onRotate,
   onMove,
@@ -121,9 +124,8 @@ export default function Map({
   const handleClickFeature = useCallback(
     (e: MapLayerMouseEvent) => {
       const feature = e.features?.[0];
-      if (!feature) return;
-
-      onClickFeature?.(feature.layer.id);
+      if (feature) onClickFeature?.(feature.layer.id);
+      else onClickNotFeature?.();
     },
     [onClickFeature],
   );

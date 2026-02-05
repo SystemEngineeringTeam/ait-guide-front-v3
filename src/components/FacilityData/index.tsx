@@ -13,11 +13,12 @@ export default function FacilityData({ id }: Props) {
   const setDestination = useSetDestinationId();
 
   const facility = GEO_JSON_FACILITIES.find((f) => f.id === id);
-  if (!facility) return null;
 
   const handleClickRoute = useCallback(() => {
-    setDestination(facility.id);
-  }, [facility.id, setDestination]);
+    if (facility?.id) setDestination(facility.id);
+  }, [facility?.id, setDestination]);
+
+  if (!facility) return null;
 
   return (
     <section className={styles.container}>
