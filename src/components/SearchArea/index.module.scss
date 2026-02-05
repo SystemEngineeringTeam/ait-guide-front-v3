@@ -7,6 +7,9 @@
 
   .inputWrapper {
     width: 100%;
-    text-align: center;
+
+    .input {
+      margin-inline: auto;
+    }
   }
 }

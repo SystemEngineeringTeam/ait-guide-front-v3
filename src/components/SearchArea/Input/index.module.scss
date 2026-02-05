@@ -1,16 +1,39 @@
-.input {
-  all: unset;
+.wrapper {
   box-sizing: border-box;
 
   width: 100%;
   max-width: 500px;
-  padding: 10px;
 
   font-size: $fontsize-md;
   background-color: $color-element-background;
   border-radius: $radius-lg;
 
-  &:focus {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+
+  .input {
+    all: unset;
+    box-sizing: border-box;
+
+    padding: 10px 10px 10px 20px;
+    height: 100%;
+
+    font-size: $fontsize-md;
+    text-align: start;
+  }
+
+  .clearIcon {
+    box-sizing: content-box;
+
+    padding: 10px;
+    height: $fontsize-xl;
+    width: $fontsize-xl;
+
+    cursor: pointer;
+  }
+
+  &:has(.input:focus) {
     outline: solid 1px $color-on-eleme-background;
   }
 }

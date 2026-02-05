@@ -23,10 +23,13 @@ export default function SearchArea() {
       <div className={styles.inputWrapper}>
         <Input
           ref={inputRef}
+          className={styles.input}
           type="text"
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
+          onClear={() => setSearchText('')}
           placeholder="教室名・建物名を入力"
+          clearable
         />
       </div>
 

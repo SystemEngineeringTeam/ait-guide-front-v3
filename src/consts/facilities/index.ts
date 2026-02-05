@@ -27,7 +27,7 @@ import clubhouse3 from './geojson/clubhouse3.json';
 import clubhouse4 from './geojson/clubhouse4.json';
 import clubhouse5 from './geojson/clubhouse5.json';
 import tennisFieldManagementHouse from './geojson/tennis-field-management-house.json';
-import playgroundManagement from './geojson/playground-management.json'
+import playgroundManagement from './geojson/playground-management.json';
 import vibration from './geojson/vibration.json';
 import civilEngineeringArchitecture from './geojson/civil-engineering-architecture.json';
 import centralGarden from './geojson/central-garden.json';
@@ -343,12 +343,6 @@ export const GEO_JSON_FACILITIES: GeoJSONFacilities[] = [
     data: gymMin as FeatureCollection,
   },
   {
-    id: '43',
-    type: 'parking',
-    name: 'バイク駐車場',
-    data: parkingBike as FeatureCollection,
-  },
-  {
     id: '46',
     type: 'parking',
     name: '第1学生駐車場',
@@ -365,5 +359,11 @@ export const GEO_JSON_FACILITIES: GeoJSONFacilities[] = [
     type: 'parking',
     name: '第3学生駐車場',
     data: parking3 as FeatureCollection,
+  },
+  {
+    id: '43',
+    type: 'parking',
+    name: 'バイク駐車場',
+    data: parkingBike as FeatureCollection,
   },
 ];
