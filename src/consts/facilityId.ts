@@ -37,7 +37,7 @@ export enum FacilityId {
   COMPUTER = '22',
   INFORMATION = '23',
   LIBRARY = '21',
-  CENTRAL_GARDEN = 'todo:central-garden',
+  CENTRAL_GARDEN = '275',
   CENTRAL_SQUARE = '42',
   TENNIS_COURT = '44',
   SOCCER_FIELD = '45',
