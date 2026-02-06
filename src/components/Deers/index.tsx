@@ -2,7 +2,6 @@ import { COORD_NARA_PARK } from '@/consts/coords';
 import styles from './index.module.scss';
 import { Layer, Marker, Source } from 'react-map-gl/maplibre';
 import { random } from '@/utils/random';
-import { clamp } from '@/utils/math';
 import type { CSSProperties } from 'react';
 import classNames from 'classnames';
 
@@ -15,9 +14,9 @@ const MIN_ZOOM = 16;
 const MIN_SIZE = 20;
 const MIN_MOVE_SCALE = 1;
 
-const deers = Array.from({ length: 30 }).map(() => ({
-  longitude: COORD_NARA_PARK[0] + random(-0.01, 0.01),
-  latitude: COORD_NARA_PARK[1] + random(-0.01, 0.01),
+const deers = Array.from({ length: 50 }).map((_, i) => ({
+  longitude: COORD_NARA_PARK[0] + random(-0.002 * i, 0.002 * i),
+  latitude: COORD_NARA_PARK[1] + random(-0.002 * i, 0.002 * i),
   dx: random(100, 200),
   dy: random(-50, 50),
   duration: random(15, 60),
