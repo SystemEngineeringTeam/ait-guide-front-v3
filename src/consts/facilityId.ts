@@ -54,8 +54,8 @@ export enum FacilityId {
   BUS_STOP = '49',
   MAIN_GATE = '55',
   SECURITY_ROOM = '50',
-  FORMULA_PREFAB = 'todo:formula-prefab',
-  HANGAR = 'todo:hangar',
-  KYUDO_HALL = 'todo:kyudo-hall',
-  GOLF = 'todo:golf',
+  FORMULA_PREFAB = '319',
+  HANGAR = '151', // TODO
+  KYUDO_HALL = '415',
+  GOLF = '414', // TODO: 415が最寄りだが，同じIDは使えない
 }
