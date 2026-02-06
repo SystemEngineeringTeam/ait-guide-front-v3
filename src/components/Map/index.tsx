@@ -6,11 +6,10 @@ import * as mapLib from 'maplibre-gl';
 import { useCallback, useRef } from 'react';
 import classNames from 'classnames';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { GEO_JSON_FACILITIES } from '@/consts/facilities';
 import { COORD_AIT_CENTER } from '@/consts/coords';
 import { useFlyToEvent } from '@/hooks/useFlyTo';
 import { useResetNorhEvent } from '@/hooks/useResetNorth';
-import { FacilityId } from '@/consts/facilityId';
+import { FACILITY_POLYGON_FILL_LAYER_ID, FACILITY_POLYGON_LINE_LAYER_ID } from '@/consts/layerId';
 
 const MIN_PITCH = 0 as const;
 const MAX_PITCH = 60 as const;
@@ -130,18 +129,20 @@ export default function Map({
   const handleClickFeature = useCallback(
     (e: MapLayerMouseEvent) => {
       const feature = e.features?.[0];
-      if (feature) onClickFeature?.(feature.layer.id);
+      const facilityId: string | undefined = feature?.properties?.facilityId;
+      if (facilityId) onClickFeature?.(facilityId);
       else onClickNotFeature?.();
     },
-    [onClickFeature],
+    [onClickFeature, onClickNotFeature],
   );
 
   const handleHoverFeature = useCallback(
     (e: MapLayerMouseEvent) => {
       const feature = e.features?.[0];
+      const facilityId: string | undefined = feature?.properties?.facilityId;
 
-      if (feature) {
-        onHoverFeature?.(feature.layer.id);
+      if (facilityId) {
+        onHoverFeature?.(facilityId);
         mapRef.current?.getCanvas().style.setProperty('cursor', 'pointer');
       } else {
         onHoverFeature?.(undefined);
@@ -187,7 +188,7 @@ export default function Map({
         onMouseMove={handleHoverFeature}
         onRotate={handleRotate}
         onMove={handleMove}
-        interactiveLayerIds={GEO_JSON_FACILITIES.map((b) => b.id).filter((id): id is FacilityId => id != undefined)}
+        interactiveLayerIds={[FACILITY_POLYGON_FILL_LAYER_ID, FACILITY_POLYGON_LINE_LAYER_ID]}
       >
         {children}
       </GMap>

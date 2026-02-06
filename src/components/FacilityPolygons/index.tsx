@@ -6,6 +6,7 @@ import { darkenColor, getFeaturesColor } from '@/utils/color';
 import { DEFAULT_COLOR } from '@/consts/colors';
 import type { FeatureCollection } from 'geojson';
 import { useMemo } from 'react';
+import { FACILITY_POLYGON_FILL_LAYER_ID, FACILITY_POLYGON_LINE_LAYER_ID } from '@/consts/layerId';
 
 interface Props {
   facilities: GeoJSONData[];
@@ -30,6 +31,7 @@ export default function FacilityPolygons({ facilities }: Props) {
             ...f,
             properties: {
               ...f.properties,
+              facilityId: facility.id,
               fill: color,
               line: darkerColor,
             },
@@ -42,6 +44,7 @@ export default function FacilityPolygons({ facilities }: Props) {
   return (
     <Source type="geojson" data={data}>
       <Layer
+        id={FACILITY_POLYGON_FILL_LAYER_ID}
         type="fill-extrusion"
         paint={{
           'fill-extrusion-color': ['get', 'fill'],
@@ -51,6 +54,7 @@ export default function FacilityPolygons({ facilities }: Props) {
         }}
       />
       <Layer
+        id={FACILITY_POLYGON_LINE_LAYER_ID}
         type="line"
         paint={{
           'line-color': ['get', 'line'],
