@@ -9,13 +9,7 @@ import { GEO_JSON_FACILITIES } from '@/consts/facilities';
 import { GEO_JSON_PASSAGES } from '@/consts/passages';
 
 export default function RoadConnectionPage() {
-  const {
-    markers,
-    lines,
-    panel: roadPanel,
-    handleMapContextMenu,
-    handleMapClick,
-  } = useRoadBuilder();
+  const { markers, lines, panel: roadPanel, handleMapContextMenu, handleMapClick } = useRoadBuilder();
   const [ctrlKeyPressed, setCtrlKeyPressed] = useState(false);
 
   useEffect(() => {

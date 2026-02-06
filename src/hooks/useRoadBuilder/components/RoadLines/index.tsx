@@ -10,27 +10,29 @@ interface RoadLinesProps {
 
 export default function RoadLines({ points, roads }: RoadLinesProps) {
   const data = useMemo<FeatureCollection<LineString>>(() => {
-    const features = roads.map((road) => {
-      const roadPoints = road.pointIds
-        .map((pointId) => points.find((p) => p.id === pointId))
-        .filter((p): p is RoadPoint => p !== undefined);
+    const features = roads
+      .map((road) => {
+        const roadPoints = road.pointIds
+          .map((pointId) => points.find((p) => p.id === pointId))
+          .filter((p): p is RoadPoint => p !== undefined);
 
-      if (roadPoints.length < 2) {
-        return null;
-      }
+        if (roadPoints.length < 2) {
+          return null;
+        }
 
-      return {
-        type: 'Feature' as const,
-        properties: {
-          id: road.id,
-          mainRoute: road.options.mainRoute || false,
-        },
-        geometry: {
-          type: 'LineString' as const,
-          coordinates: roadPoints.map((p) => [p.lng, p.lat]) as [number, number][],
-        },
-      };
-    }).filter(f => f !== null);
+        return {
+          type: 'Feature' as const,
+          properties: {
+            id: road.id,
+            mainRoute: road.options.mainRoute || false,
+          },
+          geometry: {
+            type: 'LineString' as const,
+            coordinates: roadPoints.map((p) => [p.lng, p.lat]) as [number, number][],
+          },
+        };
+      })
+      .filter((f) => f !== null);
 
     return {
       type: 'FeatureCollection' as const,
@@ -47,18 +49,8 @@ export default function RoadLines({ points, roads }: RoadLinesProps) {
       <Layer
         type="line"
         paint={{
-          'line-color': [
-            'case',
-            ['boolean', ['feature-state', 'hover'], false],
-            '#FF6B6B',
-            '#667eea',
-          ],
-          'line-width': [
-            'case',
-            ['boolean', ['feature-state', 'hover'], false],
-            3,
-            2,
-          ],
+          'line-color': ['case', ['boolean', ['feature-state', 'hover'], false], '#FF6B6B', '#667eea'],
+          'line-width': ['case', ['boolean', ['feature-state', 'hover'], false], 3, 2],
           'line-opacity': 0.8,
         }}
       />

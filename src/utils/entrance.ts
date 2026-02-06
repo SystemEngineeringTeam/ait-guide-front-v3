@@ -43,7 +43,7 @@ export function generateEntranceLines(entrance: EntranceData, lineLength: number
   for (let i = 0; i < numLines; i++) {
     // -halfWidth から始めて lineInterval ずつ進む
     const offset = -halfWidth + i * lineInterval;
-    
+
     // 最後の線は必ず右端に配置
     const actualOffset = i === numLines - 1 ? halfWidth : Math.min(offset, halfWidth);
 

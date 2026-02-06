@@ -148,7 +148,7 @@ export const useRoadBuilder = () => {
     (lng: number, lat: number, type: PointType = 'point') => {
       const newPoint = createPoint(lng, lat, type);
       setPoints((prev) => [...prev, newPoint]);
-      
+
       // If there was a previously selected point, create a road connecting them
       setLastSelectedPointId((prevId) => {
         if (prevId) {
@@ -167,7 +167,7 @@ export const useRoadBuilder = () => {
         }
         return newPoint.id;
       });
-      
+
       return newPoint;
     },
     [createPoint, points],
@@ -177,20 +177,18 @@ export const useRoadBuilder = () => {
     setPoints((prev) => prev.filter((p) => p.id !== id));
     // Remove point from all roads
     setRoads((prev) =>
-      prev.filter((road) => road.pointIds.length > 1).map((road) => ({
-        ...road,
-        pointIds: road.pointIds.filter((pId) => pId !== id),
-      })),
+      prev
+        .filter((road) => road.pointIds.length > 1)
+        .map((road) => ({
+          ...road,
+          pointIds: road.pointIds.filter((pId) => pId !== id),
+        })),
     );
     setLastSelectedPointId((prevId) => (prevId === id ? null : prevId));
   }, []);
 
   const updatePoint = useCallback((id: string, lng: number, lat: number, type?: PointType) => {
-    setPoints((prev) =>
-      prev.map((point) =>
-        point.id === id ? { ...point, lng, lat, ...(type && { type }) } : point,
-      ),
-    );
+    setPoints((prev) => prev.map((point) => (point.id === id ? { ...point, lng, lat, ...(type && { type }) } : point)));
   }, []);
 
   const changePointType = useCallback((id: string, type: PointType) => {
@@ -206,9 +204,7 @@ export const useRoadBuilder = () => {
   }, []);
 
   const updatePointName = useCallback((id: string, name: string) => {
-    setPoints((prev) =>
-      prev.map((point) => (point.id === id ? { ...point, name } : point)),
-    );
+    setPoints((prev) => prev.map((point) => (point.id === id ? { ...point, name } : point)));
   }, []);
 
   const clearPoints = useCallback(() => {
@@ -237,12 +233,8 @@ export const useRoadBuilder = () => {
   }, []);
 
   const updateRoad = useCallback((id: string, updates: Partial<Omit<Road, 'id' | 'timestamp'>>) => {
-    setRoads((prev) =>
-      prev.map((road) => (road.id === id ? { ...road, ...updates } : road)),
-    );
+    setRoads((prev) => prev.map((road) => (road.id === id ? { ...road, ...updates } : road)));
   }, []);
-
-
 
   const handlePointClickForRoad = useCallback(
     (pointId: string) => {

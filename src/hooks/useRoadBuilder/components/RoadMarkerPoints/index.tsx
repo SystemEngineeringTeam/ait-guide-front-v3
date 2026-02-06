@@ -147,9 +147,7 @@ export default function RoadMarkerPoints({
                   )}
 
                   <div className={styles.section}>
-                    <span className={styles.info}>
-                      接続経路: {getConnectedRoadCount(point.id)}
-                    </span>
+                    <span className={styles.info}>接続経路: {getConnectedRoadCount(point.id)}</span>
                   </div>
 
                   <button
