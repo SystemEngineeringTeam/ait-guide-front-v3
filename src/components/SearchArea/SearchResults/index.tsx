@@ -5,20 +5,23 @@ import Button from '@/components/Button';
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 import { useSearchResults } from '@/hooks/useSearch';
-import { useSelectedFacilityId } from '@/hooks/useSelectedFacilityId';
+import { useSetSelectedFacilityId } from '@/hooks/useSelectedFacilityId';
 import { FACILITIES_MAP } from '@/consts/facilities';
+import { useOverlayClose } from '@/hooks/useOverlay';
+import { useFlyToFacility } from '@/hooks/useFlyTo';
+import { useBottomSheetOpen } from '@/hooks/useBottomSheet';
 
 export default function SearchResults() {
-  const [selectedId, setSelectedId] = useSelectedFacilityId();
+  const setSelectedId = useSetSelectedFacilityId();
+  const closeOverlay = useOverlayClose();
+  const openBottomSheet = useBottomSheetOpen();
   const searchResults = useSearchResults();
   const router = useRouter();
+  const flyTo = useFlyToFacility();
 
   const handleSelectFacility = useCallback(
-    (id: string) => () => {
-      setSelectedId(id);
-      router.push('/');
-    },
-    [router, setSelectedId],
+    (id: string) => () => setSelectedId(id),
+    [router, setSelectedId, flyTo, openBottomSheet, closeOverlay],
   );
 
   return (
@@ -70,13 +73,7 @@ export default function SearchResults() {
         <div className={styles.buttons}>
           {searchResults.room.length === 0 && <p>なし</p>}
           {searchResults.room.map((r) => (
-            <Button
-              className={styles.roomButton}
-              type="button"
-              key={r.id}
-              onClick={handleSelectFacility(r.facilityId)}
-              data-active={r.facilityId === selectedId}
-            >
+            <Button className={styles.roomButton} type="button" key={r.id} onClick={handleSelectFacility(r.facilityId)}>
               <span className={styles.facilityName}>{FACILITIES_MAP[r.facilityId].name}</span>
               <span className={styles.name}>{r.room}</span>
             </Button>

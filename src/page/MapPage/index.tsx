@@ -22,8 +22,8 @@ import FacilityNames from '@/components/FacilitiesNames';
 import { useRoute } from '@/hooks/useRoute';
 
 export default function MapPage() {
-  const { isOpen: bottomSheetOpen, open: openBottomSheet, close: closeBottomSheet } = useBottomSheet();
-  const [selectedId, setSelectedId] = useSelectedFacilityId();
+  const { isOpen: bottomSheetOpen, close: closeBottomSheet } = useBottomSheet();
+  const [selectedId, setSelectedFacilityId] = useSelectedFacilityId();
   const [coord, setCoord] = useState<GeoLocationCoordinates>();
   const [bearing, setBearing] = useState(0);
   const [hoverId, setHoverId] = useState<string | undefined>();
@@ -36,20 +36,14 @@ export default function MapPage() {
     onEscape: () => closeBottomSheet(),
   });
 
-  const handleClickFeature: HandleClickFeatureFn = useCallback(
-    (id) => {
-      setSelectedId(id);
-      openBottomSheet();
-    },
-    [openBottomSheet, setSelectedId],
-  );
+  const handleClickFeature: HandleClickFeatureFn = useCallback((id) => setSelectedFacilityId(id), [setSelectedFacilityId]);
 
   const handleBottomSheetClose = useCallback(() => {
     closeBottomSheet();
   }, [closeBottomSheet]);
 
   const handleMapClick = useCallback(() => {
-    setSelectedId(undefined);
+    setSelectedFacilityId(undefined);
     closeBottomSheet();
   }, [closeBottomSheet]);
 
