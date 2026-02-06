@@ -24,7 +24,9 @@ export default function FacilityData({ id }: Props) {
     <section className={styles.container}>
       <h2 className={styles.header}>
         <span className={styles.name}>{facility.name}</span>
-        <IconButton className={styles.button} icon={<RouteIcon />} onClick={handleClickRoute} />
+        <IconButton icon={<RouteIcon />} onClick={handleClickRoute}>
+          経路案内
+        </IconButton>
       </h2>
     </section>
   );

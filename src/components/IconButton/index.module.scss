@@ -1,11 +1,13 @@
 .iconButton {
   all: unset;
 
+  padding: 5px;
+
   color: $color-text;
 
   display: flex;
-  gap: $gap-sm;
   align-items: center;
+  flex-direction: column;
 
   transition: all 0.2s;
   cursor: pointer;
@@ -15,17 +17,9 @@
   }
 
   .text {
+    width: max-content;
     color: inherit;
-    font-size: 1.2rem;
-
-    @media (max-width: 700px) {
-      display: none;
-    }
-  }
-
-  .icon {
-    font-size: 1.5rem;
-    cursor: pointer;
+    font-size: $fontsize-sm;
   }
 
   &:hover {

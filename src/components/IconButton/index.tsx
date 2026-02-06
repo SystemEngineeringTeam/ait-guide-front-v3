@@ -19,7 +19,7 @@ export default function IconButton<T extends React.ComponentProps<any>>({
   return (
     <Component type="button" className={classNames(styles.iconButton, className)} {...rest}>
       {icon}
-      <span>{children}</span>
+      <span className={styles.text}>{children}</span>
     </Component>
   );
 }

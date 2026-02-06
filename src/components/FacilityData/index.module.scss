@@ -1,29 +1,17 @@
 .container {
-  padding: 10px 20px;
-
+  padding: 0px 20px;
   text-align: center;
 
   .header {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: $gap-md;
+    gap: $gap-lg;
 
     .name {
-      font-size: $fontsize-xl;
+      font-size: $fontsize-lg;
+      line-height: $fontsize-lg;
       font-weight: bold;
-    }
-
-    .button {
-      height: $fontsize-xl;
-      width: $fontsize-xl;
-
-      display: inline-block;
-
-      & svg {
-        height: 100%;
-        width: 100%;
-      }
     }
   }
 }

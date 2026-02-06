@@ -27,9 +27,9 @@ export default function SearchResults() {
 
       <div className={styles.group} data-hidden={searchResults.secret.length === 0}>
         <h3>シークレット</h3>
-        <div className={styles.secretButtons}>
+        <div className={styles.buttons}>
           {searchResults.secret.map((s) => (
-            <Button className={styles.button} type="button" key={s.id} onClick={s.event}>
+            <Button className={styles.secretButtons} type="button" key={s.id} onClick={s.event}>
               {s.word}
             </Button>
           ))}
