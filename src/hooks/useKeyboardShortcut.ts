@@ -8,6 +8,7 @@ interface UseKeyboardShortcutProps {
   onReset?: () => void;
   onFlayToLocation?: () => void;
   onFlyToUniversity?: () => void;
+  onRouteSearch?: () => void;
 }
 
 export function useKeyboardShortcut({
@@ -18,6 +19,7 @@ export function useKeyboardShortcut({
   onReset,
   onFlayToLocation,
   onFlyToUniversity,
+  onRouteSearch,
 }: UseKeyboardShortcutProps) {
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -51,6 +53,12 @@ export function useKeyboardShortcut({
         onFlyToUniversity?.();
       }
 
+      // meta + p
+      if (e.metaKey && e.key === 'p') {
+        e.preventDefault();
+        onRouteSearch?.();
+      }
+
       // Escape
       if (e.key === 'Escape') {
         e.preventDefault();
@@ -68,5 +76,5 @@ export function useKeyboardShortcut({
     return () => {
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [onSearch, onMap, onHelp, onEscape, onReset, onFlayToLocation, onFlyToUniversity]);
+  }, [onSearch, onMap, onHelp, onEscape, onReset, onFlayToLocation, onFlyToUniversity, onRouteSearch]);
 }
