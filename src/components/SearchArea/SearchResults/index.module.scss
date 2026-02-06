@@ -23,12 +23,24 @@
       flex: 1;
     }
 
+    .clubButtons,
     .secretButtons,
     .facilityButtons,
     .roomButton {
       width: 160px;
       display: flex;
       flex-direction: column;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      .name {
+        font-size: $fontsize-md;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     }
 
     .roomButton {
@@ -36,13 +48,6 @@
 
       .facilityName {
         font-size: $fontsize-sm;
-      }
-
-      .roomName {
-        font-size: $fontsize-md;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
       }
     }
   }

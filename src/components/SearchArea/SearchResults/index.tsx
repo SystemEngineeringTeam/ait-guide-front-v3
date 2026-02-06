@@ -37,12 +37,29 @@ export default function SearchResults() {
       </div>
 
       <div className={styles.group}>
-        <h3>建物</h3>
+        <h3>クラブ</h3>
+        <div className={styles.buttons}>
+          {searchResults.club.length === 0 && <p>なし</p>}
+          {searchResults.club.map((c) => (
+            <Button
+              className={styles.clubButtons}
+              type="button"
+              key={c.id}
+              onClick={c.room && handleSelectFacility(c.room.facilityId)}
+            >
+              <span className={styles.name}>{c.name}</span>
+            </Button>
+          ))}
+        </div>
+      </div>
+
+      <div className={styles.group}>
+        <h3>施設</h3>
         <div className={styles.buttons}>
           {searchResults.facility.length === 0 && <p>なし</p>}
           {searchResults.facility.map((f) => (
             <Button className={styles.facilityButtons} type="button" key={f.id} onClick={handleSelectFacility(f.id)}>
-              {f.name}
+              <span className={styles.name}>{f.name}</span>
             </Button>
           ))}
         </div>
@@ -61,7 +78,7 @@ export default function SearchResults() {
               data-active={r.facilityId === selectedId}
             >
               <span className={styles.facilityName}>{FACILITIES_MAP[r.facilityId].name}</span>
-              <span className={styles.roomName}>{r.room}</span>
+              <span className={styles.name}>{r.room}</span>
             </Button>
           ))}
         </div>

@@ -1,3 +1,4 @@
+import { CLUBS } from '@/consts/clubs';
 import { GEO_JSON_FACILITIES } from '@/consts/facilities';
 import { FLAT_ROOMS } from '@/consts/room';
 import { SECRETS } from '@/consts/secret';
@@ -21,11 +22,13 @@ export const searchResultsAtom = atom((get) => {
   const resSecret = SECRETS.filter((s) => {
     return s.word.includes(toHankakuUpperCase(search));
   });
+  const resClub = CLUBS.filter((c) => c.name.includes(toHankakuUpperCase(search)));
 
   return {
     facility: resFacility,
     room: resRoom,
     secret: resSecret,
+    club: resClub,
   };
 });
 
