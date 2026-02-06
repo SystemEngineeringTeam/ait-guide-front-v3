@@ -19,7 +19,7 @@ import Deers from '@/components/Deers';
 import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
 import RouteLine from '@/components/RouteLine';
 import FacilityNames from '@/components/FacilitiesNames';
-// import { useRoute } from '@/hooks/useRoute';
+import { useRoute } from '@/hooks/useRoute';
 
 export default function MapPage() {
   const { isOpen: bottomSheetOpen, open: openBottomSheet, close: closeBottomSheet } = useBottomSheet();
@@ -30,7 +30,7 @@ export default function MapPage() {
   const [zoomForDeer, setZoomForDeer] = useState(17);
   const [showEntrances, setShowEntrances] = useState(true);
   const [showDeer, setShowDeer] = useState(false);
-  // const route = useRoute();
+  const route = useRoute();
 
   useKeyboardShortcut({
     onEscape: () => closeBottomSheet(),
@@ -80,23 +80,7 @@ export default function MapPage() {
         <EntranceMarkers entrances={GEO_JSON_ENTRANCES} show={showEntrances} />
         {selectedId && <FacilityHighlight id={selectedId} key={`select-${selectedId}`} outline fill />}
         {hoverId && <FacilityHighlight id={hoverId} key={`hover-${hoverId}`} outline />}
-        <RouteLine
-          route={[
-            [137.10998, 35.182188],
-            [137.110617, 35.182693],
-            [137.110949, 35.182894],
-            [137.110887, 35.183697],
-            [137.113468, 35.183893],
-            [137.113696, 35.184018],
-            [137.113696, 35.184327],
-            [137.114853, 35.184447],
-            [137.114853, 35.184693],
-            [137.114817, 35.184744],
-            [137.114765, 35.184761],
-            [137.114769, 35.184813],
-            [137.114816, 35.184797],
-          ]}
-        />
+        <RouteLine route={route} />
         <FacilityNames facilities={GEO_JSON_FACILITIES} />
       </Map>
 

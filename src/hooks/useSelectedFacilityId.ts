@@ -1,6 +1,6 @@
 import { atom, useAtom, useSetAtom } from 'jotai';
 
-export const selectedFacilityIdAtom = atom<string | undefined>(undefined);
+const selectedFacilityIdAtom = atom<string | undefined>(undefined);
 
 export function useSelectedFacilityId() {
   const [id, setId] = useAtom(selectedFacilityIdAtom);

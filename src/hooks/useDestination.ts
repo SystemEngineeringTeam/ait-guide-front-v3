@@ -1,6 +1,6 @@
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 
-const destinationIdAtom = atom<string | null>(null);
+export const destinationIdAtom = atom<string | null>(null);
 
 export function useDestinationId() {
   const [destinationId, setDestinationId] = useAtom(destinationIdAtom);
