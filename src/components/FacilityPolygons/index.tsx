@@ -48,7 +48,7 @@ export default function FacilityPolygons({ facilities }: Props) {
         type="fill-extrusion"
         paint={{
           'fill-extrusion-color': ['get', 'fill'],
-          'fill-extrusion-height': ['get', 'height'],
+          'fill-extrusion-height': ['coalesce', ['get', 'height'], 0],
           'fill-extrusion-base': 0,
           'fill-extrusion-opacity': 0.8,
         }}
