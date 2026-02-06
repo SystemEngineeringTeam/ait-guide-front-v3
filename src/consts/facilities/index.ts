@@ -1,6 +1,7 @@
 import { FeatureCollection } from 'geojson';
 import { GeoJSONFacilities } from '@/types/facilities';
 import { FacilityId } from '@/consts/facilityId';
+import { values } from '@/utils/object';
 import b1 from './geojson/1.json';
 import b2 from './geojson/2.json';
 import b3 from './geojson/3.json';
@@ -58,9 +59,13 @@ import parking1 from './geojson/parking1.json';
 import parking2 from './geojson/parking2.json';
 import parking3 from './geojson/parking3.json';
 import bus from './geojson/bus.json';
+import busGetoffOnly from './geojson/bus-getoff-only.json';
 import mainGate from './geojson/main-gate.json';
 import securityRoom from './geojson/security-room.json';
-import { values } from '@/utils/object';
+import trainingDormitory from './geojson/training-dormitory.json';
+import studentDormitory from './geojson/student-dormitory.json';
+import internationalExchangeHall from './geojson/international-exchange-hall.json';
+import dormitoryCafeteria from './geojson/dormitory-cafeteria.json';
 
 export const FACILITIES_MAP: Record<FacilityId, GeoJSONFacilities> = {
   [FacilityId.B1]: {
@@ -409,6 +414,12 @@ export const FACILITIES_MAP: Record<FacilityId, GeoJSONFacilities> = {
     name: 'バス停',
     data: bus as FeatureCollection,
   },
+  [FacilityId.BUS_STOP_GETOFF_ONLY]: {
+    id: FacilityId.BUS_STOP_GETOFF_ONLY,
+    type: 'parking',
+    name: 'バス停(降車専用)',
+    data: busGetoffOnly as FeatureCollection,
+  },
   [FacilityId.MAIN_GATE]: {
     id: FacilityId.MAIN_GATE,
     type: 'other',
@@ -421,6 +432,30 @@ export const FACILITIES_MAP: Record<FacilityId, GeoJSONFacilities> = {
     name: '警備室',
     candidate: ['守衛室'],
     data: securityRoom as FeatureCollection,
+  },
+  [FacilityId.TRAINING_DORMITORY]: {
+    id: FacilityId.TRAINING_DORMITORY,
+    type: 'other',
+    name: '合宿寮',
+    data: trainingDormitory as FeatureCollection,
+  },
+  [FacilityId.STUDENT_DORMITORY]: {
+    id: FacilityId.STUDENT_DORMITORY,
+    type: 'other',
+    name: '学生寮',
+    data: studentDormitory as FeatureCollection,
+  },
+  [FacilityId.INTERNATIONAL_EXCHANGE_HALL]: {
+    id: FacilityId.INTERNATIONAL_EXCHANGE_HALL,
+    type: 'other',
+    name: '国際交流会館',
+    data: internationalExchangeHall as FeatureCollection,
+  },
+  [FacilityId.DORMITORY_CAFETERIA]: {
+    id: FacilityId.DORMITORY_CAFETERIA,
+    type: 'cafeteria',
+    name: '寮食堂',
+    data: dormitoryCafeteria as FeatureCollection,
   },
 };
 

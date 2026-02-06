@@ -1,0 +1,67 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "color": "#ffc4e2"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [137.11541670041856, 35.18280619980537],
+            [137.11542177794286, 35.18280460367026],
+            [137.11542822249294, 35.18281785159061],
+            [137.1154225591004, 35.18281896888499],
+            [137.11541670041856, 35.18280619980537]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "point-1770393269358-0.1108600595695397",
+        "timestamp": 1770393269358
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [137.11541670041856, 35.18280619980537]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "point-1770393270270-0.191855659234777",
+        "timestamp": 1770393270270
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [137.11542177794286, 35.18280460367026]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "point-1770393271371-0.25084932731167764",
+        "timestamp": 1770393271371
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [137.11542822249294, 35.18281785159061]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "point-1770393272255-0.9326140921260475",
+        "timestamp": 1770393272255
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [137.1154225591004, 35.18281896888499]
+      }
+    }
+  ]
+}

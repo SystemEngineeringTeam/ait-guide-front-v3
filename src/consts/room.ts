@@ -1405,6 +1405,13 @@ export const ROOMS = {
     '104': { id: id.get(), room: '104 倉庫', facilityId: FacilityId.HEADQUARTERS2, floor: '1' },
 
     '201': { id: id.get(), room: '201 事務室', facilityId: FacilityId.HEADQUARTERS2, floor: '2' },
+    学生サービスグループ: {
+      id: id.get(),
+      room: '学生サービスグループ',
+      facilityId: FacilityId.HEADQUARTERS2,
+      floor: '2',
+    },
+    教務グループ: { id: id.get(), room: '教務グループ', facilityId: FacilityId.HEADQUARTERS2, floor: '2' },
     '202': { id: id.get(), room: '202 保管室', facilityId: FacilityId.HEADQUARTERS2, floor: '2' },
     '203': { id: id.get(), room: '203 風除室', facilityId: FacilityId.HEADQUARTERS2, floor: '2' },
     '204': { id: id.get(), room: '204 風除室', facilityId: FacilityId.HEADQUARTERS2, floor: '2' },
@@ -1483,8 +1490,13 @@ export const ROOMS = {
   [FacilityId.PARKING3]: {},
   [FacilityId.PARKING_BIKE]: {},
   [FacilityId.BUS_STOP]: {},
+  [FacilityId.BUS_STOP_GETOFF_ONLY]: {},
   [FacilityId.MAIN_GATE]: {},
   [FacilityId.SECURITY_ROOM]: {},
+  [FacilityId.TRAINING_DORMITORY]: {},
+  [FacilityId.STUDENT_DORMITORY]: {},
+  [FacilityId.INTERNATIONAL_EXCHANGE_HALL]: {},
+  [FacilityId.DORMITORY_CAFETERIA]: {},
 } as const satisfies Record<FacilityId, Record<string, Room>>;
 
 export interface RoomWithFacilityId extends Room {

@@ -7,7 +7,7 @@ export function toHankakuUpperCase(str: string) {
   return str
     .replace('ごう', '号')
     .replace('かん', '館')
-    .replace(/ー/, '-')
+    .replace(/-/, 'ー')
     .replace(/、/, ',')
     .toUpperCase()
     .replace(/[Ａ-Ｚ０-９]/g, (s) => {
