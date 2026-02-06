@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 import { useSearchResults } from '@/hooks/useSearch';
 import { useSelectedFacilityId } from '@/hooks/useSelectedFacilityId';
+import { FACILITIES_MAP } from '@/consts/facilities';
 
 export default function SearchResults() {
   const [selectedId, setSelectedId] = useSelectedFacilityId();
@@ -26,7 +27,7 @@ export default function SearchResults() {
 
       <div className={styles.group} data-hidden={searchResults.secret.length === 0}>
         <h3>シークレット</h3>
-        <div className={styles.buttons}>
+        <div className={styles.secretButtons}>
           {searchResults.secret.map((s) => (
             <Button className={styles.button} type="button" key={s.id} onClick={s.event}>
               {s.word}
@@ -40,7 +41,7 @@ export default function SearchResults() {
         <div className={styles.buttons}>
           {searchResults.facility.length === 0 && <p>なし</p>}
           {searchResults.facility.map((f) => (
-            <Button className={styles.button} type="button" key={f.id} onClick={handleSelectFacility(f.id)}>
+            <Button className={styles.facilityButtons} type="button" key={f.id} onClick={handleSelectFacility(f.id)}>
               {f.name}
             </Button>
           ))}
@@ -53,13 +54,14 @@ export default function SearchResults() {
           {searchResults.room.length === 0 && <p>なし</p>}
           {searchResults.room.map((r) => (
             <Button
-              className={styles.button}
+              className={styles.roomButton}
               type="button"
               key={r.id}
               onClick={handleSelectFacility(r.facilityId)}
               data-active={r.facilityId === selectedId}
             >
-              {r.room}
+              <span className={styles.facilityName}>{FACILITIES_MAP[r.facilityId].name}</span>
+              <span className={styles.roomName}>{r.room}</span>
             </Button>
           ))}
         </div>

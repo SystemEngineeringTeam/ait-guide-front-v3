@@ -13,7 +13,7 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 10px 30px;
+    gap: 15px 10px;
 
     @media (max-width: 800px) {
       gap: 10px;
@@ -23,8 +23,27 @@
       flex: 1;
     }
 
-    .button {
+    .secretButtons,
+    .facilityButtons,
+    .roomButton {
       width: 160px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .roomButton {
+      width: 200px;
+
+      .facilityName {
+        font-size: $fontsize-sm;
+      }
+
+      .roomName {
+        font-size: $fontsize-md;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     }
   }
 }
