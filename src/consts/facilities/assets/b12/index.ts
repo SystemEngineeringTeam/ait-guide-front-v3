@@ -6,7 +6,7 @@ import f3 from './3f.png';
 import f4 from './4f.png';
 
 export const B12 = {
-  'B1': bf1,
+  B1: bf1,
   '1': f1,
   '2': f2,
   '3': f3,

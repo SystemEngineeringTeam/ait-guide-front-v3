@@ -36,7 +36,10 @@ export default function MapPage() {
     onEscape: () => closeBottomSheet(),
   });
 
-  const handleClickFeature: HandleClickFeatureFn = useCallback((id) => setSelectedFacilityId(id), [setSelectedFacilityId]);
+  const handleClickFeature: HandleClickFeatureFn = useCallback(
+    (id) => setSelectedFacilityId(id),
+    [setSelectedFacilityId],
+  );
 
   const handleBottomSheetClose = useCallback(() => {
     closeBottomSheet();

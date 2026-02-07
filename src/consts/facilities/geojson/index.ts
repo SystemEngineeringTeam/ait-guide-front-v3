@@ -191,4 +191,3 @@ export const INTERNATIONAL_EXCHANGE_HALL = INTERNATIONAL_EXCHANGE_HALL_ as Featu
 
 import DORMITORY_CAFETERIA_ from './dormitory-cafeteria.json';
 export const DORMITORY_CAFETERIA = DORMITORY_CAFETERIA_ as FeatureCollection;
-

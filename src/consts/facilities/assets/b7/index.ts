@@ -8,5 +8,5 @@ export const B7 = {
   '1': f1,
   '2': f2,
   '3': f3,
-  'M3': m3f,
+  M3: m3f,
 } as const satisfies FloorImages;

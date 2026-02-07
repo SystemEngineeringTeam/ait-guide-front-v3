@@ -224,7 +224,6 @@ export const FACILITIES_MAP: Record<FacilityId, GeoJSONFacilities> = {
     name: '耐震実験センター',
     data: GEOJSON_FACILITIES.SEIREX_CENTER,
     floorImages: FLOOR_IMAGE.SEIREX_CENTER,
-
   },
   [FacilityId.VIBRATION]: {
     id: FacilityId.VIBRATION,
