@@ -1,13 +1,7 @@
 import { ID } from '@/utils/id';
 import { FacilityId } from './facilityId';
 import { entries, values } from '@/utils/object';
-
-export interface Room {
-  id: number;
-  room: string;
-  floor?: `${number}` | `B${number}` | `M${number}`;
-  facilityId: FacilityId;
-}
+import { Room } from '@/types/facilities';
 
 const id = new ID();
 

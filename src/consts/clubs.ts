@@ -1,6 +1,7 @@
 import { ID } from '@/utils/id';
-import { Room, ROOMS } from './room';
+import { ROOMS } from './room';
 import { FacilityId } from './facilityId';
+import { Room } from '@/types/facilities';
 
 export interface Clug {
   id: number;

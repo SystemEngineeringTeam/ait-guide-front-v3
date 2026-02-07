@@ -1,6 +1,13 @@
 import { FacilityId } from '@/consts/facilityId';
 import { FacilityTypes, PassageType } from '@/consts/facilityType';
 import { FeatureCollection } from 'geojson';
+import { StaticImageData } from 'next/image';
+
+export type FloorName = `${number}` | `B${number}` | `M${number}`;
+
+export interface FloorImages {
+  [floor: FloorName]: StaticImageData;
+}
 
 export interface GeoJSONFacilities {
   id: FacilityId;
@@ -8,6 +15,7 @@ export interface GeoJSONFacilities {
   name: string;
   candidate?: string[];
   data: FeatureCollection;
+  floorImages?: FloorImages;
 }
 
 export interface GeoJSONPassage {
@@ -17,3 +25,10 @@ export interface GeoJSONPassage {
 }
 
 export type GeoJSONData = GeoJSONFacilities | GeoJSONPassage;
+
+export interface Room {
+  id: number;
+  room: string;
+  floor?: FloorName;
+  facilityId: FacilityId;
+}
