@@ -20,8 +20,12 @@ import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
 import RouteLine from '@/components/RouteLine';
 import FacilityNames from '@/components/FacilitiesNames';
 import { useRoute } from '@/hooks/useRoute';
+import Overlay from '@/components/Overlay';
+import SearchArea from '@/components/SearchArea';
+import { useSearchText } from '@/hooks/useSearch';
 
 export default function MapPage() {
+  const [searchText, setSearchText] = useSearchText();
   const { isOpen: bottomSheetOpen, close: closeBottomSheet } = useBottomSheet();
   const [selectedId, setSelectedFacilityId] = useSelectedFacilityId();
   const [coord, setCoord] = useState<GeoLocationCoordinates>();
@@ -61,6 +65,10 @@ export default function MapPage() {
 
   return (
     <>
+      <Overlay>
+        <SearchArea text={searchText} setText={setSearchText} />
+      </Overlay>
+
       <MapControlPanel coord={coord} bearing={bearing} />
 
       <Map

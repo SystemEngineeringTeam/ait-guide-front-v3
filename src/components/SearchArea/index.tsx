@@ -1,15 +1,18 @@
 'use client';
 
 import styles from './index.module.scss';
-import { useSearchText } from '@/hooks/useSearch';
 import FacilityList from './FacilityList';
 import SearchResults from './SearchResults';
 import { useRef } from 'react';
 import { useOverlayEvent } from '@/hooks/useOverlay';
 import Input from './Input';
 
-export default function SearchArea() {
-  const [searchText, setSearchText] = useSearchText();
+interface Props {
+  text: string;
+  setText: (text: string) => void;
+}
+
+export default function SearchArea({ text, setText }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useOverlayEvent({
@@ -25,15 +28,15 @@ export default function SearchArea() {
           ref={inputRef}
           className={styles.input}
           type="text"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          onClear={() => setSearchText('')}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          onClear={() => setText('')}
           placeholder="教室名・建物名を入力"
           clearable
         />
       </div>
 
-      {searchText.length == 0 ? <FacilityList /> : <SearchResults />}
+      {text.length == 0 ? <FacilityList /> : <SearchResults />}
     </div>
   );
 }

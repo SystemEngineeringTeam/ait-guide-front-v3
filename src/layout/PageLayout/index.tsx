@@ -1,8 +1,6 @@
 import styles from './index.module.scss';
 import classNames from 'classnames';
 import AppBar from '@/components/AppBar';
-import Overlay from '@/components/Overlay';
-import SearchArea from '@/components/SearchArea';
 import Penguin from '@/components/Penguin';
 import RouteSummary from '@/components/RouteSummary';
 
@@ -15,9 +13,6 @@ export default function PageLayout({ children, className, ...props }: PageLayout
   return (
     <>
       <main className={classNames(styles.pagelayout, className)} {...props}>
-        <Overlay>
-          <SearchArea />
-        </Overlay>
         {children}
         <Penguin />
         <RouteSummary />
