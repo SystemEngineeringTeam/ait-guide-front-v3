@@ -4,8 +4,11 @@ import { useOverlay } from './useOverlay';
 import { useRouter } from 'next/navigation';
 import { useBottomSheetOpen } from './useBottomSheet';
 import { useFlyToFacility } from './useFlyTo';
+import { FacilityId } from '@/consts/facilityId';
 
-const selectedFacilityIdAtom = atom<string | undefined>(undefined);
+export type SelectedFacilityId = FacilityId | undefined;
+
+const selectedFacilityIdAtom = atom<SelectedFacilityId>(undefined);
 
 export function useSelectedFacilityId() {
   const id = useAtomValue(selectedFacilityIdAtom);
@@ -25,7 +28,7 @@ export function useSetSelectedFacilityId() {
   const flyTo = useFlyToFacility();
 
   const setSelectedFacilityId = useCallback(
-    (id: string | undefined) => {
+    (id: SelectedFacilityId) => {
       set(id);
       router.push('/');
       openBottomSheet();
@@ -38,12 +41,14 @@ export function useSetSelectedFacilityId() {
   return setSelectedFacilityId;
 }
 
-export function useSelectedFacilityIdEvent(onChange: (id: string | undefined) => void) {
+export function useSelectedFacilityIdEvent(onChange: (id: SelectedFacilityId) => void) {
   const selectedFacilityId = useSelectedFacilityIdValue();
-  const prevFacilityIdRef = useRef<string | undefined>(undefined);
+  const prevFacilityIdRef = useRef<SelectedFacilityId>(undefined);
 
   if (prevFacilityIdRef.current !== selectedFacilityId) {
     prevFacilityIdRef.current = selectedFacilityId;
     onChange(selectedFacilityId);
   }
 }
+
+export type SetSelectedFacilityIdFn = ReturnType<typeof useSetSelectedFacilityId>;

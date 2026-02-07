@@ -6,17 +6,21 @@ import { useCallback } from 'react';
 import { GEO_JSON_FACILITIES } from '@/consts/facilities';
 import { GeoJSONFacilities } from '@/types/facilities';
 import { FACILITY_TYPES } from '@/consts/facilityType';
-import { useSelectedFacilityId } from '@/hooks/useSelectedFacilityId';
+import type { SelectedFacilityId, SetSelectedFacilityIdFn } from '@/hooks/useSelectedFacilityId';
 import { CLUTUAL_CLUBS, SPORTS_CLUBS } from '@/consts/clubs';
+import type { FacilityId } from '@/consts/facilityId';
 
 const GROUPED_FACILITY_MAP: GeoJSONFacilities[][] = FACILITY_TYPES.map((type) =>
   GEO_JSON_FACILITIES.filter((f) => f.type === type),
 );
 
-export default function FacilityList() {
-  const [selectedId, setSelectedId] = useSelectedFacilityId();
+interface Props {
+  selectedId: SelectedFacilityId;
+  setSelectedId: SetSelectedFacilityIdFn;
+}
 
-  const handleSelectFacility = useCallback((id: string) => () => setSelectedId(id), [setSelectedId]);
+export default function FacilityList({ selectedId, setSelectedId }: Props) {
+  const handleSelectFacility = useCallback((id: FacilityId) => () => setSelectedId(id), [setSelectedId]);
 
   return (
     <section className={styles.facilityList}>

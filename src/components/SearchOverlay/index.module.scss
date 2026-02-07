@@ -18,3 +18,20 @@
     opacity: 0;
   }
 }
+
+.searchArea {
+  width: 100%;
+
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 50px;
+
+  .inputWrapper {
+    width: 100%;
+    overflow-x: auto;
+
+    .input {
+      margin-inline: auto;
+    }
+  }
+}

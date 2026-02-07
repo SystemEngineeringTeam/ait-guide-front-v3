@@ -2,27 +2,19 @@
 
 import styles from './index.module.scss';
 import Button from '@/components/Button';
-import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 import { useSearchResults } from '@/hooks/useSearch';
-import { useSetSelectedFacilityId } from '@/hooks/useSelectedFacilityId';
+import type { SetSelectedFacilityIdFn } from '@/hooks/useSelectedFacilityId';
 import { FACILITIES_MAP } from '@/consts/facilities';
-import { useOverlayClose } from '@/hooks/useOverlay';
-import { useFlyToFacility } from '@/hooks/useFlyTo';
-import { useBottomSheetOpen } from '@/hooks/useBottomSheet';
+import { FacilityId } from '@/consts/facilityId';
 
-export default function SearchResults() {
-  const setSelectedId = useSetSelectedFacilityId();
-  const closeOverlay = useOverlayClose();
-  const openBottomSheet = useBottomSheetOpen();
+interface Props {
+  setSelectedId: SetSelectedFacilityIdFn;
+}
+
+export default function SearchResults({ setSelectedId }: Props) {
   const searchResults = useSearchResults();
-  const router = useRouter();
-  const flyTo = useFlyToFacility();
-
-  const handleSelectFacility = useCallback(
-    (id: string) => () => setSelectedId(id),
-    [router, setSelectedId, flyTo, openBottomSheet, closeOverlay],
-  );
+  const handleSelectFacility = useCallback((id: FacilityId) => () => setSelectedId(id), [setSelectedId]);
 
   return (
     <section className={styles.searchResults}>

@@ -1,4 +1,4 @@
-.wrapprt {
+.wrapper {
   width: 100%;
 
   position: fixed;
@@ -17,11 +17,11 @@
   .routeSummary {
     width: fit-content;
     max-width: 300px;
-    padding: 5px 20px 5px 10px;
+    padding: 5px 15px 5px 10px;
 
     color: $color-on-primary;
     background-color: $color-primary;
-    border-radius: $radius-sm;
+    border-radius: $radius-full;
     box-shadow: 0 2px 4px $color-shadow;
 
     display: flex;
@@ -36,6 +36,16 @@
         color: $color-on-primary;
         font-size: $fontsize-md;
       }
+    }
+
+    .destinationButton {
+      all: unset;
+      cursor: pointer;
+
+      padding: 2px 5px;
+      color: $color-text;
+      background-color: $color-on-primary;
+      border-radius: $radius-sm;
     }
   }
 }

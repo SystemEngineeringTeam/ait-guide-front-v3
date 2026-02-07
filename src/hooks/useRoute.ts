@@ -4,14 +4,15 @@ import { locationAtom } from './useGeoLocation';
 import { toValidCoordinate } from '@/utils/convert';
 import { ofetch } from 'ofetch';
 import { errorToast, infoToast } from '@/utils/toast';
-import { useCallback, useRef } from 'react';
-import { FacilityId } from '@/consts/facilityId';
+import { useCallback } from 'react';
+import type { SelectedFacilityId } from './useSelectedFacilityId';
+import type { FacilityId } from '@/consts/facilityId';
 
 interface RouteResponse {
   route: { lat: number; lng: number }[] | null;
 }
 
-async function fetchRoute(location: Coord, destinationId: string): Promise<Coord[]> {
+async function fetchRoute(location: Coord, destinationId: FacilityId): Promise<Coord[]> {
   if (!location) return [];
 
   try {
@@ -43,7 +44,7 @@ export function useRoute() {
   return useAtomValue(routeAtom);
 }
 
-const destinationIdAtom = atom<FacilityId | null>(null);
+const destinationIdAtom = atom<SelectedFacilityId>(undefined);
 
 export function useSetRouteDestinationId() {
   const [destinationId, setDestinationId_] = useAtom(destinationIdAtom);
@@ -51,13 +52,13 @@ export function useSetRouteDestinationId() {
   const setRoute = useSetAtom(routeAtom);
 
   const setDestinationId = useCallback(
-    async (newDestinationId: FacilityId | null) => {
+    async (newDestinationId: SelectedFacilityId) => {
       // 同じ目的地なら何もしない
       if (destinationId === newDestinationId) return;
 
       setDestinationId_(newDestinationId);
 
-      if (newDestinationId == null) {
+      if (newDestinationId == undefined) {
         setRoute([]);
         return;
       }

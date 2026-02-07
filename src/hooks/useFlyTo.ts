@@ -4,6 +4,7 @@ import { Coord } from '@/types/coord';
 import { center } from '@turf/center';
 import { atom, type Setter, useAtomValue, useSetAtom } from 'jotai';
 import { useCallback, useRef } from 'react';
+import type { SelectedFacilityId } from './useSelectedFacilityId';
 
 const coordAtom = atom<Coord>(COORD_AIT_CENTER);
 
@@ -14,7 +15,7 @@ export function useFlyTo() {
 export function useFlyToFacility() {
   const setCoord = useSetAtom(coordAtom);
 
-  return useCallback((id: string) => {
+  return useCallback((id: SelectedFacilityId) => {
     const facility = GEO_JSON_FACILITIES.find((f) => f.id === id);
     if (!facility) return;
     const c = center(facility.data).geometry.coordinates;

@@ -20,9 +20,9 @@ import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
 import RouteLine from '@/components/RouteLine';
 import FacilityNames from '@/components/FacilitiesNames';
 import { useRoute } from '@/hooks/useRoute';
-import Overlay from '@/components/Overlay';
-import SearchArea from '@/components/SearchArea';
+import SearchOverlay from '@/components/SearchOverlay';
 import { useSearchText } from '@/hooks/useSearch';
+import { useOverlay } from '@/hooks/useOverlay';
 
 export default function MapPage() {
   const [searchText, setSearchText] = useSearchText();
@@ -34,7 +34,12 @@ export default function MapPage() {
   const [zoomForDeer, setZoomForDeer] = useState(17);
   const [showEntrances, setShowEntrances] = useState(false);
   const [showDeer, setShowDeer] = useState(false);
+  const { isOpen, close } = useOverlay();
   const route = useRoute();
+
+  useKeyboardShortcut({
+    onEscape: () => close(),
+  });
 
   useKeyboardShortcut({
     onEscape: () => {
@@ -65,9 +70,14 @@ export default function MapPage() {
 
   return (
     <>
-      <Overlay>
-        <SearchArea text={searchText} setText={setSearchText} />
-      </Overlay>
+      <SearchOverlay
+        isOpen={isOpen}
+        close={close}
+        text={searchText}
+        setText={setSearchText}
+        selectedFacilityId={selectedId}
+        setSelectedFacilityId={setSelectedFacilityId}
+      />
 
       <MapControlPanel coord={coord} bearing={bearing} />
 

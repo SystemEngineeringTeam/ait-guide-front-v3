@@ -1,15 +1,16 @@
 'use client';
 
 import styles from './index.module.scss';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import { default as GMap, ViewState, MapRef, MapLayerMouseEvent, ViewStateChangeEvent } from 'react-map-gl/maplibre';
 import * as mapLib from 'maplibre-gl';
 import { useCallback, useRef } from 'react';
 import classNames from 'classnames';
-import 'maplibre-gl/dist/maplibre-gl.css';
 import { COORD_AIT_CENTER } from '@/consts/coords';
 import { useFlyToEvent } from '@/hooks/useFlyTo';
 import { useResetNorhEvent } from '@/hooks/useResetNorth';
 import { FACILITY_POLYGON_FILL_LAYER_ID, FACILITY_POLYGON_LINE_LAYER_ID } from '@/consts/layerId';
+import type { SelectedFacilityId, SetSelectedFacilityIdFn } from '@/hooks/useSelectedFacilityId';
 
 const MIN_PITCH = 0 as const;
 const MAX_PITCH = 60 as const;
@@ -32,7 +33,7 @@ export type HandleMapClickFn = (
   mapRef: React.RefObject<MapRef | null>,
 ) => (e: React.MouseEvent<HTMLDivElement>) => void;
 
-export type HandleClickFeatureFn = (id: string) => void;
+export type HandleClickFeatureFn = SetSelectedFacilityIdFn;
 export type HandleClickNotFeatureFn = () => void;
 export type HandleHoverFeatureFn = (id: string | undefined) => void;
 export type HandleRotateFn = (bearing: number) => void;
@@ -129,7 +130,7 @@ export default function Map({
   const handleClickFeature = useCallback(
     (e: MapLayerMouseEvent) => {
       const feature = e.features?.[0];
-      const facilityId: string | undefined = feature?.properties?.facilityId;
+      const facilityId: SelectedFacilityId = feature?.properties?.facilityId;
       if (facilityId) onClickFeature?.(facilityId);
       else onClickNotFeature?.();
     },

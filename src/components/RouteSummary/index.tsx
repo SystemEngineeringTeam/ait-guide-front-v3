@@ -6,28 +6,64 @@ import { ArrowRightIcon, ClearIcon } from '@/components/Icons';
 import IconButton from '@/components/IconButton';
 import { FACILITIES_MAP } from '@/consts/facilities';
 import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
+import { useCallback, useState } from 'react';
+import SearchOverlay from '@/components/SearchOverlay';
+import type { SelectedFacilityId } from '@/hooks/useSelectedFacilityId';
+import { useFlyToFacility } from '@/hooks/useFlyTo';
 
 export default function RouteSummary() {
+  const flyTo = useFlyToFacility();
+  const [isOpen, setIsOpen] = useState(false);
   const [destinationId, setDestinationId] = useDestinationId();
+  const [searchText, setSearchText] = useState('');
 
   useKeyboardShortcut({
-    onClear: () => setDestinationId(null),
+    onClear: () => setDestinationId(undefined),
   });
+
+  const handleOpen = useCallback(() => {
+    setIsOpen(true);
+  }, [setIsOpen]);
+
+  const handleClose = useCallback(() => {
+    setIsOpen(false);
+  }, [setIsOpen]);
+
+  const handleSelectFacilityId = useCallback(
+    (id: SelectedFacilityId) => {
+      flyTo(id);
+      setDestinationId(id);
+      setIsOpen(false);
+    },
+    [setDestinationId, setIsOpen],
+  );
 
   const destination = destinationId && FACILITIES_MAP[destinationId];
   if (destination == null) return null;
 
   return (
-    <div className={styles.wrapprt}>
+    <div className={styles.wrapper}>
       <div className={styles.routeSummary}>
         <IconButton
           icon={<ClearIcon className={styles.icon} />}
           className={styles.closeButton}
-          onClick={() => setDestinationId(null)}
+          onClick={() => setDestinationId(undefined)}
         />
         <span>現在地</span>
+
         <ArrowRightIcon />
-        <span>{destination.name}</span>
+
+        <button className={styles.destinationButton} onClick={handleOpen}>
+          {destination.name}
+        </button>
+        <SearchOverlay
+          isOpen={isOpen}
+          close={handleClose}
+          text={searchText}
+          setText={setSearchText}
+          selectedFacilityId={destinationId}
+          setSelectedFacilityId={handleSelectFacilityId}
+        />
       </div>
     </div>
   );
