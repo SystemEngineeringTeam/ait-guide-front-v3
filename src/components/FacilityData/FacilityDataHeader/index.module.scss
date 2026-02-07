@@ -9,4 +9,10 @@
     line-height: $fontsize-lg;
     font-weight: bold;
   }
+
+  .routeButton {
+    &[data-active='true'] {
+      color: $color-primary;
+    }
+  }
 }

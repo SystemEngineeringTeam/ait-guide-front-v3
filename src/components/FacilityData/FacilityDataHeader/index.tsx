@@ -24,7 +24,12 @@ export default function FacilityDataHeader({ facility }: Props) {
   return (
     <h2 className={styles.header}>
       <span className={styles.name}>{facility.name}</span>
-      <IconButton icon={<RouteIcon />} onClick={handleClickRoute}>
+      <IconButton
+        icon={<RouteIcon />}
+        onClick={handleClickRoute}
+        className={styles.routeButton}
+        data-active={destinationId === facility.id}
+      >
         経路案内
       </IconButton>
     </h2>
