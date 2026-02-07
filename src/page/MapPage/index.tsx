@@ -28,7 +28,7 @@ export default function MapPage() {
   const [bearing, setBearing] = useState(0);
   const [hoverId, setHoverId] = useState<string | undefined>();
   const [zoomForDeer, setZoomForDeer] = useState(17);
-  const [showEntrances, setShowEntrances] = useState(true);
+  const [showEntrances, setShowEntrances] = useState(false);
   const [showDeer, setShowDeer] = useState(false);
   const route = useRoute();
 

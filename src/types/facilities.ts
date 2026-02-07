@@ -3,11 +3,9 @@ import { FacilityTypes, PassageType } from '@/consts/facilityType';
 import { FeatureCollection } from 'geojson';
 import { StaticImageData } from 'next/image';
 
-export type FloorName = `${number}` | `B${number}` | `M${number}`;
+export type FloorName = `${number}` | `B${number}` | `M${number}` | 'R';
 
-export interface FloorImages {
-  [floor: FloorName]: StaticImageData;
-}
+export type FloorImages = Partial<Record<FloorName, StaticImageData>>;
 
 export interface GeoJSONFacilities {
   id: FacilityId;

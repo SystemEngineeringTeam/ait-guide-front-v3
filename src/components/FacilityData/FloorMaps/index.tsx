@@ -16,7 +16,24 @@ interface Props {
 }
 
 export default function FloorMaps({ floorImages }: Props) {
-  const floors: Floor[] = useMemo(() => entries(floorImages).map((f) => ({ name: f[0], img: f[1] })), [floorImages]);
+  const floors: Floor[] = useMemo(
+    () =>
+      entries(floorImages)
+        .map((f) => ({ name: f[0], img: f[1] }))
+        .sort((fa, fb) => {
+          const toOrder = (name: string) => {
+            // B = マイナス階
+            if (name.startsWith('B')) return -Number(name.slice(1));
+            // M = 同じ階の少し後ろ
+            if (name.startsWith('M')) return Number(name.slice(1)) + 0.5;
+            // 通常階
+            return Number(name);
+          };
+
+          return toOrder(fa.name) - toOrder(fb.name);
+        }),
+    [floorImages],
+  );
   const [activeFloor, setActiveFloor] = useState<Floor | undefined>(floors.at(0));
 
   if (floors.length === 0 || !activeFloor) return null;
