@@ -50,8 +50,6 @@ export default function FloorMaps({ floorImages }: Props) {
             className={styles.floorImageWrapper}
             // BottomSheet のスクロールとの競合対策
             onPointerDownCapture={(e) => e.stopPropagation()}
-            onTouchStartCapture={(e) => e.stopPropagation()}
-            onWheelCapture={(e) => e.stopPropagation()}
           >
             <TransformWrapper>
               <TransformComponent>
