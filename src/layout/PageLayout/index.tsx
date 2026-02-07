@@ -12,13 +12,15 @@ interface PageLayoutProps {
 
 export default function PageLayout({ children, className, ...props }: PageLayoutProps) {
   return (
-    <main className={classNames(styles.pagelayout, className)} {...props}>
-      <Overlay>
-        <SearchArea />
-      </Overlay>
-      {children}
-      <Penguin />
-      <AppBar />
-    </main>
+    <>
+      <main className={classNames(styles.pagelayout, className)} {...props}>
+        <Overlay>
+          <SearchArea />
+        </Overlay>
+        {children}
+        <Penguin />
+        <AppBar />
+      </main>
+    </>
   );
 }

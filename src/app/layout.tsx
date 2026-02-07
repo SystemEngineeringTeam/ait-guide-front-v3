@@ -3,6 +3,7 @@ import { Noto_Sans_JP, M_PLUS_Rounded_1c } from 'next/font/google';
 import Header from '@/components/Header';
 import PageLayout from '@/layout/PageLayout';
 import classNames from 'classnames';
+import { Toaster } from 'react-hot-toast';
 import '@/styles/global.scss';
 
 const notoSansJP = Noto_Sans_JP({
@@ -31,6 +32,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" type="image/svg+xml"></link>
       </head>
       <body className={classNames(notoSansJP.variable, mPlusRounded1c.variable, 'antialiased')}>
+        <Toaster />
         <Header />
         <PageLayout>{children}</PageLayout>
       </body>

@@ -1,0 +1,27 @@
+.popIn {
+  $size: 23px;
+
+  height: $size;
+  width: $size;
+
+  color: var(--data-color, #000000);
+
+  animation: pop-in 0.3s ease-out forwards;
+
+  &.blue {
+    --data-color: #0000ff;
+  }
+}
+
+// ポコンと出現するアニメーション
+@keyframes pop-in {
+  0% {
+    transform: scale(0.5);
+  }
+  90% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

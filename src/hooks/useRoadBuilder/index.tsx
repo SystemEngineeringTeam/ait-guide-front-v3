@@ -4,6 +4,7 @@ import { HandleMapClickFn, HandleMapContextMenuFn } from '@/components/Map';
 import RoadMarkerPoints from './components/RoadMarkerPoints/index';
 import RoadPanel from './components/RoadPanel/index';
 import RoadLines from './components/RoadLines/index';
+import { errorToast, infoToast } from '@/utils/toast';
 
 export type PointType = 'facility' | 'entrance' | 'point';
 
@@ -110,6 +111,7 @@ export const useRoadBuilder = () => {
         setRoads(storedData.roads);
       } catch (error) {
         console.error('Failed to load data from IndexedDB:', error);
+        errorToast('IndexedDBからのデータ読み込みに失敗しました。');
       }
     };
 
@@ -123,6 +125,7 @@ export const useRoadBuilder = () => {
         await saveToDB({ points, roads });
       } catch (error) {
         console.error('Failed to save data to IndexedDB:', error);
+        errorToast('IndexedDBへのデータ保存に失敗しました。');
       }
     };
 
@@ -292,10 +295,10 @@ export const useRoadBuilder = () => {
     const data = JSON.stringify(points, null, 2);
     try {
       await navigator.clipboard.writeText(data);
-      alert('ポイントデータをコピーしました');
+      infoToast('ポイントデータをコピーしました');
     } catch (error) {
       console.error('Failed to copy:', error);
-      alert('コピーに失敗しました');
+      errorToast('コピーに失敗しました');
     }
   }, [points]);
 
@@ -303,10 +306,10 @@ export const useRoadBuilder = () => {
     const data = JSON.stringify(roads, null, 2);
     try {
       await navigator.clipboard.writeText(data);
-      alert('経路データをコピーしました');
+      infoToast('経路データをコピーしました');
     } catch (error) {
       console.error('Failed to copy:', error);
-      alert('コピーに失敗しました');
+      errorToast('コピーに失敗しました');
     }
   }, [roads]);
 
@@ -327,10 +330,10 @@ export const useRoadBuilder = () => {
 
       setPoints(newPoints);
       setRoads([]);
-      alert('ポイントデータを貼り付けました');
+      infoToast('ポイントデータを貼り付けました');
     } catch (error) {
       console.error('Failed to paste:', error);
-      alert('貼り付けに失敗しました。正しいJSON形式か確認してください。');
+      errorToast('貼り付けに失敗しました。正しいJSON形式か確認してください。');
     }
   }, []);
 
@@ -350,10 +353,10 @@ export const useRoadBuilder = () => {
       }));
 
       setRoads(newRoads);
-      alert('経路データを貼り付けました');
+      infoToast('経路データを貼り付けました');
     } catch (error) {
       console.error('Failed to paste:', error);
-      alert('貼り付けに失敗しました。正しいJSON形式か確認してください。');
+      errorToast('貼り付けに失敗しました。正しいJSON形式か確認してください。');
     }
   }, []);
 

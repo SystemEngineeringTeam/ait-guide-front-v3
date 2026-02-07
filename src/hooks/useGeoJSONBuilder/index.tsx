@@ -7,6 +7,7 @@ import GeoJSONPanel from './components/GeoJSONPanel';
 import EntranceMarkers from './components/EntranceMarkers';
 import { HandleMapClickFn, HandleMapContextMenuFn } from '@/components/Map';
 import { FacilityFillColor, DEFAULT_COLOR } from '@/consts/colors';
+import { errorToast } from '@/utils/toast';
 
 export type PolygonFeature = Feature<Polygon> | null;
 
@@ -321,7 +322,7 @@ export const useGeoJSONBuilder = () => {
       setSelectedPointId(null);
     } catch (error) {
       console.error('Failed to paste GeoJSON:', error);
-      alert('GeoJSONの貼り付けに失敗しました。正しいGeoJSON形式か確認してください。');
+      errorToast('GeoJSONの貼り付けに失敗しました。正しいGeoJSON形式か確認してください。');
     }
   }, []);
 
@@ -362,7 +363,7 @@ export const useGeoJSONBuilder = () => {
       setSelectedEntranceId(null);
     } catch (error) {
       console.error('Failed to paste entrances GeoJSON:', error);
-      alert('出入り口GeoJSONの貼り付けに失敗しました。正しいGeoJSON形式か確認してください。');
+      errorToast('出入り口GeoJSONの貼り付けに失敗しました。正しいGeoJSON形式か確認してください。');
     }
   }, []);
 
