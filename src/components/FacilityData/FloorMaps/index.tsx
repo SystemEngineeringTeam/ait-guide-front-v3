@@ -36,7 +36,7 @@ export default function FloorMaps({ floorImages }: Props) {
         }),
     [floorImages],
   );
-  const [activeFloor, setActiveFloor] = useState<Floor | undefined>(floors.at(0));
+  const [activeFloor, setActiveFloor] = useState<Floor | undefined>(floors.find((f) => f.name === '1') ?? floors.at(0));
 
   if (floors.length === 0 || !activeFloor) return null;
 
