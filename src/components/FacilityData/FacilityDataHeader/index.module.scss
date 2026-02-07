@@ -1,0 +1,12 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $gap-lg;
+
+  .name {
+    font-size: $fontsize-lg;
+    line-height: $fontsize-lg;
+    font-weight: bold;
+  }
+}

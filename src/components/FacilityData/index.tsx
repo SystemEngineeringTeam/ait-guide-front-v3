@@ -1,37 +1,20 @@
-import IconButton from '@/components/IconButton';
-import { RouteIcon } from '@/components/Icons';
 import styles from './index.module.scss';
 import { GEO_JSON_FACILITIES } from '@/consts/facilities';
-import { useSetDestinationId } from '@/hooks/useDestination';
-import { useCallback } from 'react';
-import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
+import FloorMaps from './FloorMaps';
+import FacilityDataHeader from './FacilityDataHeader';
 
 interface Props {
   id?: string;
 }
 
 export default function FacilityData({ id }: Props) {
-  const setDestination = useSetDestinationId();
   const facility = GEO_JSON_FACILITIES.find((f) => f.id === id);
-
-  const handleClickRoute = useCallback(() => {
-    if (facility?.id) setDestination(facility.id);
-  }, [facility?.id, setDestination]);
-
-  useKeyboardShortcut({
-    onRouteSearch: () => handleClickRoute(),
-  });
-
   if (!facility) return null;
 
   return (
     <section className={styles.container}>
-      <h2 className={styles.header}>
-        <span className={styles.name}>{facility.name}</span>
-        <IconButton icon={<RouteIcon />} onClick={handleClickRoute}>
-          経路案内
-        </IconButton>
-      </h2>
+      <FacilityDataHeader facility={facility} />
+      {facility.floorImages ? <FloorMaps floorImages={facility.floorImages} /> : <p>フロアマップはありません</p>}
     </section>
   );
 }
