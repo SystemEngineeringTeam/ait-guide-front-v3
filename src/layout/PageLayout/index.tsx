@@ -4,6 +4,7 @@ import AppBar from '@/components/AppBar';
 import Overlay from '@/components/Overlay';
 import SearchArea from '@/components/SearchArea';
 import Penguin from '@/components/Penguin';
+import RouteSummary from '@/components/RouteSummary';
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -19,6 +20,7 @@ export default function PageLayout({ children, className, ...props }: PageLayout
         </Overlay>
         {children}
         <Penguin />
+        <RouteSummary />
         <AppBar />
       </main>
     </>

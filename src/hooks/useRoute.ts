@@ -5,6 +5,7 @@ import { toValidCoordinate } from '@/utils/convert';
 import { ofetch } from 'ofetch';
 import { errorToast, infoToast } from '@/utils/toast';
 import { useCallback, useRef } from 'react';
+import { FacilityId } from '@/consts/facilityId';
 
 interface RouteResponse {
   route: { lat: number; lng: number }[] | null;
@@ -42,21 +43,24 @@ export function useRoute() {
   return useAtomValue(routeAtom);
 }
 
-const destinationIdAtom = atom<string | null>(null);
+const destinationIdAtom = atom<FacilityId | null>(null);
 
-export function useDestinationId() {
+export function useSetRouteDestinationId() {
   const [destinationId, setDestinationId_] = useAtom(destinationIdAtom);
   const location = useAtomValue(locationAtom);
   const setRoute = useSetAtom(routeAtom);
 
   const setDestinationId = useCallback(
-    async (newDestinationId: string) => {
+    async (newDestinationId: FacilityId | null) => {
       // 同じ目的地なら何もしない
       if (destinationId === newDestinationId) return;
 
       setDestinationId_(newDestinationId);
 
-      if (newDestinationId == null) return;
+      if (newDestinationId == null) {
+        setRoute([]);
+        return;
+      }
 
       if (location == undefined) {
         errorToast('位置情報がありません');
@@ -70,9 +74,16 @@ export function useDestinationId() {
     [setDestinationId_, destinationId, location, setRoute],
   );
 
-  return [destinationId, setDestinationId] as const;
+  return setDestinationId;
 }
 
 export function useDestinationIdValue() {
   return useAtomValue(destinationIdAtom);
+}
+
+export function useDestinationId() {
+  const destinationId = useDestinationIdValue();
+  const setDestinationId = useSetRouteDestinationId();
+
+  return [destinationId, setDestinationId] as const;
 }
