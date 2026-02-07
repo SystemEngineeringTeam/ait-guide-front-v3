@@ -8,7 +8,7 @@ import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 
 interface Floor {
   name: FloorName;
-  img: StaticImageData;
+  img: StaticImageData | undefined;
 }
 
 interface Props {
@@ -26,6 +26,8 @@ export default function FloorMaps({ floorImages }: Props) {
             if (name.startsWith('B')) return -Number(name.slice(1));
             // M = 同じ階の少し後ろ
             if (name.startsWith('M')) return Number(name.slice(1)) + 0.5;
+            // R = 屋上階
+            if (name === 'R') return 999;
             // 通常階
             return Number(name);
           };
@@ -40,7 +42,7 @@ export default function FloorMaps({ floorImages }: Props) {
 
   return (
     <div className={styles.floorMaps}>
-      {activeFloor && (
+      {activeFloor?.img && (
         <div id={`floor-panel-${activeFloor.name}`} role="tabpanel" className={styles.floorSection}>
           <h3 className={styles.floorHeader}>{activeFloor.name}F フロアマップ</h3>
 
