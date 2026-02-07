@@ -14,7 +14,11 @@ export default function FacilityData({ id }: Props) {
   return (
     <section className={styles.container}>
       <FacilityDataHeader facility={facility} />
-      {facility.floorImages ? <FloorMaps floorImages={facility.floorImages} /> : <p>フロアマップはありません</p>}
+      {facility.floorImages ? (
+        <FloorMaps floorImages={facility.floorImages} key={id} />
+      ) : (
+        <p>フロアマップはありません</p>
+      )}
     </section>
   );
 }
