@@ -3,7 +3,7 @@ import styles from './index.module.scss';
 import IconButton from '@/components/IconButton';
 import { GeoJSONFacilities } from '@/types/facilities';
 import { useCallback } from 'react';
-import { useSetDestinationId } from '@/hooks/useDestination';
+import { useDestinationId } from '@/hooks/useRoute';
 import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
 
 interface Props {
@@ -11,11 +11,11 @@ interface Props {
 }
 
 export default function FacilityDataHeader({ facility }: Props) {
-  const setDestination = useSetDestinationId();
+  const [destinationId, setDestinationId] = useDestinationId();
 
   const handleClickRoute = useCallback(() => {
-    if (facility?.id) setDestination(facility.id);
-  }, [facility?.id, setDestination]);
+    if (facility?.id) setDestinationId(facility.id);
+  }, [facility?.id, setDestinationId]);
 
   useKeyboardShortcut({
     onRouteSearch: () => handleClickRoute(),

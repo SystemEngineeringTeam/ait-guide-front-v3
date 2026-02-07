@@ -1,10 +1,10 @@
 import { Coord } from '@/types/coord';
-import { atom, useAtomValue } from 'jotai';
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { locationAtom } from './useGeoLocation';
-import { destinationIdAtom } from './useDestination';
 import { toValidCoordinate } from '@/utils/convert';
 import { ofetch } from 'ofetch';
 import { errorToast, infoToast } from '@/utils/toast';
+import { useCallback, useRef } from 'react';
 
 interface RouteResponse {
   route: { lat: number; lng: number }[] | null;
@@ -36,28 +36,43 @@ async function fetchRoute(location: Coord, destinationId: string): Promise<Coord
   }
 }
 
-let isFirst = true;
-const routeAtom = atom<Promise<Coord[]>>(async (get) => {
-  const location = get(locationAtom);
-  const destinationId = get(destinationIdAtom);
-
-  if (isFirst && destinationId == undefined) return [];
-
-  isFirst = false;
-
-  if (location == undefined) {
-    errorToast('位置情報がありません');
-    return [];
-  }
-  if (destinationId == undefined) {
-    errorToast('目的地が設定されていません');
-    return [];
-  }
-
-  const start = toValidCoordinate(location.latitude, location.longitude);
-  return await fetchRoute(start, destinationId);
-});
+const routeAtom = atom<Coord[]>([]);
 
 export function useRoute() {
   return useAtomValue(routeAtom);
+}
+
+const destinationIdAtom = atom<string | null>(null);
+
+export function useDestinationId() {
+  const [destinationId, setDestinationId_] = useAtom(destinationIdAtom);
+  const location = useAtomValue(locationAtom);
+  const setRoute = useSetAtom(routeAtom);
+
+  const setDestinationId = useCallback(
+    async (newDestinationId: string) => {
+      // 同じ目的地なら何もしない
+      if (destinationId === newDestinationId) return;
+
+      setDestinationId_(newDestinationId);
+
+      if (newDestinationId == null) return;
+
+      if (location == undefined) {
+        errorToast('位置情報がありません');
+        return;
+      }
+
+      const start = toValidCoordinate(location.latitude, location.longitude);
+      const route = await fetchRoute(start, newDestinationId);
+      setRoute(route);
+    },
+    [setDestinationId_, destinationId, location, setRoute],
+  );
+
+  return [destinationId, setDestinationId] as const;
+}
+
+export function useDestinationIdValue() {
+  return useAtomValue(destinationIdAtom);
 }
