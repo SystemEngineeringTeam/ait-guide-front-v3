@@ -17,9 +17,19 @@
       font-size: $fontsize-lg;
     }
 
-    .floorImage {
+    .floorImageWrapper {
       padding: 5px;
       border: solid 1px $color-border;
+      cursor: grab;
+
+      &:active {
+        cursor: grabbing;
+      }
+
+      img {
+        width: 100%;
+        height: auto;
+      }
     }
   }
 

@@ -59,6 +59,9 @@ importers:
       react-modal-sheet:
         specifier: ^5.2.1
         version: 5.2.1(motion@12.30.0(react-dom@19.1.5(react@19.1.5))(react@19.1.5))(react-dom@19.1.5(react@19.1.5))(react@19.1.5)
+      react-zoom-pan-pinch:
+        specifier: ^3.7.0
+        version: 3.7.0(react-dom@19.1.5(react@19.1.5))(react@19.1.5)
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3
@@ -4039,6 +4042,13 @@ packages:
     peerDependenciesMeta:
       react-dom:
         optional: true
+
+  react-zoom-pan-pinch@3.7.0:
+    resolution: {integrity: sha512-UmReVZ0TxlKzxSbYiAj+LeGRW8s8LraAFTXRAxzMYnNRgGPsxCudwZKVkjvGmjtx7SW/hZamt69NUmGf4xrkXA==}
+    engines: {node: '>=8', npm: '>=5'}
+    peerDependencies:
+      react: '*'
+      react-dom: '*'
 
   react@19.1.5:
     resolution: {integrity: sha512-lCX00zqONdNfcnJYEL91LuNYzyWFU70vKhApUR08Y1Fi/Y5FGw6l6hAWtlkq+k/vnx463XLm/5dyQp5HAJCw6Q==}
@@ -10458,6 +10468,11 @@ snapshots:
     dependencies:
       react: 19.1.5
     optionalDependencies:
+      react-dom: 19.1.5(react@19.1.5)
+
+  react-zoom-pan-pinch@3.7.0(react-dom@19.1.5(react@19.1.5))(react@19.1.5):
+    dependencies:
+      react: 19.1.5
       react-dom: 19.1.5(react@19.1.5)
 
   react@19.1.5: {}

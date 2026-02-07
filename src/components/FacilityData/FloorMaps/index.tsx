@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { FloorImages, FloorName } from '@/types/facilities';
 import styles from './index.module.scss';
 import { entries } from '@/utils/object';
 import Button from '@/components/Button';
 import { StaticImageData } from 'next/image';
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 
 interface Floor {
   name: FloorName;
@@ -24,8 +25,21 @@ export default function FloorMaps({ floorImages }: Props) {
     <div className={styles.floorMaps}>
       {activeFloor && (
         <div id={`floor-panel-${activeFloor.name}`} role="tabpanel" className={styles.floorSection}>
-          <h3 className={styles.floorHeader}>{activeFloor.name}F</h3>
-          <img src={activeFloor.img.src} alt={`フロア ${activeFloor.name}F の見取り図`} className={styles.floorImage} />
+          <h3 className={styles.floorHeader}>{activeFloor.name}F フロアマップ</h3>
+
+          <div
+            className={styles.floorImageWrapper}
+            // BottomSheet のスクロールとの競合対策
+            onPointerDownCapture={(e) => e.stopPropagation()}
+            onTouchStartCapture={(e) => e.stopPropagation()}
+            onWheelCapture={(e) => e.stopPropagation()}
+          >
+            <TransformWrapper>
+              <TransformComponent>
+                <img src={activeFloor.img.src} alt={`フロア ${activeFloor.name}F の見取り図`} />
+              </TransformComponent>
+            </TransformWrapper>
+          </div>
         </div>
       )}
 
