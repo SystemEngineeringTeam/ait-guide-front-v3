@@ -33,7 +33,10 @@ export default function MapPage() {
   const route = useRoute();
 
   useKeyboardShortcut({
-    onEscape: () => closeBottomSheet(),
+    onEscape: () => {
+      setSelectedFacilityId(undefined);
+      closeBottomSheet();
+    },
   });
 
   const handleClickFeature: HandleClickFeatureFn = useCallback(
@@ -42,13 +45,9 @@ export default function MapPage() {
   );
 
   const handleBottomSheetClose = useCallback(() => {
-    closeBottomSheet();
-  }, [closeBottomSheet]);
-
-  const handleMapClick = useCallback(() => {
     setSelectedFacilityId(undefined);
     closeBottomSheet();
-  }, [closeBottomSheet]);
+  }, [closeBottomSheet, setSelectedFacilityId]);
 
   const handleMapMove: HandleMoveFn = useCallback(
     (view) => {
@@ -69,7 +68,7 @@ export default function MapPage() {
         onHoverFeature={setHoverId}
         onRotate={setBearing}
         onMove={handleMapMove}
-        onClickNotFeature={handleMapClick}
+        onClickNotFeature={handleBottomSheetClose}
       >
         {showDeer && <Deers zoom={zoomForDeer} />}
         <LocationIndicator onChange={setCoord} />
