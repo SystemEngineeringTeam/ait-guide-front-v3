@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { isExactKey } from '@/utils/key';
+import { useCallback, useEffect } from 'react';
 
 interface UseKeyboardShortcutProps {
   onSearch?: () => void;
@@ -26,55 +27,55 @@ export function useKeyboardShortcut({
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       //  meta + s
-      if (e.metaKey && e.key === 's') {
+      if (isExactKey(e, { key: 's', meta: true })) {
         e.preventDefault();
         onSearch?.();
       }
 
       // meta + m
-      if (e.metaKey && e.key === 'm') {
+      if (isExactKey(e, { key: 'm', meta: true })) {
         e.preventDefault();
         onMap?.();
       }
 
       // meta + h
-      if (e.metaKey && e.key === 'h') {
+      if (isExactKey(e, { key: 'h', meta: true })) {
         e.preventDefault();
         onHelp?.();
       }
 
       // meta + l
-      if (e.metaKey && e.key === 'l') {
+      if (isExactKey(e, { key: 'l', meta: true })) {
         e.preventDefault();
         onFlyToLocation?.();
       }
 
       // meta + u
-      if (e.metaKey && e.key === 'u') {
+      if (isExactKey(e, { key: 'u', meta: true })) {
         e.preventDefault();
         onFlyToUniversity?.();
       }
 
       // meta + p
-      if (e.metaKey && e.key === 'p') {
+      if (isExactKey(e, { key: 'p', meta: true })) {
         e.preventDefault();
         onRouteSearch?.();
       }
 
       // meta + c
-      if (e.metaKey && e.key === 'c') {
+      if (isExactKey(e, { key: 'c', meta: true })) {
         e.preventDefault();
         onClear?.();
       }
 
       // Escape
-      if (e.key === 'Escape') {
+      if (isExactKey(e, { key: 'Escape' })) {
         e.preventDefault();
         onEscape?.();
       }
 
       // r
-      if (!e.metaKey && e.key === 'r') {
+      if (isExactKey(e, { key: 'r' })) {
         e.preventDefault();
         onReset?.();
       }
