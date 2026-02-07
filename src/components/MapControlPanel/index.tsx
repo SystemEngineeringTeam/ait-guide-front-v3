@@ -19,7 +19,7 @@ export default function MapControlPanel({ coord, bearing }: Props) {
 
   useKeyboardShortcut({
     onReset: () => resetNorth(),
-    onFlayToLocation: () => {
+    onFlyToLocation: () => {
       if (!coord) return;
       flyTo([coord.longitude, coord.latitude]);
     },

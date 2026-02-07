@@ -5,11 +5,16 @@ import { useDestinationId } from '@/hooks/useRoute';
 import { ArrowRightIcon, ClearIcon } from '@/components/Icons';
 import IconButton from '@/components/IconButton';
 import { FACILITIES_MAP } from '@/consts/facilities';
+import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
 
 export default function RouteSummary() {
   const [destinationId, setDestinationId] = useDestinationId();
-  const destination = destinationId && FACILITIES_MAP[destinationId];
 
+  useKeyboardShortcut({
+    onClear: () => setDestinationId(null),
+  });
+
+  const destination = destinationId && FACILITIES_MAP[destinationId];
   if (destination == null) return null;
 
   return (
