@@ -1,4 +1,4 @@
-import { infoToast } from '@/utils/toast';
+import { errorToast } from '@/utils/toast';
 import { atom, useAtom } from 'jotai';
 import { useEffect } from 'react';
 
@@ -47,9 +47,9 @@ export function useGeoLocation(options?: UseGeoLocationOptions) {
         });
       },
       (error) => {
-        if (error.PERMISSION_DENIED) infoToast('位置情報の利用が許可されていません');
-        else if (error.POSITION_UNAVAILABLE) infoToast('位置情報が利用できません');
-        else infoToast('位置情報の取得に失敗しました');
+        if (error.PERMISSION_DENIED) errorToast('位置情報の利用を許可してください');
+        else if (error.POSITION_UNAVAILABLE) errorToast('位置情報が利用できません');
+        else errorToast('位置情報の取得に失敗しました');
       },
     );
 

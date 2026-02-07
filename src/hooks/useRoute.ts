@@ -41,10 +41,9 @@ const routeAtom = atom<Promise<Coord[]>>(async (get) => {
   const location = get(locationAtom);
   const destinationId = get(destinationIdAtom);
 
-  if (isFirst) {
-    isFirst = false;
-    return [];
-  }
+  if (isFirst && destinationId == undefined) return [];
+
+  isFirst = false;
 
   if (location == undefined) {
     errorToast('位置情報がありません');
