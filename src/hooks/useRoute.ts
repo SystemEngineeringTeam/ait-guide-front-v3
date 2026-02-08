@@ -3,7 +3,7 @@ import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { toValidCoordinate } from '@/utils/convert';
 import { ofetch } from 'ofetch';
 import { errorToast, infoToast } from '@/utils/toast';
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import type { SelectedFacilityId } from './useSelectedFacilityId';
 import type { FacilityId } from '@/consts/facilityId';
 import { MAX_LAT, MIN_LAT, MAX_LNG, MIN_LNG } from '@/consts/map';
@@ -66,9 +66,13 @@ export function useSetRouteDestinationId() {
   const startCoord = useAtomValue(startCoordAtom);
   const setRoute = useSetAtom(routeAtom);
   const setRouteLoading = useSetAtom(routeLoadingAtom);
+  const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
 
   const setDestinationId = useCallback(
     async (newDestinationId: SelectedFacilityId) => {
+      // 前のタイムアウトをクリア
+      if (timeoutIdRef.current) clearTimeout(timeoutIdRef.current);
+
       // 同じ目的地なら何もしない
       if (destinationId === newDestinationId) return;
 
@@ -89,11 +93,16 @@ export function useSetRouteDestinationId() {
         return;
       }
 
-      setRouteLoading(true);
+      // 0.3秒後にローディング開始
+      timeoutIdRef.current = setTimeout(() => {
+        setRouteLoading(true);
+      }, 300);
+
       try {
         const route = await fetchRoute(start, newDestinationId);
         setRoute(route);
       } finally {
+        if (timeoutIdRef.current) clearTimeout(timeoutIdRef.current);
         setRouteLoading(false);
       }
     },
@@ -112,9 +121,13 @@ export function useSetStartCoord() {
   const destinationId = useAtomValue(destinationIdAtom);
   const setRoute = useSetAtom(routeAtom);
   const setRouteLoading = useSetAtom(routeLoadingAtom);
+  const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
 
   const updateStartCoord = useCallback(
     async (coord: Coord) => {
+      // 前のタイムアウトをクリア
+      if (timeoutIdRef.current) clearTimeout(timeoutIdRef.current);
+
       // 座標を範囲内にクリップ (Coord は [lng, lat])
       const clippedCoord: Coord = [
         Math.max(MIN_LNG, Math.min(MAX_LNG, coord[0])),
@@ -129,12 +142,17 @@ export function useSetStartCoord() {
         return;
       }
 
-      setRouteLoading(true);
+      // 0.3秒後にローディング開始
+      timeoutIdRef.current = setTimeout(() => {
+        setRouteLoading(true);
+      }, 300);
+
       try {
         const fetchedRoute = await fetchRoute(clippedCoord, destinationId);
         const fullRoute = fetchedRoute;
         setRoute(fullRoute);
       } finally {
+        if (timeoutIdRef.current) clearTimeout(timeoutIdRef.current);
         setRouteLoading(false);
       }
     },
