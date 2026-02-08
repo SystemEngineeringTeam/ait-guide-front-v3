@@ -5,6 +5,7 @@
   max-width: 500px;
 
   font-size: $fontsize-md;
+  color: $color-text;
   background-color: $color-element-background;
   border-radius: $radius-lg;
   border: solid 1px transparent;
@@ -30,8 +31,6 @@
     padding: 10px;
     height: $fontsize-xl;
     width: $fontsize-xl;
-
-    color: $color-text;
 
     cursor: pointer;
   }
