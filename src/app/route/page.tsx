@@ -1,7 +1,7 @@
-import RoadConnectionPage from '@/page/RoadConnectionPage';
+import RouteBuildPage from '@/page/RouteBuildPage';
 
 export default function Page() {
-  return <RoadConnectionPage />;
+  return <RouteBuildPage />;
 }
 
 export const dynamic = 'force-static';

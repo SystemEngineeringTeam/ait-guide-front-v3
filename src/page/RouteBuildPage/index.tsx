@@ -8,8 +8,10 @@ import FacilitiesPolygons from '@/components/FacilityPolygons';
 import { GEO_JSON_FACILITIES } from '@/consts/facilities';
 import { GEO_JSON_PASSAGES } from '@/consts/passages';
 import FacilityNames from '@/components/FacilitiesNames';
+import EntranceMarkers from '@/components/EntranceMarkers';
+import { GEO_JSON_ENTRANCES } from '@/consts/entrances';
 
-export default function RoadConnectionPage() {
+export default function RouteBuildPage() {
   const { markers, lines, panel: roadPanel, handleMapContextMenu, handleMapClick } = useRoadBuilder();
   const [ctrlKeyPressed, setCtrlKeyPressed] = useState(false);
 
@@ -46,6 +48,7 @@ export default function RoadConnectionPage() {
         {lines}
         {markers}
         <FacilitiesPolygons facilities={[...GEO_JSON_FACILITIES, ...GEO_JSON_PASSAGES]} />
+        <EntranceMarkers entrances={GEO_JSON_ENTRANCES} />
         <FacilityNames facilities={GEO_JSON_FACILITIES} />
       </Map>
     </>
