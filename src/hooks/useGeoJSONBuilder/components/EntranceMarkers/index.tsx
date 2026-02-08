@@ -49,7 +49,7 @@ export default function EntranceMarkers({
     const features = entrances.flatMap((entrance) => {
       return generateEntranceLines(
         entrance,
-        2, // 線の長さ（メートル）
+        1, // 線の長さ（メートル）
       );
     });
 

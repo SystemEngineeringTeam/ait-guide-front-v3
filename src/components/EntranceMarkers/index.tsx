@@ -23,7 +23,7 @@ export default function EntranceMarkers({ entrances, show = true }: EntranceMark
 
         return generateEntranceLines(
           { id, longitude, latitude, rotation, width },
-          2, // 線の長さ（メートル）
+          1, // 線の長さ（メートル）
         );
       });
 
