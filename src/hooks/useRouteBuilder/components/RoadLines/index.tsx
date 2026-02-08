@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { LineString, type FeatureCollection } from 'geojson';
 import { Layer, Source } from 'react-map-gl/maplibre';
-import { RoadPoint, Road } from '@/hooks/useRoadBuilder';
+import { RoadPoint, Road } from '@/hooks/useRouteBuilder';
 
 interface RoadLinesProps {
   points: RoadPoint[];

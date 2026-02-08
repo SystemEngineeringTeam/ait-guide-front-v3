@@ -1,7 +1,7 @@
 'use client';
 
 import styles from './index.module.scss';
-import { useRoadBuilder } from '@/hooks/useRoadBuilder';
+import { useRouteBuilder } from '@/hooks/useRouteBuilder';
 import Map from '@/components/Map';
 import { useEffect, useState } from 'react';
 import FacilitiesPolygons from '@/components/FacilityPolygons';
@@ -12,7 +12,7 @@ import EntranceMarkers from '@/components/EntranceMarkers';
 import { GEO_JSON_ENTRANCES } from '@/consts/entrances';
 
 export default function RouteBuildPage() {
-  const { markers, lines, panel: roadPanel, handleMapContextMenu, handleMapClick } = useRoadBuilder();
+  const { markers, lines, panel: roadPanel, handleMapContextMenu, handleMapClick } = useRouteBuilder();
   const [ctrlKeyPressed, setCtrlKeyPressed] = useState(false);
 
   useEffect(() => {

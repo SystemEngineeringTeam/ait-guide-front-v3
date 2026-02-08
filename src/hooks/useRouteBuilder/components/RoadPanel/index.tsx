@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './index.module.scss';
-import { RoadPoint, Road, PointType, RouteOptions } from '@/hooks/useRoadBuilder';
+import { RoadPoint, Road, PointType, RouteOptions } from '@/hooks/useRouteBuilder';
 import { POINT_TYPE_COLORS, POINT_TYPE_LABELS } from '../RoadMarkerPoints/index';
 
 interface RoadPanelProps {

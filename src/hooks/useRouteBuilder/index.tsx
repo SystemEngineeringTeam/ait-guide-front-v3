@@ -94,7 +94,7 @@ const saveToDB = async (data: StoredData): Promise<void> => {
   });
 };
 
-export const useRoadBuilder = () => {
+export const useRouteBuilder = () => {
   const [points, setPoints] = useState<RoadPoint[]>([]);
   const [roads, setRoads] = useState<Road[]>([]);
   const [selectedPointId, setSelectedPointId] = useState<string | null>(null);

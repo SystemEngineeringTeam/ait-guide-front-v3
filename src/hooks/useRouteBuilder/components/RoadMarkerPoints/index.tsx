@@ -1,5 +1,5 @@
 import { Marker, MarkerDragEvent, Popup } from 'react-map-gl/maplibre';
-import { RoadPoint, PointType, Road } from '@/hooks/useRoadBuilder';
+import { RoadPoint, PointType, Road } from '@/hooks/useRouteBuilder';
 import { useCallback, useState } from 'react';
 import styles from './index.module.scss';
 
