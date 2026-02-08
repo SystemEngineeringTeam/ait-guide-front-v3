@@ -31,7 +31,9 @@ async function fetchRoute(location: Coord, destinationId: FacilityId): Promise<C
       return [];
     }
 
-    return data.route.map((p) => [p.lng, p.lat]);
+    const route: Coord[] = data.route.map((p) => [p.lng, p.lat]);
+
+    return [location, ...route];
   } catch (e) {
     console.error('Failed to fetch route:', e);
     errorToast('経路情報取得に失敗しました');
@@ -113,7 +115,7 @@ export function useSetStartCoord() {
       }
 
       const fetchedRoute = await fetchRoute(clippedCoord, destinationId);
-      const fullRoute = [clippedCoord, ...fetchedRoute];
+      const fullRoute = fetchedRoute;
       setRoute(fullRoute);
     },
     [setStartCoord, destinationId, setRoute],
