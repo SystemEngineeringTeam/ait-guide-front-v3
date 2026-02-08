@@ -1,7 +1,7 @@
 .marker {
   width: 12px;
   height: 12px;
-  background-color: #ff4444;
+  background-color: var(--marker-color, #ff4444);
   border: 2px solid #ffffff;
   border-radius: 50%;
   cursor: pointer;
@@ -11,7 +11,8 @@
   &:hover {
     width: 14px;
     height: 14px;
-    background-color: #ff2222;
+    background-color: var(--marker-color, #ff4444);
+    filter: brightness(0.85);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
   }
 }
@@ -33,19 +34,21 @@
 .deleteButton {
   width: 100%;
   padding: 4px 8px;
-  background-color: #ff4444;
+  background-color: var(--button-color, #ff4444);
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 11px;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+  opacity: 0.9;
 
   &:hover {
-    background-color: #ff2222;
+    opacity: 1;
+    filter: brightness(0.85);
   }
 
   &:active {
-    background-color: #dd1111;
+    filter: brightness(0.75);
   }
 }

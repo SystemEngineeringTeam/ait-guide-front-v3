@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo, useEffect, type MouseEvent } from 'react';
-import { Feature, FeatureCollection, Point, Polygon } from 'geojson';
+import { Feature, FeatureCollection, Point, Polygon, MultiPolygon } from 'geojson';
 import { type MapRef } from 'react-map-gl/maplibre';
 import MarkerPoints from './components/MarkerPoints';
 import FacilityPolygon from './components/FacilityPolygon';
@@ -10,6 +10,8 @@ import { FacilityFillColor, DEFAULT_COLOR } from '@/consts/colors';
 import { errorToast } from '@/utils/toast';
 
 export type PolygonFeature = Feature<Polygon> | null;
+export type MultiPolygonFeature = Feature<MultiPolygon> | null;
+export type PolygonSubMode = 'outline' | 'floor';
 
 export interface FacilityPoint {
   id: string;
@@ -31,18 +33,24 @@ export type FacilityMode = 'polygon' | 'entrance';
 
 const POINTS_STORAGE_KEY = 'geojson-builder:points';
 const ENTRANCES_STORAGE_KEY = 'geojson-builder:entrances';
+const FLOOR_POINTS_STORAGE_KEY = 'geojson-builder:floor-points';
 
 export const useGeoJSONBuilder = () => {
   const [points, setPoints] = useState<FacilityPoint[]>([]);
+  const [floorPoints, setFloorPoints] = useState<FacilityPoint[]>([]);
   const [entrances, setEntrances] = useState<Entrance[]>([]);
   const [selectedColor, setSelectedColor] = useState<FacilityFillColor>(DEFAULT_COLOR);
   const [selectedPointId, setSelectedPointId] = useState<string | null>(null);
+  const [selectedFloorPointId, setSelectedFloorPointId] = useState<string | null>(null);
   const [selectedEntranceId, setSelectedEntranceId] = useState<string | null>(null);
   const [facilityMode, setFacilityMode] = useState<FacilityMode>('polygon');
+  const [polygonSubMode, setPolygonSubMode] = useState<PolygonSubMode>('outline');
 
   useEffect(() => {
     const saved = localStorage.getItem(POINTS_STORAGE_KEY);
     if (saved) setPoints(JSON.parse(saved));
+    const savedFloorPoints = localStorage.getItem(FLOOR_POINTS_STORAGE_KEY);
+    if (savedFloorPoints) setFloorPoints(JSON.parse(savedFloorPoints));
     const savedEntrances = localStorage.getItem(ENTRANCES_STORAGE_KEY);
     if (savedEntrances) setEntrances(JSON.parse(savedEntrances));
   }, []);
@@ -50,6 +58,10 @@ export const useGeoJSONBuilder = () => {
   useEffect(() => {
     localStorage.setItem(POINTS_STORAGE_KEY, JSON.stringify(points));
   }, [points]);
+
+  useEffect(() => {
+    localStorage.setItem(FLOOR_POINTS_STORAGE_KEY, JSON.stringify(floorPoints));
+  }, [floorPoints]);
 
   useEffect(() => {
     localStorage.setItem(ENTRANCES_STORAGE_KEY, JSON.stringify(entrances));
@@ -116,6 +128,40 @@ export const useGeoJSONBuilder = () => {
     localStorage.removeItem(POINTS_STORAGE_KEY);
   }, []);
 
+  const addFloorPoint = useCallback((longitude: number, latitude: number) => {
+    const newPoint = createPoint(longitude, latitude);
+    setFloorPoints((prev) => [...prev, newPoint]);
+    return newPoint;
+  }, [createPoint]);
+
+  const insertFloorPointAt = useCallback(
+    (index: number, longitude: number, latitude: number) => {
+      const newPoint = createPoint(longitude, latitude);
+      setFloorPoints((prev) => {
+        const next = [...prev];
+        const insertIndex = Math.max(0, Math.min(index, next.length));
+        next.splice(insertIndex, 0, newPoint);
+        return next;
+      });
+      return newPoint;
+    },
+    [createPoint],
+  );
+
+  const removeFloorPoint = useCallback((id: string) => {
+    setFloorPoints((prev) => prev.filter((p) => p.id !== id));
+  }, []);
+
+  const updateFloorPoint = useCallback((id: string, longitude: number, latitude: number) => {
+    setFloorPoints((prev) => prev.map((point) => (point.id === id ? { ...point, longitude, latitude } : point)));
+  }, []);
+
+  const clearFloorPoints = useCallback(() => {
+    setFloorPoints([]);
+    setSelectedFloorPointId(null);
+    localStorage.removeItem(FLOOR_POINTS_STORAGE_KEY);
+  }, []);
+
   const addEntrance = useCallback((longitude: number, latitude: number, rotation: number = 0, width: number = 2) => {
     const newEntrance: Entrance = {
       id: `entrance-${Date.now()}-${Math.random()}`,
@@ -157,19 +203,82 @@ export const useGeoJSONBuilder = () => {
       const lngLat = mapRef.current.unproject([x, y]);
 
       if (facilityMode === 'polygon') {
-        addPoint(lngLat.lng, lngLat.lat);
+        if (polygonSubMode === 'outline') {
+          addPoint(lngLat.lng, lngLat.lat);
+        } else {
+          // 1階ポイント追加時に外枠にスナップ
+          let finalLng = lngLat.lng;
+          let finalLat = lngLat.lat;
+
+          const SNAP_THRESHOLD_PX = 15;
+          const clickPoint = { x, y };
+          let minDistance = Number.POSITIVE_INFINITY;
+
+          // 外枠のポイントから最も近い点を探す
+          if (points.length > 0) {
+            for (const point of points) {
+              const projectedPoint = mapRef.current.project([point.longitude, point.latitude]);
+              const dist = Math.hypot(clickPoint.x - projectedPoint.x, clickPoint.y - projectedPoint.y);
+
+              if (dist < minDistance) {
+                minDistance = dist;
+                finalLng = point.longitude;
+                finalLat = point.latitude;
+              }
+            }
+          }
+
+          // 外枠の線分から最も近い点を探す
+          if (points.length > 1) {
+            const projectedPoints = points.map((point) => mapRef.current!.project([point.longitude, point.latitude]));
+
+            for (let i = 0; i < projectedPoints.length; i += 1) {
+              const v = projectedPoints[i];
+              const w = projectedPoints[(i + 1) % projectedPoints.length];
+
+              // 線分上の最も近い点を計算
+              const l2 = (w.x - v.x) ** 2 + (w.y - v.y) ** 2;
+              let t = 0;
+              if (l2 !== 0) {
+                t = Math.max(0, Math.min(1, ((clickPoint.x - v.x) * (w.x - v.x) + (clickPoint.y - v.y) * (w.y - v.y)) / l2));
+              }
+
+              const closestPoint = {
+                x: v.x + t * (w.x - v.x),
+                y: v.y + t * (w.y - v.y),
+              };
+
+              const dist = Math.hypot(clickPoint.x - closestPoint.x, clickPoint.y - closestPoint.y);
+
+              if (dist < minDistance) {
+                minDistance = dist;
+                const lngLatOnSegment = mapRef.current!.unproject([closestPoint.x, closestPoint.y]);
+                finalLng = lngLatOnSegment.lng;
+                finalLat = lngLatOnSegment.lat;
+              }
+            }
+          }
+
+          if (minDistance <= SNAP_THRESHOLD_PX) {
+            addFloorPoint(finalLng, finalLat);
+          } else {
+            addFloorPoint(lngLat.lng, lngLat.lat);
+          }
+        }
       } else if (facilityMode === 'entrance') {
         addEntrance(lngLat.lng, lngLat.lat);
       }
     },
-    [addPoint, addEntrance, facilityMode],
+    [addPoint, addFloorPoint, addEntrance, facilityMode, polygonSubMode, points],
   );
 
   const handleMapClick: HandleMapClickFn = useCallback(
     (mapRef: React.RefObject<MapRef | null>) => (e: MouseEvent<HTMLDivElement>) => {
       if (!mapRef.current) return;
-      if (facilityMode !== 'polygon') return; // ポリゴンモードのみ辺への点挿入を有効化
-      if (points.length < 2) return;
+      if (facilityMode !== 'polygon') return;
+      
+      const ptsToUse = polygonSubMode === 'outline' ? points : floorPoints;
+      if (ptsToUse.length < 2) return;
 
       const canvas = mapRef.current.getCanvas();
       const rect = canvas.getBoundingClientRect();
@@ -178,7 +287,7 @@ export const useGeoJSONBuilder = () => {
         y: e.clientY - rect.top,
       };
 
-      const projectedPoints = points.map((point) => mapRef.current!.project([point.longitude, point.latitude]));
+      const projectedPoints = ptsToUse.map((point) => mapRef.current!.project([point.longitude, point.latitude]));
 
       let minDistance = Number.POSITIVE_INFINITY;
       let insertIndex = -1;
@@ -200,7 +309,7 @@ export const useGeoJSONBuilder = () => {
         const distance = getDistanceToSegment(clickPoint, v, w);
         if (distance < minDistance) {
           minDistance = distance;
-          insertIndex = points.length;
+          insertIndex = ptsToUse.length;
         }
       }
 
@@ -208,9 +317,13 @@ export const useGeoJSONBuilder = () => {
       if (insertIndex < 0 || minDistance > THRESHOLD_PX) return;
 
       const lngLat = mapRef.current.unproject([clickPoint.x, clickPoint.y]);
-      insertPointAt(insertIndex, lngLat.lng, lngLat.lat);
+      if (polygonSubMode === 'outline') {
+        insertPointAt(insertIndex, lngLat.lng, lngLat.lat);
+      } else {
+        insertFloorPointAt(insertIndex, lngLat.lng, lngLat.lat);
+      }
     },
-    [getDistanceToSegment, insertPointAt, points, facilityMode],
+    [getDistanceToSegment, insertPointAt, insertFloorPointAt, points, floorPoints, facilityMode, polygonSubMode],
   );
 
   const polygonFeature = useMemo<PolygonFeature>(() => {
@@ -235,6 +348,28 @@ export const useGeoJSONBuilder = () => {
     };
   }, [points, selectedColor]);
 
+  const floorPolygonFeature = useMemo<PolygonFeature>(() => {
+    if (floorPoints.length < 3) return null;
+
+    const ring = floorPoints.map((point) => [point.longitude, point.latitude]);
+    const first = ring[0];
+    const last = ring[ring.length - 1];
+    if (first[0] !== last[0] || first[1] !== last[1]) {
+      ring.push([first[0], first[1]]);
+    }
+
+    return {
+      type: 'Feature',
+      properties: {
+        color: selectedColor,
+      },
+      geometry: {
+        type: 'Polygon',
+        coordinates: [ring],
+      },
+    };
+  }, [floorPoints, selectedColor]);
+
   const generateGeoJSON = useCallback((): FeatureCollection => {
     const pointFeatures: Feature<Point>[] = points.map((point) => ({
       type: 'Feature',
@@ -248,13 +383,32 @@ export const useGeoJSONBuilder = () => {
       },
     }));
 
-    const features = polygonFeature ? [polygonFeature, ...pointFeatures] : pointFeatures;
+    let polygonToUse = polygonFeature;
+
+    // 1階があれば、外枠ポリゴンと1階ポリゴンをMultiPolygonで統合
+    if (polygonFeature && floorPolygonFeature) {
+      const outerRing = (polygonFeature.geometry as Polygon).coordinates[0];
+      const floorRing = (floorPolygonFeature.geometry as Polygon).coordinates[0];
+
+      polygonToUse = {
+        type: 'Feature',
+        properties: {
+          color: selectedColor,
+        },
+        geometry: {
+          type: 'MultiPolygon',
+          coordinates: [[outerRing], [floorRing]],
+        },
+      } as any;
+    }
+
+    const features = polygonToUse ? [polygonToUse, ...pointFeatures] : pointFeatures;
 
     return {
       type: 'FeatureCollection',
       features,
     };
-  }, [points, polygonFeature]);
+  }, [points, polygonFeature, floorPolygonFeature, selectedColor]);
 
   const generateEntrancesGeoJSON = useCallback((): FeatureCollection => {
     const entranceFeatures: Feature<Point>[] = entrances.map((entrance) => ({
@@ -370,10 +524,14 @@ export const useGeoJSONBuilder = () => {
   const panel = (
     <GeoJSONPanel
       points={points}
+      floorPoints={floorPoints}
       entrances={entrances}
       facilityMode={facilityMode}
+      polygonSubMode={polygonSubMode}
       onChangeFacilityMode={setFacilityMode}
+      onChangePolygonSubMode={setPolygonSubMode}
       onClear={clearPoints}
+      onClearFloor={clearFloorPoints}
       onClearEntrances={clearEntrances}
       onCopy={copyToClipboard}
       onPaste={pasteFromClipboard}
@@ -387,12 +545,21 @@ export const useGeoJSONBuilder = () => {
     <>
       <MarkerPoints
         points={points}
-        selectedPointId={selectedPointId}
-        onSelectPoint={setSelectedPointId}
+        selectedPointId={polygonSubMode === 'outline' ? selectedPointId : null}
+        onSelectPoint={polygonSubMode === 'outline' ? setSelectedPointId : () => {}}
         onRemovePoint={removePoint}
         onUpdatePoint={updatePoint}
       />
+      <MarkerPoints
+        points={floorPoints}
+        selectedPointId={polygonSubMode === 'floor' ? selectedFloorPointId : null}
+        onSelectPoint={polygonSubMode === 'floor' ? setSelectedFloorPointId : () => {}}
+        onRemovePoint={removeFloorPoint}
+        onUpdatePoint={updateFloorPoint}
+        markerColor="#4444ff"
+      />
       <FacilityPolygon polygonFeature={polygonFeature} selectedColor={selectedColor} />
+      <FacilityPolygon polygonFeature={floorPolygonFeature} selectedColor={selectedColor} isDashedLine={true} />
     </>
   );
 
@@ -408,20 +575,35 @@ export const useGeoJSONBuilder = () => {
 
   return {
     points,
+    floorPoints,
     entrances,
     polygonFeature,
+    floorPolygonFeature,
     selectedColor,
     selectedPointId,
+    selectedFloorPointId,
     selectedEntranceId,
     facilityMode,
+    polygonSubMode,
 
     handleMapContextMenu,
     handleMapClick,
+
+    // floor operations
+    addFloorPoint,
+    removeFloorPoint,
+    updateFloorPoint,
+    clearFloorPoints,
 
     // entrance operations
     addEntrance,
     removeEntrance,
     updateEntrance,
+
+    // setters
+    setPolygonSubMode,
+    setSelectedPointId,
+    setSelectedFloorPointId,
     setSelectedEntranceId,
 
     // components

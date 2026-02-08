@@ -9,6 +9,7 @@ interface MarkerPointsProps {
   onSelectPoint: (id: string | null) => void;
   onRemovePoint: (id: string) => void;
   onUpdatePoint: (id: string, longitude: number, latitude: number) => void;
+  markerColor?: string;
 }
 
 export default function MarkerPoints({
@@ -17,6 +18,7 @@ export default function MarkerPoints({
   onSelectPoint,
   onRemovePoint,
   onUpdatePoint,
+  markerColor = '#ff4444',
 }: MarkerPointsProps) {
   const handleClick = useCallback(
     (pointId: string) => (e: { originalEvent: MouseEvent }) => {
@@ -50,7 +52,7 @@ export default function MarkerPoints({
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd(point.id)}
         >
-          <div className={styles.marker} />
+          <div className={styles.marker} style={{ '--marker-color': markerColor } as React.CSSProperties} />
           {selectedPointId === point.id && (
             <Popup
               longitude={point.longitude}
@@ -65,6 +67,7 @@ export default function MarkerPoints({
                 </p>
                 <button
                   className={styles.deleteButton}
+                  style={{ '--button-color': markerColor } as React.CSSProperties}
                   onClick={(e) => {
                     e.stopPropagation();
                     onRemovePoint(point.id);

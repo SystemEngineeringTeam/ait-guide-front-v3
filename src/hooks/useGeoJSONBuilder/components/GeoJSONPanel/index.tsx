@@ -1,14 +1,18 @@
 import { FACILITY_FILL_COLORS, FacilityFillColor } from '@/consts/colors';
 import styles from './index.module.scss';
-import { FacilityPoint, Entrance, FacilityMode } from '@/hooks/useGeoJSONBuilder';
+import { FacilityPoint, Entrance, FacilityMode, PolygonSubMode } from '@/hooks/useGeoJSONBuilder';
 import { useState } from 'react';
 
 interface GeoJSONPanelProps {
   points: FacilityPoint[];
+  floorPoints: FacilityPoint[];
   entrances: Entrance[];
   facilityMode: FacilityMode;
+  polygonSubMode: PolygonSubMode;
   onChangeFacilityMode: (mode: FacilityMode) => void;
+  onChangePolygonSubMode: (mode: PolygonSubMode) => void;
   onClear: () => void;
+  onClearFloor: () => void;
   onClearEntrances: () => void;
   onCopy: () => void;
   onPaste: () => Promise<void>;
@@ -20,10 +24,14 @@ interface GeoJSONPanelProps {
 
 export default function GeoJSONPanel({
   points,
+  floorPoints,
   entrances,
   facilityMode,
+  polygonSubMode,
   onChangeFacilityMode,
+  onChangePolygonSubMode,
   onClear,
+  onClearFloor,
   onClearEntrances,
   onCopy,
   onPaste,
@@ -52,7 +60,7 @@ export default function GeoJSONPanel({
               className={`${styles.modeButton} ${facilityMode === 'polygon' ? styles.active : ''}`}
               onClick={() => onChangeFacilityMode('polygon')}
             >
-              🏢 ポリゴン
+              🏢 施設
             </button>
             <button
               type="button"
@@ -63,11 +71,30 @@ export default function GeoJSONPanel({
             </button>
           </div>
 
+          {facilityMode === 'polygon' && (
+            <div className={styles.modeSelector}>
+              <button
+                type="button"
+                className={`${styles.modeButton} ${polygonSubMode === 'outline' ? styles.active : ''}`}
+                onClick={() => onChangePolygonSubMode('outline')}
+              >
+                ⬜ 外枠
+              </button>
+              <button
+                type="button"
+                className={`${styles.modeButton} ${polygonSubMode === 'floor' ? styles.active : ''}`}
+                onClick={() => onChangePolygonSubMode('floor')}
+              >
+                📐 1階
+              </button>
+            </div>
+          )}
+
           <div className={styles.info}>
             {facilityMode === 'polygon' ? (
               <>
                 <p className={styles.pointCount}>
-                  マーカー: <strong>{points.length}</strong> 個
+                  {polygonSubMode === 'outline' ? '外枠' : '1階'}マーカー: <strong>{polygonSubMode === 'outline' ? points.length : floorPoints.length}</strong> 個
                 </p>
                 <p className={styles.hint}>マップを右クリックしてマーカーを追加してください</p>
                 <p className={styles.hint}>3点以上で囲うと塗りつぶしが表示されます</p>
@@ -101,11 +128,27 @@ export default function GeoJSONPanel({
                 </div>
               </div>
 
-              {points.length > 0 && (
+              {polygonSubMode === 'outline' && points.length > 0 && (
                 <div className={styles.pointsList}>
-                  <h4>マーカー一覧</h4>
+                  <h4>外枠マーカー一覧</h4>
                   <div className={styles.scrollable}>
                     {points.map((point, index) => (
+                      <div key={point.id} className={styles.pointItem}>
+                        <span className={styles.index}>{index + 1}</span>
+                        <span className={styles.coords}>
+                          {point.latitude.toFixed(6)}, {point.longitude.toFixed(6)}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {polygonSubMode === 'floor' && floorPoints.length > 0 && (
+                <div className={styles.pointsList}>
+                  <h4>1階マーカー一覧</h4>
+                  <div className={styles.scrollable}>
+                    {floorPoints.map((point, index) => (
                       <div key={point.id} className={styles.pointItem}>
                         <span className={styles.index}>{index + 1}</span>
                         <span className={styles.coords}>
@@ -119,25 +162,6 @@ export default function GeoJSONPanel({
             </>
           )}
 
-          {facilityMode === 'entrance' && entrances.length > 0 && (
-            <div className={styles.pointsList}>
-              <h4>出入り口一覧</h4>
-              <div className={styles.scrollable}>
-                {entrances.map((entrance, index) => (
-                  <div key={entrance.id} className={styles.pointItem}>
-                    <span className={styles.index}>{index + 1}</span>
-                    <span className={styles.coords}>
-                      {entrance.latitude.toFixed(6)}, {entrance.longitude.toFixed(6)}
-                    </span>
-                    <span className={styles.entranceInfo}>
-                      {entrance.rotation}° / {entrance.width.toFixed(1)}m
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
           <div className={styles.actions}>
             {facilityMode === 'polygon' ? (
               <>
@@ -147,8 +171,12 @@ export default function GeoJSONPanel({
                 <button className={styles.importButton} onClick={onPaste} disabled={points.length > 0}>
                   📥 GeoJSON を貼り付け
                 </button>
-                <button className={styles.clearButton} onClick={onClear} disabled={points.length === 0}>
-                  🗑️ クリア
+                <button
+                  className={styles.clearButton}
+                  onClick={polygonSubMode === 'outline' ? onClear : onClearFloor}
+                  disabled={polygonSubMode === 'outline' ? points.length === 0 : floorPoints.length === 0}
+                >
+                  🗑️ {polygonSubMode === 'outline' ? '外枠を' : '1階を'}クリア
                 </button>
               </>
             ) : (
