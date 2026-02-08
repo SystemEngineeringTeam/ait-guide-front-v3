@@ -88,6 +88,7 @@ export default function MapPage() {
         onRotate={setBearing}
         onMove={handleMapMove}
         onClickNotFeature={handleBottomSheetClose}
+        maxZoom={20}
       >
         {showDeer && <Deers zoom={zoomForDeer} />}
         <LocationIndicator onChange={setCoord} />
