@@ -20,6 +20,16 @@
 検索画面を開き，検索バーにキーワードを入力すると，該当する施設・教室が一覧表示されます。
 一覧から選択すると，その施設・教室の場所へ移動します。
 
+## 経路案内
+
+施設を選択した状態で経路案内ボタンを押すと，現在地からその施設までの経路を表示します。
+出発地は <span style={{ width: '1rem', height:'1rem', borderRadius: '50%', border: '2px solid var(--color-primary)', backgroundColor: 'white', display: 'inline-block', transform: 'translateY(2px)' }}></span> （青枠+白塗りの円），目的地は <span style={{ width: '1rem', height:'1rem', borderRadius: '50%', border: '2px solid var(--color-primary)', backgroundColor: 'var(--color-primary)', display: 'inline-block', transform: 'translateY(2px)' }}></span> （青塗りの円）で表示されます。
+
+経路案内中は，画面下部に出発地と目的地が表示されます。
+出発地をドラッグすると，出発地を変更できます。
+目的地名を選択すると検索欄が開き，新たな目的地を選択すると変更できます。
+
+
 ## 現在位置確認
 
 ブラウザの位置情報を許可すると，現在地を確認できます。
