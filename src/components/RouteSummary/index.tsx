@@ -63,7 +63,7 @@ export default function RouteSummary() {
   );
 
   const destination = destinationId && FACILITIES_MAP[destinationId];
-  if (destination == null) return null;
+  if (destination == null || route.length === 0) return null;
 
   const from = startCoord ? '指定位置' : isValidLocation ? '現在地' : '正門';
 
