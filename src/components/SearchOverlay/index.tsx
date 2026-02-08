@@ -3,13 +3,14 @@
 import styles from './index.module.scss';
 import FacilityList from './FacilityList';
 import SearchResults from './SearchResults';
-import { useOverlayEvent } from '@/hooks/useOverlay';
+import { type OverlayKey, useOverlayEvent } from '@/hooks/useOverlay';
 import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
 import { useRef } from 'react';
 import Input from './Input';
 import type { SelectedFacilityId, SetSelectedFacilityIdFn } from '@/hooks/useSelectedFacilityId';
 
 interface Props {
+  overlayKey: OverlayKey;
   isOpen: boolean;
   close: () => void;
   text: string;
@@ -19,6 +20,7 @@ interface Props {
 }
 
 export default function SearchOverlay({
+  overlayKey,
   isOpen,
   close,
   text,
@@ -28,7 +30,7 @@ export default function SearchOverlay({
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useOverlayEvent({
+  useOverlayEvent(overlayKey, {
     onOpen: () => {
       inputRef.current?.focus();
     },

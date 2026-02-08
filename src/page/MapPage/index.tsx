@@ -34,7 +34,7 @@ export default function MapPage() {
   const [zoomForDeer, setZoomForDeer] = useState(17);
   const [showEntrances, setShowEntrances] = useState(false);
   const [showDeer, setShowDeer] = useState(false);
-  const { isOpen, close } = useOverlay();
+  const { isOpen, close } = useOverlay('search');
   const route = useRoute();
 
   useKeyboardShortcut({
@@ -71,6 +71,7 @@ export default function MapPage() {
   return (
     <>
       <SearchOverlay
+        overlayKey="search"
         isOpen={isOpen}
         close={close}
         text={searchText}

@@ -9,16 +9,16 @@ import Link, { type LinkProps } from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function AppBar() {
-  const { close, open } = useOverlay();
+  const { open, closeAll } = useOverlay('search');
   const router = useRouter();
 
   useKeyboardShortcut({
     onMap: () => {
-      close();
+      closeAll();
       router.push('/');
     },
     onHelp: () => {
-      close();
+      closeAll();
       router.push('/help');
     },
     onSearch: () => open(),
@@ -27,11 +27,11 @@ export default function AppBar() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.appbar}>
-        <IconButton<LinkProps> icon={<MapIcon />} as={Link} href="/" onClick={close}>
+        <IconButton<LinkProps> icon={<MapIcon />} as={Link} href="/" onClick={closeAll}>
           <span>Map</span>
         </IconButton>
 
-        <IconButton<LinkProps> icon={<QuestionIcon />} as={Link} href="/help" onClick={close}>
+        <IconButton<LinkProps> icon={<QuestionIcon />} as={Link} href="/help" onClick={closeAll}>
           <span>Help</span>
         </IconButton>
 

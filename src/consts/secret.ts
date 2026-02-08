@@ -3,7 +3,7 @@ import { observe } from 'jotai-effect';
 import { showPenguin } from '@/hooks/usePenguin';
 import { flyTo } from '@/hooks/useFlyTo';
 import { COORD_NARA_PARK } from './coords';
-import { setOverlayOpen } from '@/hooks/useOverlay';
+import { closeOverlayAll } from '@/hooks/useOverlay';
 
 export interface SecretMap {
   id: number;
@@ -19,7 +19,7 @@ export const SECRETS: SecretMap[] = [
     word: 'ペンギン',
     event: () =>
       observe((_get, set) => {
-        setOverlayOpen(set, false);
+        closeOverlayAll(set);
         showPenguin(set);
       }),
   },
@@ -28,7 +28,7 @@ export const SECRETS: SecretMap[] = [
     word: 'シカ',
     event: () =>
       observe((_get, set) => {
-        setOverlayOpen(set, false);
+        closeOverlayAll(set);
         flyTo(set, COORD_NARA_PARK);
       }),
   },

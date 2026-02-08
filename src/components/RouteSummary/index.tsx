@@ -13,13 +13,15 @@ import { useFlyTo, useFlyToFacility } from '@/hooks/useFlyTo';
 import { useIsValidGeoLocation } from '@/hooks/useGeoLocation';
 import { COORD_AIT_MAIN_GATE } from '@/consts/coords';
 import { infoToast } from '@/utils/toast';
+import { useSearchText } from '@/hooks/useSearch';
+import { useOverlay } from '@/hooks/useOverlay';
 
 export default function RouteSummary() {
   const flyToFacility = useFlyToFacility();
   const flyTo = useFlyTo();
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, open, close } = useOverlay('change');
   const [destinationId, setDestinationId] = useDestinationId();
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useSearchText();
   const isValidLocation = useIsValidGeoLocation();
   const startCoord = useStartCoord();
   const route = useRoute();
@@ -37,20 +39,20 @@ export default function RouteSummary() {
   }, [startCoord, flyTo, route]);
 
   const handleClickTo = useCallback(() => {
-    setIsOpen(true);
-  }, [setIsOpen]);
+    open();
+  }, [open]);
 
   const handleClose = useCallback(() => {
-    setIsOpen(false);
-  }, [setIsOpen]);
+    close();
+  }, [close]);
 
   const handleSelectFacilityId = useCallback(
     (id: SelectedFacilityId) => {
       flyToFacility(id);
       setDestinationId(id);
-      setIsOpen(false);
+      close();
     },
-    [setDestinationId, setIsOpen, flyToFacility],
+    [setDestinationId, close, flyToFacility],
   );
 
   const destination = destinationId && FACILITIES_MAP[destinationId];
@@ -76,6 +78,7 @@ export default function RouteSummary() {
           {destination.name}
         </button>
         <SearchOverlay
+          overlayKey="change"
           isOpen={isOpen}
           close={handleClose}
           text={searchText}

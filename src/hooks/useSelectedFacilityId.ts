@@ -22,7 +22,7 @@ export function useSelectedFacilityIdValue() {
 
 export function useSetSelectedFacilityId() {
   const set = useSetAtom(selectedFacilityIdAtom);
-  const { close: closeOverlay } = useOverlay();
+  const { close: closeOverlay } = useOverlay('search');
   const router = useRouter();
   const openBottomSheet = useBottomSheetOpen();
   const flyTo = useFlyToFacility();
