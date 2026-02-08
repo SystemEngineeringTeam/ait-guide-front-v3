@@ -31,10 +31,17 @@ export default function RouteSummary() {
   });
 
   const handleClickFrom = useCallback(() => {
+    // 指定位置がある場合
+    if (startCoord) {
+      flyTo(startCoord);
+      return;
+    }
+
     infoToast('開始地点をドラッグして変更できます');
 
-    if (startCoord) flyTo(startCoord);
-    else if (!isValidLocation) flyTo(COORD_AIT_MAIN_GATE);
+    // 現在地が範囲外の場合
+    if (!isValidLocation) flyTo(COORD_AIT_MAIN_GATE);
+    // 現在地
     else if (route.length > 0) flyTo(route[0]);
   }, [startCoord, flyTo, route]);
 
