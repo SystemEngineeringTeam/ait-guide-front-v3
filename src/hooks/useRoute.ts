@@ -1,6 +1,5 @@
 import { Coord } from '@/types/coord';
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { locationAtom } from './useGeoLocation';
 import { toValidCoordinate } from '@/utils/convert';
 import { ofetch } from 'ofetch';
 import { errorToast, infoToast } from '@/utils/toast';
@@ -8,6 +7,7 @@ import { useCallback } from 'react';
 import type { SelectedFacilityId } from './useSelectedFacilityId';
 import type { FacilityId } from '@/consts/facilityId';
 import { MAX_LAT, MIN_LAT, MAX_LNG, MIN_LNG } from '@/consts/map';
+import { useGeoLocationCoord } from './useGeoLocation';
 
 interface RouteResponse {
   route: { lat: number; lng: number }[] | null;
@@ -55,7 +55,7 @@ const destinationIdAtom = atom<SelectedFacilityId>(undefined);
 
 export function useSetRouteDestinationId() {
   const [destinationId, setDestinationId_] = useAtom(destinationIdAtom);
-  const location = useAtomValue(locationAtom);
+  const location = useGeoLocationCoord();
   const startCoord = useAtomValue(startCoordAtom);
   const setRoute = useSetAtom(routeAtom);
 

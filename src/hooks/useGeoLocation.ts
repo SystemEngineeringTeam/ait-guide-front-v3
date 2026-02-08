@@ -13,7 +13,7 @@ export interface GeoLocationCoordinates {
   speed: number | null;
 }
 
-export const locationAtom = atom<GeoLocationCoordinates | undefined>(undefined);
+const locationAtom = atom<GeoLocationCoordinates | undefined>(undefined);
 
 interface UseGeoLocationOptions {
   override?: Partial<GeoLocationCoordinates>;
@@ -66,4 +66,8 @@ export function useIsValidGeoLocation() {
   const coord = useAtomValue(locationAtom);
   if (!coord) return false;
   return isValidCoordinate(coord.latitude, coord.longitude);
+}
+
+export function useGeoLocationCoord() {
+  return useAtomValue(locationAtom);
 }
