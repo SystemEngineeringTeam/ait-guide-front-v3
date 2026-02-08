@@ -2,25 +2,61 @@
 
 import { GeoJSONFacilities } from '@/types/facilities';
 import { Layer, Source } from 'react-map-gl/maplibre';
-import type { FeatureCollection } from 'geojson';
+import type { Feature, FeatureCollection, Point, Polygon, MultiPolygon } from 'geojson';
 
 interface Props {
   facilities: GeoJSONFacilities[];
 }
 
 export default function FacilityNames({ facilities }: Props) {
+  const createLabelPoint = (ring: number[][]): Feature<Point> => {
+    const count = ring.length || 1;
+    const [sumLng, sumLat] = ring.reduce(
+      (acc, coord) => [acc[0] + coord[0], acc[1] + coord[1]],
+      [0, 0],
+    );
+
+    return {
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [sumLng / count, sumLat / count],
+      },
+      properties: {},
+    };
+  };
+
   const data: FeatureCollection = {
     type: 'FeatureCollection',
-    features: facilities.map((facility) => {
-      const feature = facility.data.features[0]; // ラベル用1点
+    features: facilities.flatMap((facility) => {
+      const feature = facility.data.features[0];
+      if (!feature || !feature.geometry) return [];
 
-      return {
-        ...feature,
+      const polygonDivision = facility.polygonDivision ?? 1;
+      const labelFeatures: Feature<Point>[] = [];
+
+      if (feature.geometry.type === 'Polygon') {
+        const polygon = feature as Feature<Polygon>;
+        const ring = polygon.geometry.coordinates[0];
+        if (ring) labelFeatures.push(createLabelPoint(ring));
+      }
+
+      if (feature.geometry.type === 'MultiPolygon') {
+        const multiPolygon = feature as Feature<MultiPolygon>;
+        const polygons = multiPolygon.geometry.coordinates.slice(0, polygonDivision);
+        polygons.forEach((polygon) => {
+          const ring = polygon?.[0];
+          if (ring) labelFeatures.push(createLabelPoint(ring));
+        });
+      }
+
+      return labelFeatures.map((labelFeature) => ({
+        ...labelFeature,
         properties: {
-          ...feature.properties,
+          ...labelFeature.properties,
           label: facility.name,
         },
-      };
+      }));
     }),
   };
 

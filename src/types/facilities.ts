@@ -14,6 +14,7 @@ export interface GeoJSONFacilities {
   candidate?: string[];
   data: FeatureCollection;
   floorImages?: FloorImages;
+  polygonDivision?: number;
 }
 
 export interface GeoJSONPassage {

@@ -307,6 +307,7 @@ export const FACILITIES_MAP: Record<FacilityId, GeoJSONFacilities> = {
     type: 'ground',
     name: 'セントラル広場',
     data: GEOJSON_FACILITIES.CENTRAL_SQUARE,
+    polygonDivision: 2,
   },
   [FacilityId.TENNIS_COURT]: {
     id: FacilityId.TENNIS_COURT,
@@ -364,6 +365,7 @@ export const FACILITIES_MAP: Record<FacilityId, GeoJSONFacilities> = {
     type: 'parking',
     name: '第1学生駐車場',
     data: GEOJSON_FACILITIES.PARKING1,
+    polygonDivision: 2,
   },
   [FacilityId.PARKING2]: {
     id: FacilityId.PARKING2,
