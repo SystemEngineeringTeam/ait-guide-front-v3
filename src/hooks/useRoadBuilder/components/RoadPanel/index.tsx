@@ -101,9 +101,6 @@ export default function RoadPanel({
                 <button className={styles.importButton} onClick={onPastePoints} disabled={points.length !== 0}>
                   📥 貼り付け
                 </button>
-                <button className={styles.clearButton} onClick={onClear} disabled={points.length === 0}>
-                  🗑️ クリア
-                </button>
               </div>
             </div>
           )}
@@ -129,9 +126,6 @@ export default function RoadPanel({
                 </button>
                 <button className={styles.importButton} onClick={onPasteRoads} disabled={roads.length !== 0}>
                   📥 貼り付け
-                </button>
-                <button className={styles.clearButton} onClick={onClear} disabled={points.length === 0}>
-                  🗑️ クリア
                 </button>
               </div>
             </div>
