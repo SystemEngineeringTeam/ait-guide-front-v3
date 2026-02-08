@@ -20,8 +20,7 @@ export default function MapControlPanel({ coord, bearing }: Props) {
   useKeyboardShortcut({
     onReset: () => resetNorth(),
     onFlyToLocation: () => {
-      if (!coord) return;
-      flyTo([coord.longitude, coord.latitude]);
+      if (coord) flyTo([coord.longitude, coord.latitude]);
     },
     onFlyToUniversity() {
       flyTo(COORD_AIT_BUILDING_1);
