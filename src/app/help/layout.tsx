@@ -1,3 +1,4 @@
+import PageLayout from '@/layout/PageLayout';
 import styles from './index.module.scss';
 
 export default function Layout({
@@ -5,5 +6,9 @@ export default function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <article className={styles.content}>{children}</article>;
+  return (
+    <PageLayout>
+      <article className={styles.content}>{children}</article>
+    </PageLayout>
+  );
 }
