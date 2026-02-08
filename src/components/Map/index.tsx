@@ -55,6 +55,7 @@ interface Props {
   maxPitch?: number;
   minZoom?: number;
   maxZoom?: number;
+  dragRotate?: boolean;
   initialViewState?: Partial<ViewState>;
 }
 
@@ -74,6 +75,7 @@ export default function Map({
   maxPitch = MAX_PITCH,
   minZoom = MIN_ZOOM,
   maxZoom = MAX_ZOOM,
+  dragRotate = true,
   initialViewState = INIT_VIEW_STATE,
 }: Props) {
   const isMouseDownRef = useRef(false);
@@ -185,6 +187,7 @@ export default function Map({
         maxPitch={maxPitch}
         maxZoom={maxZoom}
         minZoom={minZoom}
+        dragRotate={dragRotate}
         onClick={handleClickFeature}
         onMouseMove={handleHoverFeature}
         onRotate={handleRotate}

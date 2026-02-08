@@ -37,8 +37,9 @@ export default function RoadConnectionPage() {
         className={styles.map}
         onMapContextMenu={handleMapContextMenu}
         onMapClick={handleMapClick}
-        minZoom={0}
+        minZoom={16}
         maxZoom={24}
+        dragRotate={false}
         data-ctrl-down={ctrlKeyPressed}
       >
         {lines}
