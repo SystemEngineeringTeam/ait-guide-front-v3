@@ -12,6 +12,7 @@ interface UseKeyboardShortcutProps {
   onFlyToLocation?: () => void;
   onFlyToUniversity?: () => void;
   onRouteSearch?: () => void;
+  onSelectFloor?: (floorName: string) => boolean | void;
 }
 
 export function useKeyboardShortcut({
@@ -25,6 +26,7 @@ export function useKeyboardShortcut({
   onFlyToLocation,
   onFlyToUniversity,
   onRouteSearch,
+  onSelectFloor,
 }: UseKeyboardShortcutProps) {
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -87,11 +89,40 @@ export function useKeyboardShortcut({
         e.preventDefault();
         onReset?.();
       }
+
+      if (!e.metaKey && !e.ctrlKey && onSelectFloor) {
+        const digitMatch = /^Digit([1-9])$/.exec(e.code);
+        if (digitMatch) {
+          const digit = digitMatch[1];
+          if (e.shiftKey && !e.altKey) {
+            if (onSelectFloor(`B${digit}`)) e.preventDefault();
+          } else if (e.altKey && !e.shiftKey) {
+            if (onSelectFloor(`M${digit}`)) e.preventDefault();
+          } else if (!e.shiftKey && !e.altKey) {
+            if (onSelectFloor(digit)) e.preventDefault();
+          }
+        }
+
+        if (!e.shiftKey && !e.altKey && e.code === 'Digit0') {
+          if (onSelectFloor('R')) e.preventDefault();
+        }
+      }
     };
 
     window.addEventListener('keydown', onKeyDown);
     return () => {
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [onSearch, onMap, onHelp, onEscape, onReset, onOpenBottomSheet, onFlyToUniversity, onRouteSearch, onClear]);
+  }, [
+    onSearch,
+    onMap,
+    onHelp,
+    onEscape,
+    onReset,
+    onOpenBottomSheet,
+    onFlyToUniversity,
+    onRouteSearch,
+    onClear,
+    onSelectFloor,
+  ]);
 }

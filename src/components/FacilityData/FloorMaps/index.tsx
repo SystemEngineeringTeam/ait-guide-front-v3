@@ -1,10 +1,11 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { FloorImages, FloorName } from '@/types/facilities';
 import styles from './index.module.scss';
 import { entries } from '@/utils/object';
 import Button from '@/components/Button';
 import { StaticImageData } from 'next/image';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
+import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
 
 interface Floor {
   name: FloorName;
@@ -37,6 +38,24 @@ export default function FloorMaps({ floorImages }: Props) {
     [floorImages],
   );
   const [activeFloor, setActiveFloor] = useState<Floor | undefined>(floors.find((f) => f.name === '1') ?? floors.at(0));
+
+  const floorByName = useMemo(() => new Map(floors.map((floor) => [floor.name, floor])), [floors]);
+
+  const setActiveFloorByName = useCallback(
+    (name: FloorName) => {
+      const floor = floorByName.get(name);
+      if (floor) {
+        setActiveFloor(floor);
+        return true;
+      }
+      return false;
+    },
+    [floorByName],
+  );
+
+  useKeyboardShortcut({
+    onSelectFloor: (floorName) => setActiveFloorByName(floorName as FloorName),
+  });
 
   if (floors.length === 0 || !activeFloor) return null;
 
