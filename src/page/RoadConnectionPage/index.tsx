@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import FacilitiesPolygons from '@/components/FacilityPolygons';
 import { GEO_JSON_FACILITIES } from '@/consts/facilities';
 import { GEO_JSON_PASSAGES } from '@/consts/passages';
+import FacilityNames from '@/components/FacilitiesNames';
 
 export default function RoadConnectionPage() {
   const { markers, lines, panel: roadPanel, handleMapContextMenu, handleMapClick } = useRoadBuilder();
@@ -45,6 +46,7 @@ export default function RoadConnectionPage() {
         {lines}
         {markers}
         <FacilitiesPolygons facilities={[...GEO_JSON_FACILITIES, ...GEO_JSON_PASSAGES]} />
+        <FacilityNames facilities={GEO_JSON_FACILITIES} />
       </Map>
     </>
   );

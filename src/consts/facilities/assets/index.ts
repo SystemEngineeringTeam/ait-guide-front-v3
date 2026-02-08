@@ -28,6 +28,7 @@ export * from './headquarters1';
 export * from './headquarters2';
 export * from './aiwa-kaikan';
 export * from './ait-plaza';
+export * from './central-terrace';
 export * from './gym';
 export * from './gym-min';
 export * from './playground-management';

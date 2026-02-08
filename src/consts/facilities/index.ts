@@ -67,6 +67,7 @@ export const FACILITIES_MAP: Record<FacilityId, GeoJSONFacilities> = {
     name: '7号館',
     data: GEOJSON_FACILITIES.B7,
     floorImages: FLOOR_IMAGE.B7,
+    polygonDivision: 2,
   },
   [FacilityId.B8]: {
     id: FacilityId.B8,
@@ -152,6 +153,7 @@ export const FACILITIES_MAP: Record<FacilityId, GeoJSONFacilities> = {
     name: 'セントラルテラス',
     candidate: ['セントレア'],
     data: GEOJSON_FACILITIES.CENTRAL_TERRACE,
+    floorImages: FLOOR_IMAGE.CENTRAL_TERRACE,
   },
   [FacilityId.CLUBHOUSE3]: {
     id: FacilityId.CLUBHOUSE3,

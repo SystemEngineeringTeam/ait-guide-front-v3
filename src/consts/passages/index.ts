@@ -3,12 +3,12 @@ import { GeoJSONPassage } from '@/types/facilities';
 import p9to10 from './geojson/9-10.json';
 import pPlazaTo10 from './geojson/plaza-10.json';
 import pPlazaToAiwa from './geojson/plaza-aiwa.json';
-import left7 from './geojson/left-7.json';
 import computerToInformation from './geojson/computer-information.json';
 import b4ToAnnex4 from './geojson/4-annex4.json';
 import annex4ToB11 from './geojson/annex4-11.json';
 import b3ToAnnex3 from './geojson/3-annex3.json';
 import annex3ToBio from './geojson/annex3-bio.json';
+import b8ToCentralTerrace from './geojson/8-central-terrace.json';
 
 export const GEO_JSON_PASSAGES: GeoJSONPassage[] = [
   {
@@ -22,10 +22,6 @@ export const GEO_JSON_PASSAGES: GeoJSONPassage[] = [
   {
     type: 'passage',
     data: pPlazaToAiwa as FeatureCollection,
-  },
-  {
-    type: 'passage',
-    data: left7 as FeatureCollection,
   },
   {
     type: 'passage',
@@ -46,5 +42,9 @@ export const GEO_JSON_PASSAGES: GeoJSONPassage[] = [
   {
     type: 'passage',
     data: annex3ToBio as FeatureCollection,
+  },
+  {
+    type: 'passage',
+    data: b8ToCentralTerrace as FeatureCollection,
   },
 ];
