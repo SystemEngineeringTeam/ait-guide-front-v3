@@ -1,7 +1,7 @@
 'use client';
 
 import styles from './index.module.scss';
-import { useDestinationId } from '@/hooks/useRoute';
+import { useDestinationId, useStartCoord } from '@/hooks/useRoute';
 import { ArrowRightIcon, ClearIcon } from '@/components/Icons';
 import IconButton from '@/components/IconButton';
 import { FACILITIES_MAP } from '@/consts/facilities';
@@ -18,6 +18,7 @@ export default function RouteSummary() {
   const [destinationId, setDestinationId] = useDestinationId();
   const [searchText, setSearchText] = useState('');
   const isValidLocation = useIsValidGeoLocation();
+  const startCoord = useStartCoord();
 
   useKeyboardShortcut({
     onClear: () => setDestinationId(undefined),
@@ -51,7 +52,7 @@ export default function RouteSummary() {
           className={styles.closeButton}
           onClick={() => setDestinationId(undefined)}
         />
-        <span>{isValidLocation ? '現在地' : '正門'}</span>
+        <span>{startCoord ? '指定位置' : isValidLocation ? '現在地' : '正門'}</span>
 
         <ArrowRightIcon />
 

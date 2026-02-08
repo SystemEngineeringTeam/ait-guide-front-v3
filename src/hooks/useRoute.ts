@@ -7,6 +7,7 @@ import { errorToast, infoToast } from '@/utils/toast';
 import { useCallback } from 'react';
 import type { SelectedFacilityId } from './useSelectedFacilityId';
 import type { FacilityId } from '@/consts/facilityId';
+import { MAX_LAT, MIN_LAT, MAX_LNG, MIN_LNG } from '@/consts/map';
 
 interface RouteResponse {
   route: { lat: number; lng: number }[] | null;
@@ -44,11 +45,18 @@ export function useRoute() {
   return useAtomValue(routeAtom);
 }
 
+const startCoordAtom = atom<Coord | undefined>(undefined);
+
+export function useStartCoord() {
+  return useAtomValue(startCoordAtom);
+}
+
 const destinationIdAtom = atom<SelectedFacilityId>(undefined);
 
 export function useSetRouteDestinationId() {
   const [destinationId, setDestinationId_] = useAtom(destinationIdAtom);
   const location = useAtomValue(locationAtom);
+  const startCoord = useAtomValue(startCoordAtom);
   const setRoute = useSetAtom(routeAtom);
 
   const setDestinationId = useCallback(
@@ -63,16 +71,18 @@ export function useSetRouteDestinationId() {
         return;
       }
 
-      if (location == undefined) {
+      // startCoord が設定されていれば使用、なければ現在位置を使用
+      const start = startCoord || (location ? toValidCoordinate(location.latitude, location.longitude) : undefined);
+
+      if (start == undefined) {
         errorToast('位置情報がありません');
         return;
       }
 
-      const start = toValidCoordinate(location.latitude, location.longitude);
       const route = await fetchRoute(start, newDestinationId);
       setRoute(route);
     },
-    [setDestinationId_, destinationId, location, setRoute],
+    [setDestinationId_, destinationId, location, startCoord, setRoute],
   );
 
   return setDestinationId;
@@ -80,6 +90,48 @@ export function useSetRouteDestinationId() {
 
 export function useDestinationIdValue() {
   return useAtomValue(destinationIdAtom);
+}
+
+export function useSetStartCoord() {
+  const setStartCoord = useSetAtom(startCoordAtom);
+  const destinationId = useAtomValue(destinationIdAtom);
+  const setRoute = useSetAtom(routeAtom);
+
+  const updateStartCoord = useCallback(
+    async (coord: Coord) => {
+      // 座標を範囲内にクリップ (Coord は [lng, lat])
+      const clippedCoord: Coord = [
+        Math.max(MIN_LNG, Math.min(MAX_LNG, coord[0])),
+        Math.max(MIN_LAT, Math.min(MAX_LAT, coord[1])),
+      ];
+
+      setStartCoord(clippedCoord);
+
+      if (destinationId == undefined) {
+        setRoute([]);
+        return;
+      }
+
+      const fetchedRoute = await fetchRoute(clippedCoord, destinationId);
+      const fullRoute = [clippedCoord, ...fetchedRoute];
+      setRoute(fullRoute);
+    },
+    [setStartCoord, destinationId, setRoute],
+  );
+
+  return updateStartCoord;
+}
+
+export function useResetStartCoord() {
+  const setStartCoord = useSetAtom(startCoordAtom);
+  const setRoute = useSetAtom(routeAtom);
+
+  const resetStartCoord = useCallback(() => {
+    setStartCoord(undefined);
+    setRoute([]);
+  }, [setStartCoord, setRoute]);
+
+  return resetStartCoord;
 }
 
 export function useDestinationId() {
