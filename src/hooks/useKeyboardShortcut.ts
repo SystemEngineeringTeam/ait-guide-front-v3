@@ -1,5 +1,5 @@
 import { isExactKey } from '@/utils/key';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 
 interface UseKeyboardShortcutProps {
   onSearch?: () => void;
