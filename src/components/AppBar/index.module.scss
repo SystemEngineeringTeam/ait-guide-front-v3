@@ -9,13 +9,13 @@
 
   display: flex;
   justify-content: center;
-  gap: $gap-md;
 
   user-select: none;
   pointer-events: none;
 
   .appbar {
-    width: 100%;
+    padding-inline: 20px;
+    width: fit-content;
     max-width: 300px;
     height: 56px;
 
@@ -25,8 +25,13 @@
 
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
+    gap: $gap-md;
 
     pointer-events: all;
+
+    .button {
+      min-width: 60px;
+    }
   }
 }

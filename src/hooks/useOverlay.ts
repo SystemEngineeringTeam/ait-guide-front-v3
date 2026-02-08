@@ -7,9 +7,11 @@ const OVERLAY_KEYS = ['search', 'change'] as const;
 export type OverlayKey = (typeof OVERLAY_KEYS)[number];
 
 const openAtomFamily = atomFamily((key: OverlayKey) => atom<boolean>(false));
+const isSomeOpenAtom = atom((get) => [...openAtomFamily.getParams()].some((key) => get(openAtomFamily(key))));
 
 export function useOverlay(key: OverlayKey) {
   const [isOpen, setIsOpen] = useAtom(openAtomFamily(key));
+  const isSomeOpen = useAtomValue(isSomeOpenAtom);
 
   const toggle = useCallback(() => {
     setIsOpen((prev) => !prev);
@@ -31,6 +33,7 @@ export function useOverlay(key: OverlayKey) {
 
   return {
     isOpen,
+    isSomeOpen,
     open,
     close,
     toggle,
