@@ -48,9 +48,9 @@ export default function GeoJsonBuildPage() {
         dragRotate={false}
         data-ctrl-down={ctrlKeyPressed}
       >
+        <FacilitiesPolygons facilities={[...GEO_JSON_FACILITIES, ...GEO_JSON_PASSAGES]} />
         {entranceMarkers}
         {facilityPolygon}
-        <FacilitiesPolygons facilities={[...GEO_JSON_FACILITIES, ...GEO_JSON_PASSAGES]} />
       </Map>
     </>
   );
