@@ -1,7 +1,7 @@
 import { Marker, MarkerDragEvent, Popup } from 'react-map-gl/maplibre';
 import { FacilityPoint } from '@/hooks/useGeoJSONBuilder';
 import { useCallback } from 'react';
-import styles from './MarkerPoints.module.scss';
+import styles from './index.module.scss';
 
 interface MarkerPointsProps {
   points: FacilityPoint[];
