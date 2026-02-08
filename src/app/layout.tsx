@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_JP, M_PLUS_Rounded_1c } from 'next/font/google';
 import Header from '@/components/Header';
-import PageLayout from '@/layout/PageLayout';
 import classNames from 'classnames';
 import { Toaster } from 'react-hot-toast';
 import '@/styles/global.scss';
@@ -34,7 +33,7 @@ export default function RootLayout({
       <body className={classNames(notoSansJP.variable, mPlusRounded1c.variable, 'antialiased')}>
         <Toaster />
         <Header />
-        <PageLayout>{children}</PageLayout>
+        {children}
       </body>
     </html>
   );
