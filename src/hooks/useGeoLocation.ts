@@ -1,5 +1,6 @@
+import { isValidCoordinate } from '@/utils/convert';
 import { errorToast } from '@/utils/toast';
-import { atom, useAtom } from 'jotai';
+import { atom, useAtom, useAtomValue } from 'jotai';
 import { useEffect } from 'react';
 
 export interface GeoLocationCoordinates {
@@ -59,4 +60,10 @@ export function useGeoLocation(options?: UseGeoLocationOptions) {
   }, []);
 
   return coord;
+}
+
+export function useIsValidGeoLocation() {
+  const coord = useAtomValue(locationAtom);
+  if (!coord) return false;
+  return isValidCoordinate(coord.latitude, coord.longitude);
 }

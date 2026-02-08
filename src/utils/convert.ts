@@ -1,4 +1,4 @@
-import { MAP_MAX_X, MAP_MAX_Y, MAP_MIN_X, MAP_MIN_Y, MAX_LAT, MAX_LNG, MIN_LAT, MIN_LNG } from '@/consts/map';
+import { MAX_LAT, MAX_LNG, MIN_LAT, MIN_LNG } from '@/consts/map';
 import { COORD_AIT_MAIN_GATE } from '@/consts/coords';
 import { Coord } from '@/types/coord';
 
@@ -31,4 +31,19 @@ export function toValidCoordinate(lat: number, lon: number): Coord {
   if (lon > MAX_LNG) return COORD_AIT_MAIN_GATE;
 
   return [lon, lat];
+}
+
+/**
+ * 座標が範囲内かを判定する
+ * @param lat 緯度
+ * @param lng 経度
+ * @returns 範囲内ならtrue
+ */
+export function isValidCoordinate(lat: number, lon: number): boolean {
+  if (lat < MIN_LAT) return false;
+  if (lat > MAX_LAT) return false;
+  if (lon < MIN_LNG) return false;
+  if (lon > MAX_LNG) return false;
+
+  return true;
 }

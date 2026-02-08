@@ -10,12 +10,14 @@ import { useCallback, useState } from 'react';
 import SearchOverlay from '@/components/SearchOverlay';
 import type { SelectedFacilityId } from '@/hooks/useSelectedFacilityId';
 import { useFlyToFacility } from '@/hooks/useFlyTo';
+import { useIsValidGeoLocation } from '@/hooks/useGeoLocation';
 
 export default function RouteSummary() {
   const flyTo = useFlyToFacility();
   const [isOpen, setIsOpen] = useState(false);
   const [destinationId, setDestinationId] = useDestinationId();
   const [searchText, setSearchText] = useState('');
+  const isValidLocation = useIsValidGeoLocation();
 
   useKeyboardShortcut({
     onClear: () => setDestinationId(undefined),
@@ -49,7 +51,7 @@ export default function RouteSummary() {
           className={styles.closeButton}
           onClick={() => setDestinationId(undefined)}
         />
-        <span>現在地</span>
+        <span>{isValidLocation ? '現在地' : '正門'}</span>
 
         <ArrowRightIcon />
 

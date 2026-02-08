@@ -63,7 +63,7 @@ export default function RouteLine({ route }: Props) {
         <Layer
           type="line"
           paint={{
-            'line-color': '#0026ff',
+            'line-color': '#007bff',
             'line-width': 2,
           }}
         />
@@ -77,7 +77,7 @@ export default function RouteLine({ route }: Props) {
             paint={{
               'circle-radius': 6,
               'circle-color': '#ffffff',
-              'circle-stroke-color': '#0026ff',
+              'circle-stroke-color': '#007bff',
               'circle-stroke-width': 2,
             }}
           />
@@ -86,7 +86,7 @@ export default function RouteLine({ route }: Props) {
             filter={['==', ['get', 'kind'], 'end']}
             paint={{
               'circle-radius': 6,
-              'circle-color': '#0026ff',
+              'circle-color': '#007bff',
             }}
           />
         </Source>
