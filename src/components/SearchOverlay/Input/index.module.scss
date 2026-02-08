@@ -11,7 +11,7 @@
   border: solid 1px transparent;
 
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: calc(100% - 50px) auto;
   align-items: center;
 
   .input {
