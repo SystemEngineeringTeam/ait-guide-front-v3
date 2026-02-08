@@ -7,6 +7,7 @@ interface UseKeyboardShortcutProps {
   onHelp?: () => void;
   onEscape?: () => void;
   onReset?: () => void;
+  onOpenBottomSheet?: () => void;
   onClear?: () => void;
   onFlyToLocation?: () => void;
   onFlyToUniversity?: () => void;
@@ -19,6 +20,7 @@ export function useKeyboardShortcut({
   onHelp,
   onEscape,
   onReset,
+  onOpenBottomSheet,
   onClear,
   onFlyToLocation,
   onFlyToUniversity,
@@ -68,6 +70,12 @@ export function useKeyboardShortcut({
         onClear?.();
       }
 
+      // meta + o
+      if (isExactKey(e, { key: 'o', meta: true })) {
+        e.preventDefault();
+        onOpenBottomSheet?.();
+      }
+
       // Escape
       if (isExactKey(e, { key: 'Escape' })) {
         e.preventDefault();
@@ -85,5 +93,5 @@ export function useKeyboardShortcut({
     return () => {
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [onSearch, onMap, onHelp, onEscape, onReset, onFlyToUniversity, onRouteSearch, onClear]);
+  }, [onSearch, onMap, onHelp, onEscape, onReset, onOpenBottomSheet, onFlyToUniversity, onRouteSearch, onClear]);
 }

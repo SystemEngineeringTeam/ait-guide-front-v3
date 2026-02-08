@@ -3,6 +3,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { Sheet, type SheetRef } from 'react-modal-sheet';
 import SheetHeader from './SheetHeader';
+import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
 
 interface Props {
   children?: React.ReactNode;
@@ -15,6 +16,10 @@ const SNAP_POINTS = [0, 0.15, 1];
 export default function BottomSheet({ children, open, onClose }: Props) {
   const sheetRef = useRef<SheetRef>(null);
   const [up, setUp] = useState(true);
+
+  useKeyboardShortcut({
+    onOpenBottomSheet: () => sheetRef.current?.snapTo(SNAP_POINTS.length - 1),
+  });
 
   const handleSnap = useCallback((snapIndex: number) => {
     const snap = SNAP_POINTS[snapIndex];
