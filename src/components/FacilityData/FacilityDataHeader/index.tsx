@@ -3,8 +3,9 @@ import styles from './index.module.scss';
 import IconButton from '@/components/IconButton';
 import { GeoJSONFacilities } from '@/types/facilities';
 import { useCallback } from 'react';
-import { useDestinationId } from '@/hooks/useRoute';
+import { useDestinationId, useRouteLoading } from '@/hooks/useRoute';
 import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
+import Spinner from '@/components/Spinner';
 
 interface Props {
   facility: GeoJSONFacilities;
@@ -12,6 +13,7 @@ interface Props {
 
 export default function FacilityDataHeader({ facility }: Props) {
   const [destinationId, setDestinationId] = useDestinationId();
+  const isLoading = useRouteLoading();
 
   const handleClickRoute = useCallback(() => {
     if (facility?.id) setDestinationId(facility.id);
@@ -25,7 +27,7 @@ export default function FacilityDataHeader({ facility }: Props) {
     <h2 className={styles.header}>
       <span className={styles.name}>{facility.name}</span>
       <IconButton
-        icon={<RouteIcon />}
+        icon={isLoading ? <Spinner className={styles.icon} /> : <RouteIcon className={styles.icon} />}
         onClick={handleClickRoute}
         className={styles.routeButton}
         data-active={destinationId === facility.id}

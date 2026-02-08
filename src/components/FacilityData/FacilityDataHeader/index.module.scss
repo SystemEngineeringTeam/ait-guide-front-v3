@@ -10,6 +10,11 @@
     font-weight: bold;
   }
 
+  .icon {
+    width: $fontsize-lg;
+    height: $fontsize-lg;
+  }
+
   .routeButton {
     &[data-active='true'] {
       color: $color-primary;

@@ -42,9 +42,14 @@ async function fetchRoute(location: Coord, destinationId: FacilityId): Promise<C
 }
 
 const routeAtom = atom<Coord[]>([]);
+const routeLoadingAtom = atom<boolean>(false);
 
 export function useRoute() {
   return useAtomValue(routeAtom);
+}
+
+export function useRouteLoading() {
+  return useAtomValue(routeLoadingAtom);
 }
 
 const startCoordAtom = atom<Coord | undefined>(undefined);
@@ -60,6 +65,7 @@ export function useSetRouteDestinationId() {
   const location = useGeoLocationCoord();
   const startCoord = useAtomValue(startCoordAtom);
   const setRoute = useSetAtom(routeAtom);
+  const setRouteLoading = useSetAtom(routeLoadingAtom);
 
   const setDestinationId = useCallback(
     async (newDestinationId: SelectedFacilityId) => {
@@ -70,6 +76,7 @@ export function useSetRouteDestinationId() {
 
       if (newDestinationId == undefined) {
         setRoute([]);
+        setRouteLoading(false);
         return;
       }
 
@@ -78,13 +85,19 @@ export function useSetRouteDestinationId() {
 
       if (start == undefined) {
         errorToast('位置情報がありません');
+        setRouteLoading(false);
         return;
       }
 
-      const route = await fetchRoute(start, newDestinationId);
-      setRoute(route);
+      setRouteLoading(true);
+      try {
+        const route = await fetchRoute(start, newDestinationId);
+        setRoute(route);
+      } finally {
+        setRouteLoading(false);
+      }
     },
-    [setDestinationId_, destinationId, location, startCoord, setRoute],
+    [setDestinationId_, destinationId, location, startCoord, setRoute, setRouteLoading],
   );
 
   return setDestinationId;
@@ -98,6 +111,7 @@ export function useSetStartCoord() {
   const setStartCoord = useSetAtom(startCoordAtom);
   const destinationId = useAtomValue(destinationIdAtom);
   const setRoute = useSetAtom(routeAtom);
+  const setRouteLoading = useSetAtom(routeLoadingAtom);
 
   const updateStartCoord = useCallback(
     async (coord: Coord) => {
@@ -111,14 +125,20 @@ export function useSetStartCoord() {
 
       if (destinationId == undefined) {
         setRoute([]);
+        setRouteLoading(false);
         return;
       }
 
-      const fetchedRoute = await fetchRoute(clippedCoord, destinationId);
-      const fullRoute = fetchedRoute;
-      setRoute(fullRoute);
+      setRouteLoading(true);
+      try {
+        const fetchedRoute = await fetchRoute(clippedCoord, destinationId);
+        const fullRoute = fetchedRoute;
+        setRoute(fullRoute);
+      } finally {
+        setRouteLoading(false);
+      }
     },
-    [setStartCoord, destinationId, setRoute],
+    [setStartCoord, destinationId, setRoute, setRouteLoading],
   );
 
   return updateStartCoord;
