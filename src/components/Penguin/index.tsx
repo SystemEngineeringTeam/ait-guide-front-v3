@@ -5,14 +5,14 @@ import { usePenguin } from '@/hooks/usePenguin';
 import { useCallback } from 'react';
 
 export default function Penguin() {
-  const [active, setActive] = usePenguin();
+  const { isActive, isDeactivating, inactive } = usePenguin();
 
   const handleClick = useCallback(() => {
-    setActive(false);
-  }, [setActive]);
+    inactive();
+  }, [inactive]);
 
   return (
-    <div className={styles.penguin} data-active={active} onClick={handleClick}>
+    <div className={styles.penguin} data-active={isActive} data-deactivating={isDeactivating} onClick={handleClick}>
       <p className={styles.message}>アデリーペンギン最高!!</p>
       <div className={styles.body}>
         <div className={styles.face}>

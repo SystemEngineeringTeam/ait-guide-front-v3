@@ -12,6 +12,20 @@
 
   &[data-active='true'] {
     display: block;
+    transform-origin: bottom center;
+    opacity: 0;
+    animation: pop-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  &[data-deactivating='true'] {
+    animation: pop-out 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  @include mobile {
+    right: 0;
+    left: initial;
+    bottom: 100px;
+    rotate: -90deg;
   }
 
   .message {
@@ -21,13 +35,14 @@
     text-wrap: nowrap;
     position: relative;
     left: -20px;
+    user-select: none;
   }
 
   &:hover .message {
     animation-duration: 1s;
     animation-timing-function: steps(11);
     animation-fill-mode: forwards;
-    animation-name: typing-link;
+    animation-name: typing;
   }
 
   .body {
@@ -211,11 +226,47 @@
   }
 }
 
-@keyframes typing-link {
+@keyframes typing {
   from {
     width: 0;
   }
   to {
     width: 16px * 11;
+  }
+}
+
+@keyframes pop-in {
+  0% {
+    transform: translateY(40px) scale(0.6);
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(0px) scale(0.98);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0px) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pop-out {
+  0% {
+    transform: translateY(0px) scale(1);
+    opacity: 1;
+  }
+  40% {
+    transform: translateY(-5px) scale(1.02);
+    opacity: 1;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(40px) scale(0.6);
+    opacity: 0;
   }
 }
