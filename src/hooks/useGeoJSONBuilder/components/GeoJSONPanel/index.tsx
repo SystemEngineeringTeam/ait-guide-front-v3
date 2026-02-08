@@ -94,7 +94,8 @@ export default function GeoJSONPanel({
             {facilityMode === 'polygon' ? (
               <>
                 <p className={styles.pointCount}>
-                  {polygonSubMode === 'outline' ? '外枠' : '1階'}マーカー: <strong>{polygonSubMode === 'outline' ? points.length : floorPoints.length}</strong> 個
+                  {polygonSubMode === 'outline' ? '外枠' : '1階'}マーカー:{' '}
+                  <strong>{polygonSubMode === 'outline' ? points.length : floorPoints.length}</strong> 個
                 </p>
                 <p className={styles.hint}>マップを右クリックしてマーカーを追加してください</p>
                 <p className={styles.hint}>3点以上で囲うと塗りつぶしが表示されます</p>

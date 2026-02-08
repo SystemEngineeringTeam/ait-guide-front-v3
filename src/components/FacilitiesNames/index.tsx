@@ -11,10 +11,7 @@ interface Props {
 export default function FacilityNames({ facilities }: Props) {
   const createLabelPoint = (ring: number[][]): Feature<Point> => {
     const count = ring.length || 1;
-    const [sumLng, sumLat] = ring.reduce(
-      (acc, coord) => [acc[0] + coord[0], acc[1] + coord[1]],
-      [0, 0],
-    );
+    const [sumLng, sumLat] = ring.reduce((acc, coord) => [acc[0] + coord[0], acc[1] + coord[1]], [0, 0]);
 
     return {
       type: 'Feature',

@@ -128,11 +128,14 @@ export const useGeoJSONBuilder = () => {
     localStorage.removeItem(POINTS_STORAGE_KEY);
   }, []);
 
-  const addFloorPoint = useCallback((longitude: number, latitude: number) => {
-    const newPoint = createPoint(longitude, latitude);
-    setFloorPoints((prev) => [...prev, newPoint]);
-    return newPoint;
-  }, [createPoint]);
+  const addFloorPoint = useCallback(
+    (longitude: number, latitude: number) => {
+      const newPoint = createPoint(longitude, latitude);
+      setFloorPoints((prev) => [...prev, newPoint]);
+      return newPoint;
+    },
+    [createPoint],
+  );
 
   const insertFloorPointAt = useCallback(
     (index: number, longitude: number, latitude: number) => {
@@ -240,7 +243,10 @@ export const useGeoJSONBuilder = () => {
               const l2 = (w.x - v.x) ** 2 + (w.y - v.y) ** 2;
               let t = 0;
               if (l2 !== 0) {
-                t = Math.max(0, Math.min(1, ((clickPoint.x - v.x) * (w.x - v.x) + (clickPoint.y - v.y) * (w.y - v.y)) / l2));
+                t = Math.max(
+                  0,
+                  Math.min(1, ((clickPoint.x - v.x) * (w.x - v.x) + (clickPoint.y - v.y) * (w.y - v.y)) / l2),
+                );
               }
 
               const closestPoint = {
@@ -276,7 +282,7 @@ export const useGeoJSONBuilder = () => {
     (mapRef: React.RefObject<MapRef | null>) => (e: MouseEvent<HTMLDivElement>) => {
       if (!mapRef.current) return;
       if (facilityMode !== 'polygon') return;
-      
+
       const ptsToUse = polygonSubMode === 'outline' ? points : floorPoints;
       if (ptsToUse.length < 2) return;
 
