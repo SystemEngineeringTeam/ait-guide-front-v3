@@ -19,7 +19,7 @@ import Deers from '@/components/Deers';
 import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
 import RouteLine from '@/components/RouteLine';
 import FacilityNames from '@/components/FacilitiesNames';
-import { useRoute } from '@/hooks/useRoute';
+import { useRoute, useSetRouteDestinationId } from '@/hooks/useRoute';
 import SearchOverlay from '@/components/SearchOverlay';
 import { useSearchText } from '@/hooks/useSearch';
 import { useOverlay } from '@/hooks/useOverlay';
@@ -28,6 +28,7 @@ export default function MapPage() {
   const [searchText, setSearchText] = useSearchText();
   const { isOpen: bottomSheetOpen, close: closeBottomSheet } = useBottomSheet();
   const [selectedId, setSelectedFacilityId] = useSelectedFacilityId();
+  const setDestinationId = useSetRouteDestinationId();
   const [coord, setCoord] = useState<GeoLocationCoordinates>();
   const [bearing, setBearing] = useState(0);
   const [hoverId, setHoverId] = useState<string | undefined>();
@@ -56,6 +57,7 @@ export default function MapPage() {
   const handleBottomSheetClose = useCallback(() => {
     setSelectedFacilityId(undefined);
     closeBottomSheet();
+    if (route.length === 0) setDestinationId(undefined);
   }, [closeBottomSheet, setSelectedFacilityId]);
 
   const handleMapMove: HandleMoveFn = useCallback(

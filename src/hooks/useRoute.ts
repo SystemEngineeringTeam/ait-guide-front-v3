@@ -23,7 +23,7 @@ async function fetchRoute(location: Coord, destinationId: FacilityId): Promise<C
 
     if (data.route == null) {
       errorToast('経路情報が見つかりませんでした');
-      return [];
+      throw new Error('No route data');
     }
 
     if (data.route.length === 1) {
@@ -35,9 +35,8 @@ async function fetchRoute(location: Coord, destinationId: FacilityId): Promise<C
 
     return [location, ...route];
   } catch (e) {
-    console.error('Failed to fetch route:', e);
-    errorToast('経路情報取得に失敗しました');
-    return [];
+    errorToast('経路情報の取得に失敗しました');
+    throw e;
   }
 }
 
@@ -90,6 +89,7 @@ export function useSetRouteDestinationId() {
       if (start == undefined) {
         errorToast('位置情報がありません');
         setRouteLoading(false);
+        setDestinationId_(undefined);
         return;
       }
 
@@ -101,6 +101,8 @@ export function useSetRouteDestinationId() {
       try {
         const route = await fetchRoute(start, newDestinationId);
         setRoute(route);
+      } catch (e) {
+        setDestinationId_(undefined);
       } finally {
         if (timeoutIdRef.current) clearTimeout(timeoutIdRef.current);
         setRouteLoading(false);
