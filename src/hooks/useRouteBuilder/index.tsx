@@ -101,6 +101,8 @@ export const useRouteBuilder = () => {
   const [dataMode, setDataMode] = useState<'points' | 'roads'>('points');
   const [pointAddMode, setPointAddMode] = useState<PointType>('point');
   const [lastSelectedPointId, setLastSelectedPointId] = useState<string | null>(null);
+  const [pointCounter, setPointCounter] = useState(0);
+  const [roadCounter, setRoadCounter] = useState(0);
 
   // Initialize from IndexedDB
   useEffect(() => {
@@ -132,15 +134,20 @@ export const useRouteBuilder = () => {
     saveData();
   }, [points, roads]);
 
-  const createPoint = useCallback((lng: number, lat: number, type: PointType = 'point') => {
-    return {
-      id: `point-${Date.now()}-${Math.random()}`,
-      lng,
-      lat,
-      type,
-      timestamp: Date.now(),
-    } as RoadPoint;
-  }, []);
+  const createPoint = useCallback(
+    (lng: number, lat: number, type: PointType = 'point') => {
+      const newPoint = {
+        id: pointCounter.toString(),
+        lng,
+        lat,
+        type,
+        timestamp: Date.now(),
+      } as RoadPoint;
+      setPointCounter((prev) => prev + 1);
+      return newPoint;
+    },
+    [pointCounter],
+  );
 
   const isFacilityOrEntrance = (type?: PointType) => type === 'facility' || type === 'entrance';
   const shouldSkipAutoConnect = (prevType?: PointType, nextType?: PointType) => {
@@ -161,19 +168,20 @@ export const useRouteBuilder = () => {
           }
           // Create road between previous point and new point
           const newRoad: Road = {
-            id: `road-${Date.now()}-${Math.random()}`,
+            id: roadCounter.toString(),
             pointIds: [prevId, newPoint.id],
             options: {},
             timestamp: Date.now(),
           };
           setRoads((prev) => [...prev, newRoad]);
+          setRoadCounter((prev) => prev + 1);
         }
         return newPoint.id;
       });
 
       return newPoint;
     },
-    [createPoint, points],
+    [createPoint, points, roadCounter],
   );
 
   const removePoint = useCallback((id: string) => {
@@ -217,19 +225,23 @@ export const useRouteBuilder = () => {
     setLastSelectedPointId(null);
   }, []);
 
-  const addRoad = useCallback((pointIds: string[], options: RouteOptions = {}) => {
-    if (pointIds.length < 2) return null;
+  const addRoad = useCallback(
+    (pointIds: string[], options: RouteOptions = {}) => {
+      if (pointIds.length < 2) return null;
 
-    const newRoad: Road = {
-      id: `road-${Date.now()}-${Math.random()}`,
-      pointIds,
-      options,
-      timestamp: Date.now(),
-    };
+      const newRoad: Road = {
+        id: roadCounter.toString(),
+        pointIds,
+        options,
+        timestamp: Date.now(),
+      };
 
-    setRoads((prev) => [...prev, newRoad]);
-    return newRoad;
-  }, []);
+      setRoadCounter((prev) => prev + 1);
+      setRoads((prev) => [...prev, newRoad]);
+      return newRoad;
+    },
+    [roadCounter],
+  );
 
   const removeRoad = useCallback((id: string) => {
     setRoads((prev) => prev.filter((r) => r.id !== id));
@@ -253,18 +265,19 @@ export const useRouteBuilder = () => {
           }
           // Create road between previous and current point
           const newRoad: Road = {
-            id: `road-${Date.now()}-${Math.random()}`,
+            id: roadCounter.toString(),
             pointIds: [prevId, pointId],
             options: {},
             timestamp: Date.now(),
           };
           setRoads((prev) => [...prev, newRoad]);
+          setRoadCounter((prev) => prev + 1);
         }
         return pointId;
       });
       setSelectedPointId(pointId);
     },
-    [dataMode, points],
+    [dataMode, points, roadCounter],
   );
 
   const handleMapContextMenu: HandleMapContextMenuFn = useCallback(
@@ -322,12 +335,13 @@ export const useRouteBuilder = () => {
         throw new Error('Invalid format');
       }
 
-      const newPoints = parsedPoints.map((p) => ({
+      const newPoints = parsedPoints.map((p, index) => ({
         ...p,
-        id: `point-${Date.now()}-${Math.random()}`,
+        id: (pointCounter + index).toString(),
         timestamp: Date.now(),
       }));
 
+      setPointCounter((prev) => prev + newPoints.length);
       setPoints(newPoints);
       setRoads([]);
       infoToast('ポイントデータを貼り付けました');
@@ -335,7 +349,7 @@ export const useRouteBuilder = () => {
       console.error('Failed to paste:', error);
       errorToast('貼り付けに失敗しました。正しいJSON形式か確認してください。');
     }
-  }, []);
+  }, [pointCounter]);
 
   const pasteRoadsFromClipboard = useCallback(async () => {
     try {
@@ -346,19 +360,20 @@ export const useRouteBuilder = () => {
         throw new Error('Invalid format');
       }
 
-      const newRoads = parsedRoads.map((r) => ({
+      const newRoads = parsedRoads.map((r, index) => ({
         ...r,
-        id: `road-${Date.now()}-${Math.random()}`,
+        id: `road-${roadCounter + index}`,
         timestamp: Date.now(),
       }));
 
+      setRoadCounter((prev) => prev + newRoads.length);
       setRoads(newRoads);
       infoToast('経路データを貼り付けました');
     } catch (error) {
       console.error('Failed to paste:', error);
       errorToast('貼り付けに失敗しました。正しいJSON形式か確認してください。');
     }
-  }, []);
+  }, [roadCounter]);
 
   const panel = (
     <RoadPanel
