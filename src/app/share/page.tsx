@@ -3,7 +3,7 @@ import ShareMapPage from '@/page/ShareMapPage';
 
 export default function Page() {
   return (
-    <PageLayout>
+    <PageLayout hiddenAppBar>
       <ShareMapPage />
     </PageLayout>
   );

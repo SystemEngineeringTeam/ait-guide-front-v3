@@ -7,16 +7,17 @@ import RouteSummary from '@/components/RouteSummary';
 interface PageLayoutProps {
   children: React.ReactNode;
   className?: string;
+  hiddenAppBar?: boolean;
 }
 
-export default function PageLayout({ children, className, ...props }: PageLayoutProps) {
+export default function PageLayout({ children, className, hiddenAppBar = false, ...props }: PageLayoutProps) {
   return (
     <>
       <main className={classNames(styles.pagelayout, className)} {...props}>
         {children}
         <Penguin />
         <RouteSummary />
-        <AppBar />
+        {!hiddenAppBar && <AppBar />}
       </main>
     </>
   );
