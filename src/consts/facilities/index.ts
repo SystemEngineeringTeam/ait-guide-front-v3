@@ -436,6 +436,12 @@ export const FACILITIES_MAP: Record<FacilityId, GeoJSONFacilities> = {
     name: '寮食堂',
     data: GEOJSON_FACILITIES.DORMITORY_CAFETERIA,
   },
+  [FacilityId.TOILET_P1]: {
+    id: FacilityId.TOILET_P1,
+    type: 'other',
+    name: 'トイレ（第1学生駐車場）',
+    data: GEOJSON_FACILITIES.TOILET_P1,
+  },
 };
 
 export const GEO_JSON_FACILITIES = values(FACILITIES_MAP);

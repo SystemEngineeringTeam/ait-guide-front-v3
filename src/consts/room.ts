@@ -1491,6 +1491,7 @@ export const ROOMS = {
   [FacilityId.STUDENT_DORMITORY]: {},
   [FacilityId.INTERNATIONAL_EXCHANGE_HALL]: {},
   [FacilityId.DORMITORY_CAFETERIA]: {},
+  [FacilityId.TOILET_P1]: {},
 } as const satisfies Record<FacilityId, Record<string, Room>>;
 
 export interface RoomWithFacilityId extends Room {
