@@ -111,7 +111,11 @@ export default function RouteSummary() {
           setSelectedFacilityId={handleSelectFacilityId}
         />
 
-        <IconButton icon={<LinkIcon className={styles.link} />} onClick={copyLink(route[0], destinationId)} />
+        <IconButton
+          className={styles.linkButton}
+          icon={<LinkIcon className={styles.link} />}
+          onClick={copyLink(route[0], destinationId)}
+        />
       </div>
     </div>
   );

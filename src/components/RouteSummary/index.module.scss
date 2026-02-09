@@ -48,9 +48,13 @@
       border-radius: $radius-sm;
     }
 
-    .link {
-      font-size: $fontsize-lg;
-      color: $color-on-primary;
+    .linkButton {
+      padding: 0;
+
+      .link {
+        font-size: $fontsize-lg;
+        color: $color-on-primary;
+      }
     }
   }
 }
