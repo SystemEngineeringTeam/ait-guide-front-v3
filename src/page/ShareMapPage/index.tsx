@@ -52,7 +52,7 @@ function Inner() {
 
   const { data: route, isLoading } = useSWR(['/api/user', fromCoord, toId], ([_, fromCoord, toId]) => {
     if (!toId) {
-      errorToast('目的地が設定されていません');
+      errorToast('目的地が設定されていません', { duration: Infinity });
       return [];
     }
     return fetchRoute(fromCoord, toId);
