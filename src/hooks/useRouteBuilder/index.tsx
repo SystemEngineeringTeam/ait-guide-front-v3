@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo, useEffect, type MouseEvent } from 'react';
-import { type MapRef } from 'react-map-gl/maplibre';
+import { type MapRef, Popup } from 'react-map-gl/maplibre';
 import { HandleMapClickFn, HandleMapContextMenuFn } from '@/components/Map';
 import RoadMarkerPoints from './components/RoadMarkerPoints/index';
 import RoadPanel from './components/RoadPanel/index';
@@ -98,6 +98,7 @@ export const useRouteBuilder = () => {
   const [points, setPoints] = useState<RoadPoint[]>([]);
   const [roads, setRoads] = useState<Road[]>([]);
   const [selectedPointId, setSelectedPointId] = useState<string | null>(null);
+  const [selectedRoadId, setSelectedRoadId] = useState<string | null>(null);
   const [dataMode, setDataMode] = useState<'points' | 'roads'>('points');
   const [pointAddMode, setPointAddMode] = useState<PointType>('point');
   const [lastSelectedPointId, setLastSelectedPointId] = useState<string | null>(null);
@@ -426,12 +427,61 @@ export const useRouteBuilder = () => {
     />
   );
 
-  const lines = <RoadLines points={points} roads={roads} />;
+  const lines = <RoadLines points={points} roads={roads} onSelectRoad={setSelectedRoadId} selectedRoadId={selectedRoadId} />;
+
+  const selectedRoad = useMemo(() => {
+    return roads.find((road) => road.id === selectedRoadId) || null;
+  }, [roads, selectedRoadId]);
+
+  const popupCoords = useMemo(() => {
+    if (!selectedRoad) return null;
+    const roadPoints = selectedRoad.pointIds
+      .map((pointId) => points.find((p) => p.id === pointId))
+      .filter((p): p is RoadPoint => p !== undefined);
+    if (roadPoints.length === 0) return null;
+    // 経路の中心点を計算
+    const avgLng = roadPoints.reduce((sum, p) => sum + p.lng, 0) / roadPoints.length;
+    const avgLat = roadPoints.reduce((sum, p) => sum + p.lat, 0) / roadPoints.length;
+    return { longitude: avgLng, latitude: avgLat };
+  }, [selectedRoad, points]);
+
+  const handleToggleMainRoute = useCallback(() => {
+    if (!selectedRoadId || !selectedRoad) return;
+    updateRoad(selectedRoadId, {
+      options: {
+        ...selectedRoad.options,
+        mainRoute: !selectedRoad.options.mainRoute,
+        backroad: false, // 本道を選択したら裏道を解除
+      },
+    });
+  }, [selectedRoadId, selectedRoad, updateRoad]);
+
+  const handleToggleBackroad = useCallback(() => {
+    if (!selectedRoadId || !selectedRoad) return;
+    updateRoad(selectedRoadId, {
+      options: {
+        ...selectedRoad.options,
+        backroad: !selectedRoad.options.backroad,
+        mainRoute: false, // 裏道を選択したら本道を解除
+      },
+    });
+  }, [selectedRoadId, selectedRoad, updateRoad]);
+
+  const handleToggleStair = useCallback(() => {
+    if (!selectedRoadId || !selectedRoad) return;
+    updateRoad(selectedRoadId, {
+      options: {
+        ...selectedRoad.options,
+        stair: !selectedRoad.options.stair,
+      },
+    });
+  }, [selectedRoadId, selectedRoad, updateRoad]);
 
   return {
     points,
     roads,
     selectedPointId,
+    selectedRoadId,
     dataMode,
     pointAddMode,
     // Point operations
@@ -447,10 +497,18 @@ export const useRouteBuilder = () => {
     removeRoad,
     updateRoad,
     handlePointClickForRoad,
+    setSelectedRoadId,
 
     // Map handlers
     handleMapContextMenu,
     handleMapClick,
+
+    // Popup state
+    popupCoords,
+    selectedRoad,
+    handleToggleMainRoute,
+    handleToggleBackroad,
+    handleToggleStair,
 
     // Components
     panel,
