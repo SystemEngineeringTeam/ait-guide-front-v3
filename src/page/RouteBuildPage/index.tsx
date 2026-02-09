@@ -21,6 +21,7 @@ export default function RouteBuildPage() {
     handleMapClick,
     popupCoords,
     selectedRoad,
+    selectedRoadDistance,
     handleToggleMainRoute,
     handleToggleBackroad,
     handleToggleStair,
@@ -73,6 +74,9 @@ export default function RouteBuildPage() {
           >
             <div style={{ padding: '8px' }}>
               <h4 style={{ margin: '0 0 12px 0', fontSize: '14px', fontWeight: 600 }}>経路オプション</h4>
+              <div style={{ marginBottom: '10px', fontSize: '13px' }}>
+                距離: {selectedRoadDistance === null ? '-' : selectedRoadDistance.toFixed(6)}
+              </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', fontSize: '14px' }}>
                   <input

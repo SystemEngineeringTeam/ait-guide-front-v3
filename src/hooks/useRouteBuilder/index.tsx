@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo, useEffect, type MouseEvent } from 'react';
-import { type MapRef, Popup } from 'react-map-gl/maplibre';
+import { type MapRef } from 'react-map-gl/maplibre';
 import { HandleMapClickFn, HandleMapContextMenuFn } from '@/components/Map';
 import RoadMarkerPoints from './components/RoadMarkerPoints/index';
 import RoadPanel from './components/RoadPanel/index';
@@ -165,6 +165,26 @@ export const useRouteBuilder = () => {
     return isFacilityOrEntrance(prevType) && isFacilityOrEntrance(nextType);
   };
 
+  const calculateRoadDistance = useCallback(
+    (road: Road) => {
+      const roadPoints = road.pointIds
+        .map((pointId) => points.find((p) => p.id === pointId))
+        .filter((p): p is RoadPoint => p !== undefined);
+      if (roadPoints.length < 2) return null;
+
+      let total = 0;
+      for (let i = 1; i < roadPoints.length; i += 1) {
+        const prev = roadPoints[i - 1];
+        const next = roadPoints[i];
+        const dx = next.lng - prev.lng;
+        const dy = next.lat - prev.lat;
+        total += Math.sqrt(dx * dx + dy * dy);
+      }
+      return total;
+    },
+    [points],
+  );
+
   const addPoint = useCallback(
     (lng: number, lat: number, type: PointType = 'point') => {
       const newPoint = createPoint(lng, lat, type);
@@ -327,7 +347,14 @@ export const useRouteBuilder = () => {
   }, [points]);
 
   const copyRoadsToClipboard = useCallback(async () => {
-    const data = JSON.stringify(roads, null, 2);
+    const data = JSON.stringify(
+      roads.map((road) => ({
+        ...road,
+        distance: calculateRoadDistance(road),
+      })),
+      null,
+      2,
+    );
     try {
       await navigator.clipboard.writeText(data);
       infoToast('経路データをコピーしました');
@@ -335,7 +362,7 @@ export const useRouteBuilder = () => {
       console.error('Failed to copy:', error);
       errorToast('コピーに失敗しました');
     }
-  }, [roads]);
+  }, [roads, calculateRoadDistance]);
 
   const pastePointsFromClipboard = useCallback(async () => {
     try {
@@ -365,17 +392,20 @@ export const useRouteBuilder = () => {
   const pasteRoadsFromClipboard = useCallback(async () => {
     try {
       const text = await navigator.clipboard.readText();
-      const parsedRoads = JSON.parse(text) as Road[];
+      const parsedRoads = JSON.parse(text) as Array<Road & { distance?: number }>;
 
       if (!Array.isArray(parsedRoads)) {
         throw new Error('Invalid format');
       }
 
-      const newRoads = parsedRoads.map((r, index) => ({
-        ...r,
-        id: `road-${roadCounter + index}`,
-        timestamp: Date.now(),
-      }));
+      const newRoads = parsedRoads.map((r, index) => {
+        const { distance: _distance, ...rest } = r;
+        return {
+          ...rest,
+          id: `road-${roadCounter + index}`,
+          timestamp: Date.now(),
+        };
+      });
 
       setRoadCounter((prev) => prev + newRoads.length);
       setRoads(newRoads);
@@ -447,6 +477,11 @@ export const useRouteBuilder = () => {
     return { longitude: avgLng, latitude: avgLat };
   }, [selectedRoad, points]);
 
+  const selectedRoadDistance = useMemo(() => {
+    if (!selectedRoad) return null;
+    return calculateRoadDistance(selectedRoad);
+  }, [selectedRoad, calculateRoadDistance]);
+
   const handleToggleMainRoute = useCallback(() => {
     if (!selectedRoadId || !selectedRoad) return;
     updateRoad(selectedRoadId, {
@@ -508,6 +543,7 @@ export const useRouteBuilder = () => {
     // Popup state
     popupCoords,
     selectedRoad,
+    selectedRoadDistance,
     handleToggleMainRoute,
     handleToggleBackroad,
     handleToggleStair,
