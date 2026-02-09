@@ -9,16 +9,21 @@
   left: 20px;
   z-index: $z-always-top;
 
-  .title {
-    font-size: $fontsize-lg;
-    font-family: var(--font-m-plus-rounded-1c);
-    line-height: $fontsize-lg;
-    text-align: center;
-  }
+  .link {
+    all: unset;
+    cursor: pointer;
 
-  .createdBy {
-    font-size: $fontsize-sm;
-    line-height: $fontsize-sm;
-    text-align: center;
+    .title {
+      font-size: $fontsize-lg;
+      font-family: var(--font-m-plus-rounded-1c);
+      line-height: $fontsize-lg;
+      text-align: center;
+    }
+
+    .createdBy {
+      font-size: $fontsize-sm;
+      line-height: $fontsize-sm;
+      text-align: center;
+    }
   }
 }
