@@ -6,7 +6,7 @@ import { ArrowRightIcon, ClearIcon, LinkIcon } from '@/components/Icons';
 import IconButton from '@/components/IconButton';
 import { FACILITIES_MAP } from '@/consts/facilities';
 import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
-import { use, useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import SearchOverlay from '@/components/SearchOverlay';
 import type { SelectedFacilityId } from '@/hooks/useSelectedFacilityId';
 import { useFlyTo, useFlyToFacility } from '@/hooks/useFlyTo';
