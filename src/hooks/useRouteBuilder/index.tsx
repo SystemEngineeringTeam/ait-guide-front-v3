@@ -112,14 +112,14 @@ export const useRouteBuilder = () => {
         const storedData = await loadFromDB();
         setPoints(storedData.points);
         setRoads(storedData.roads);
-        
+
         // Update counters based on existing IDs to prevent duplicates
         if (storedData.points.length > 0) {
-          const maxPointId = Math.max(...storedData.points.map(p => parseInt(p.id, 10)));
+          const maxPointId = Math.max(...storedData.points.map((p) => parseInt(p.id, 10)));
           setPointCounter(maxPointId + 1);
         }
         if (storedData.roads.length > 0) {
-          const maxRoadId = Math.max(...storedData.roads.map(r => parseInt(r.id, 10)));
+          const maxRoadId = Math.max(...storedData.roads.map((r) => parseInt(r.id, 10)));
           setRoadCounter(maxRoadId + 1);
         }
       } catch (error) {
@@ -427,7 +427,9 @@ export const useRouteBuilder = () => {
     />
   );
 
-  const lines = <RoadLines points={points} roads={roads} onSelectRoad={setSelectedRoadId} selectedRoadId={selectedRoadId} />;
+  const lines = (
+    <RoadLines points={points} roads={roads} onSelectRoad={setSelectedRoadId} selectedRoadId={selectedRoadId} />
+  );
 
   const selectedRoad = useMemo(() => {
     return roads.find((road) => road.id === selectedRoadId) || null;
