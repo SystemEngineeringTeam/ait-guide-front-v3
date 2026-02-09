@@ -14,6 +14,10 @@
   user-select: none;
   pointer-events: none;
 
+  &[data-static='true'] {
+    bottom: 20px;
+  }
+
   .routeSummary {
     width: fit-content;
     padding: 5px 15px 5px 10px;
@@ -29,6 +33,18 @@
     gap: $gap-md;
 
     pointer-events: all;
+
+    &[data-static='true'] {
+      padding-inline: 20px;
+    }
+
+    .from,
+    .to {
+      padding: 2px 5px;
+      font-weight: 500;
+      color: $color-on-primary;
+      border-radius: $radius-sm;
+    }
 
     .closeButton {
       .icon {

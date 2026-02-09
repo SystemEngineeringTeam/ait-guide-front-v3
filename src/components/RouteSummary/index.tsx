@@ -17,7 +17,23 @@ import { useSearchText } from '@/hooks/useSearch';
 import { useOverlay } from '@/hooks/useOverlay';
 import type { Coord } from '@/types/coord';
 
-export default function RouteSummary() {
+interface Props {
+  destination: string;
+}
+
+export function RouteSummary({ destination }: Props) {
+  return (
+    <div className={styles.wrapper} data-static>
+      <div className={styles.routeSummary} data-static>
+        <span className={styles.from}>指定位置</span>
+        <ArrowRightIcon />
+        <span className={styles.to}>{destination}</span>
+      </div>
+    </div>
+  );
+}
+
+export function ChangeableRouteSummary() {
   const flyToFacility = useFlyToFacility();
   const flyTo = useFlyTo();
   const { isOpen, open, close } = useOverlay('change');

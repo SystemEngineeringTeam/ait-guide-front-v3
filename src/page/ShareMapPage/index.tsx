@@ -2,7 +2,7 @@
 
 import Map, { type HandleMoveFn } from '@/components/Map';
 import FacilityPolygons from '@/components/FacilityPolygons';
-import { GEO_JSON_FACILITIES } from '@/consts/facilities';
+import { FACILITIES_MAP, GEO_JSON_FACILITIES } from '@/consts/facilities';
 import { GEO_JSON_PASSAGES } from '@/consts/passages';
 import LocationIndicator from '@/components/LocationIndicator';
 import MapControlPanel from '@/components/MapControlPanel';
@@ -20,6 +20,7 @@ import useSWR from 'swr';
 import { values } from '@/utils/object';
 import { errorToast } from '@/utils/toast';
 import { COORD_AIT_MAIN_GATE } from '@/consts/coords';
+import { RouteSummary } from '@/components/RouteSummary';
 
 export default function ShareMapPage() {
   return (
@@ -49,6 +50,11 @@ function Inner() {
 
     return null;
   }, [searchParams]);
+  const destinationName = useMemo(() => {
+    if (!toId) return '不明な施設';
+    const facility = FACILITIES_MAP[toId];
+    return facility ? facility.name : '不明';
+  }, [toId]);
 
   const { data: route, isLoading } = useSWR(['/api/user', fromCoord, toId], ([_, fromCoord, toId]) => {
     if (!toId) {
@@ -71,6 +77,8 @@ function Inner() {
         <RouteLine route={route} canChangeStartPoint={false} />
         <FacilityNames facilities={GEO_JSON_FACILITIES} />
       </Map>
+
+      <RouteSummary destination={destinationName} />
     </>
   );
 }
