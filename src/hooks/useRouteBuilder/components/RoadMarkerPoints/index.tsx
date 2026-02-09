@@ -18,8 +18,8 @@ interface RoadMarkerPointsProps {
 
 const POINT_TYPE_COLORS: Record<PointType, string> = {
   facility: '#FF6B6B',
-  entrance: '#4ECDC4',
-  point: '#45B7D1',
+  entrance: '#FFA500',
+  point: '#4169E1',
 };
 
 const POINT_TYPE_LABELS: Record<PointType, string> = {
