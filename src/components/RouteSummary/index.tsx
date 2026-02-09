@@ -71,7 +71,7 @@ export default function RouteSummary() {
       }
 
       const url = new URL('/share', window.location.href);
-      url.searchParams.set('from', `${from[0]},${from[1]}`);
+      url.searchParams.set('from', `${from[0].toFixed(5)},${from[1].toFixed(5)}`);
       url.searchParams.set('toId', to.toString());
       navigator.clipboard.writeText(url.toString());
       infoToast('共有リンクをコピーしました');
