@@ -111,6 +111,16 @@ export const useRouteBuilder = () => {
         const storedData = await loadFromDB();
         setPoints(storedData.points);
         setRoads(storedData.roads);
+        
+        // Update counters based on existing IDs to prevent duplicates
+        if (storedData.points.length > 0) {
+          const maxPointId = Math.max(...storedData.points.map(p => parseInt(p.id, 10)));
+          setPointCounter(maxPointId + 1);
+        }
+        if (storedData.roads.length > 0) {
+          const maxRoadId = Math.max(...storedData.roads.map(r => parseInt(r.id, 10)));
+          setRoadCounter(maxRoadId + 1);
+        }
       } catch (error) {
         console.error('Failed to load data from IndexedDB:', error);
         errorToast('IndexedDBからのデータ読み込みに失敗しました。');
