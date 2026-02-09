@@ -25,5 +25,9 @@
       "custom_domain": true,
       "pattern": "v3.ait-guide.sysken.net",
     },
+    {
+      "custom_domain": true,
+      "pattern": "ait-guide.sysken.net",
+    },
   ],
 }
