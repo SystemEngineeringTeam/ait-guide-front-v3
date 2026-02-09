@@ -47,5 +47,10 @@
       background-color: $color-on-primary;
       border-radius: $radius-sm;
     }
+
+    .link {
+      font-size: $fontsize-lg;
+      color: $color-on-primary;
+    }
   }
 }

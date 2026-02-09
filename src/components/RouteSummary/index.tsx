@@ -2,19 +2,20 @@
 
 import styles from './index.module.scss';
 import { useDestinationId, useRoute, useStartCoord } from '@/hooks/useRoute';
-import { ArrowRightIcon, ClearIcon } from '@/components/Icons';
+import { ArrowRightIcon, ClearIcon, LinkIcon } from '@/components/Icons';
 import IconButton from '@/components/IconButton';
 import { FACILITIES_MAP } from '@/consts/facilities';
 import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
-import { useCallback, useState } from 'react';
+import { use, useCallback, useState } from 'react';
 import SearchOverlay from '@/components/SearchOverlay';
 import type { SelectedFacilityId } from '@/hooks/useSelectedFacilityId';
 import { useFlyTo, useFlyToFacility } from '@/hooks/useFlyTo';
 import { useIsValidGeoLocation } from '@/hooks/useGeoLocation';
 import { COORD_AIT_MAIN_GATE } from '@/consts/coords';
-import { infoToast } from '@/utils/toast';
+import { errorToast, infoToast } from '@/utils/toast';
 import { useSearchText } from '@/hooks/useSearch';
 import { useOverlay } from '@/hooks/useOverlay';
+import type { Coord } from '@/types/coord';
 
 export default function RouteSummary() {
   const flyToFacility = useFlyToFacility();
@@ -62,6 +63,22 @@ export default function RouteSummary() {
     [setDestinationId, close, flyToFacility],
   );
 
+  const copyLink = useCallback(
+    (from: Coord, to: SelectedFacilityId) => () => {
+      if (to == undefined) {
+        errorToast('目的地が選択されていません');
+        return;
+      }
+
+      const url = new URL('/share', window.location.href);
+      url.searchParams.set('from', `${from[0]},${from[1]}`);
+      url.searchParams.set('toId', to.toString());
+      navigator.clipboard.writeText(url.toString());
+      infoToast('共有リンクをコピーしました');
+    },
+    [],
+  );
+
   const destination = destinationId && FACILITIES_MAP[destinationId];
   if (destination == null || route.length === 0) return null;
 
@@ -93,6 +110,8 @@ export default function RouteSummary() {
           selectedFacilityId={destinationId}
           setSelectedFacilityId={handleSelectFacilityId}
         />
+
+        <IconButton icon={<LinkIcon className={styles.link} />} onClick={copyLink(route[0], destinationId)} />
       </div>
     </div>
   );
