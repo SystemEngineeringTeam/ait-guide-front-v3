@@ -206,6 +206,12 @@ export const FACILITIES_MAP: Record<FacilityId, GeoJSONFacilities> = {
     name: 'ゴルフ練習場',
     data: GEOJSON_FACILITIES.GOLF,
   },
+  [FacilityId.BATTING_PRACTICE]: {
+    id: FacilityId.BATTING_PRACTICE,
+    type: 'clubhouse',
+    name: 'バッティング練習場',
+    data: GEOJSON_FACILITIES.BATTING_PRACTICE,
+  },
   [FacilityId.PLAYGROUND_MANAGEMENT]: {
     id: FacilityId.PLAYGROUND_MANAGEMENT,
     type: 'clubhouse',
@@ -362,6 +368,12 @@ export const FACILITIES_MAP: Record<FacilityId, GeoJSONFacilities> = {
     data: GEOJSON_FACILITIES.GYM_MIN,
     floorImages: FLOOR_IMAGE.GYM_MIN,
   },
+  [FacilityId.PARKING]: {
+    id: FacilityId.PARKING,
+    type: 'parking',
+    name: '駐車場',
+    data: GEOJSON_FACILITIES.PARKING,
+  },
   [FacilityId.PARKING1]: {
     id: FacilityId.PARKING1,
     type: 'parking',
@@ -386,6 +398,12 @@ export const FACILITIES_MAP: Record<FacilityId, GeoJSONFacilities> = {
     type: 'parking',
     name: 'バイク駐車場',
     data: GEOJSON_FACILITIES.PARKING_BIKE,
+  },
+  [FacilityId.PARKING_BICYCLE]: {
+    id: FacilityId.PARKING_BICYCLE,
+    type: 'parking',
+    name: '駐輪場',
+    data: GEOJSON_FACILITIES.PARKING_BICYCLE,
   },
   [FacilityId.BUS_STOP]: {
     id: FacilityId.BUS_STOP,
@@ -441,6 +459,18 @@ export const FACILITIES_MAP: Record<FacilityId, GeoJSONFacilities> = {
     type: 'other',
     name: 'トイレ（第1学生駐車場）',
     data: GEOJSON_FACILITIES.TOILET_P1,
+  },
+  [FacilityId.RAINY_FIELD]: {
+    id: FacilityId.RAINY_FIELD,
+    type: 'clubhouse',
+    name: '雨天練習場',
+    data: GEOJSON_FACILITIES.RAINY_FIELD,
+  },
+  [FacilityId.DRAINAGE]: {
+    id: FacilityId.DRAINAGE,
+    type: 'other',
+    name: '総合排水処理施設',
+    data: GEOJSON_FACILITIES.DRAINAGE,
   },
 };
 

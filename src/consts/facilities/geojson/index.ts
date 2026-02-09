@@ -87,6 +87,9 @@ export const KYUDO_HALL = KYUDO_HALL_ as FeatureCollection;
 import GOLF_ from './golf.json';
 export const GOLF = GOLF_ as FeatureCollection;
 
+import BATTING_PRACTICE_ from './batting-practice.json';
+export const BATTING_PRACTICE = BATTING_PRACTICE_ as FeatureCollection;
+
 import FORMULA_PREFAB_ from './formura-prefab.json';
 export const FORMULA_PREFAB = FORMULA_PREFAB_ as FeatureCollection;
 
@@ -159,6 +162,9 @@ export const GYM_MIN = GYM_MIN_ as FeatureCollection;
 import PARKING_BIKE_ from './parking-bike.json';
 export const PARKING_BIKE = PARKING_BIKE_ as FeatureCollection;
 
+import PARKING_ from './parking.json';
+export const PARKING = PARKING_ as FeatureCollection;
+
 import PARKING1_ from './parking1.json';
 export const PARKING1 = PARKING1_ as FeatureCollection;
 
@@ -167,6 +173,9 @@ export const PARKING2 = PARKING2_ as FeatureCollection;
 
 import PARKING3_ from './parking3.json';
 export const PARKING3 = PARKING3_ as FeatureCollection;
+
+import PARKING_BICYCLE_ from './bicycle-parking.json';
+export const PARKING_BICYCLE = PARKING_BICYCLE_ as FeatureCollection;
 
 import BUS_STOP_ from './bus-stop.json';
 export const BUS_STOP = BUS_STOP_ as FeatureCollection;
@@ -194,3 +203,9 @@ export const DORMITORY_CAFETERIA = DORMITORY_CAFETERIA_ as FeatureCollection;
 
 import TOILET_P1_ from './toilet-p1.json';
 export const TOILET_P1 = TOILET_P1_ as FeatureCollection;
+
+import RAINY_FIELD_ from './rainy-field.json';
+export const RAINY_FIELD = RAINY_FIELD_ as FeatureCollection;
+
+import DRAINAGE_ from './drainage.json';
+export const DRAINAGE = DRAINAGE_ as FeatureCollection;

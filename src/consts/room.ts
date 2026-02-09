@@ -1479,10 +1479,12 @@ export const ROOMS = {
   [FacilityId.TENNIS_COURT]: {},
   [FacilityId.SOCCER_FIELD]: {},
   [FacilityId.ATHLETICS_FIELD]: {},
+  [FacilityId.PARKING]: {},
   [FacilityId.PARKING1]: {},
   [FacilityId.PARKING2]: {},
   [FacilityId.PARKING3]: {},
   [FacilityId.PARKING_BIKE]: {},
+  [FacilityId.PARKING_BICYCLE]: {},
   [FacilityId.BUS_STOP]: {},
   [FacilityId.BUS_STOP_GETOFF_ONLY]: {},
   [FacilityId.MAIN_GATE]: {},
@@ -1492,6 +1494,9 @@ export const ROOMS = {
   [FacilityId.INTERNATIONAL_EXCHANGE_HALL]: {},
   [FacilityId.DORMITORY_CAFETERIA]: {},
   [FacilityId.TOILET_P1]: {},
+  [FacilityId.RAINY_FIELD]: {},
+  [FacilityId.BATTING_PRACTICE]: {},
+  [FacilityId.DRAINAGE]: {},
 } as const satisfies Record<FacilityId, Record<string, Room>>;
 
 export interface RoomWithFacilityId extends Room {

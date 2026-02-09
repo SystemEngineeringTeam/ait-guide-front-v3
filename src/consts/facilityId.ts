@@ -47,10 +47,12 @@ export enum FacilityId {
   ARCHERY_FIELD = '51',
   GYM = '35',
   GYM_MIN = '37',
+  PARKING = '408',
   PARKING1 = '46',
   PARKING2 = '47',
   PARKING3 = '48',
   PARKING_BIKE = '43',
+  PARKING_BICYCLE = '407',
   BUS_STOP = '49',
   BUS_STOP_GETOFF_ONLY = '201',
   MAIN_GATE = '55',
@@ -59,9 +61,12 @@ export enum FacilityId {
   HANGAR = '151', // TODO
   KYUDO_HALL = '415',
   GOLF = '414', // TODO: 415が最寄りだが，同じIDは使えない
+  BATTING_PRACTICE = '429',
   TRAINING_DORMITORY = '395',
   STUDENT_DORMITORY = '399',
   INTERNATIONAL_EXCHANGE_HALL = '401',
   DORMITORY_CAFETERIA = '403',
   TOILET_P1 = '202',
+  RAINY_FIELD = '425', // TODO: 415が最寄りだが，同じIDは使えない
+  DRAINAGE = '406',
 }
