@@ -4,8 +4,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.088067164756374",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.8252458340797054",
+        "timestamp": 1770605149477,
         "rotation": 184,
         "width": 6,
         "type": "entrance"
@@ -18,8 +18,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.5011918845063219",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.48526346104939777",
+        "timestamp": 1770605149477,
         "rotation": 186,
         "width": 4,
         "type": "entrance"
@@ -32,8 +32,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.7449405988048926",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.8906274719362501",
+        "timestamp": 1770605149477,
         "rotation": 96,
         "width": 16,
         "type": "entrance"
@@ -46,8 +46,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.1287534397846699",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.5185650750189686",
+        "timestamp": 1770605149477,
         "rotation": 98,
         "width": 2,
         "type": "entrance"
@@ -60,8 +60,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.9069455242500724",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.24234824125270304",
+        "timestamp": 1770605149477,
         "rotation": 97,
         "width": 2,
         "type": "entrance"
@@ -74,8 +74,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.38156438893748346",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.2789558106455572",
+        "timestamp": 1770605149477,
         "rotation": 182,
         "width": 8,
         "type": "entrance"
@@ -88,8 +88,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.8667601779178338",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.8604559066737155",
+        "timestamp": 1770605149477,
         "rotation": 3,
         "width": 2,
         "type": "entrance"
@@ -102,36 +102,36 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.08918596692311198",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.5674417003349621",
+        "timestamp": 1770605149477,
         "rotation": 94,
         "width": 2,
         "type": "entrance"
       },
       "geometry": {
         "type": "Point",
-        "coordinates": [137.11138577358582, 35.184878396233174]
+        "coordinates": [137.1114190275045, 35.18486251596748]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.3987808400456312",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.3967353341081188",
+        "timestamp": 1770605149477,
         "rotation": 95,
         "width": 2,
         "type": "entrance"
       },
       "geometry": {
         "type": "Point",
-        "coordinates": [137.11148998205556, 35.18488706615871]
+        "coordinates": [137.11146187217213, 35.18486651237093]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.23681293747767207",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.042201426169883205",
+        "timestamp": 1770605149477,
         "rotation": 187,
         "width": 2,
         "type": "entrance"
@@ -144,8 +144,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.5181632871445696",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.9838812066640588",
+        "timestamp": 1770605149477,
         "rotation": 96,
         "width": 2,
         "type": "entrance"
@@ -158,8 +158,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.17834724654981648",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.8511761534839898",
+        "timestamp": 1770605149477,
         "rotation": 6,
         "width": 2,
         "type": "entrance"
@@ -172,8 +172,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.37254440173891823",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.07287934006878893",
+        "timestamp": 1770605149477,
         "rotation": 97,
         "width": 2,
         "type": "entrance"
@@ -186,8 +186,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.06615440514109283",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.35858200444976374",
+        "timestamp": 1770605149477,
         "rotation": 185,
         "width": 2,
         "type": "entrance"
@@ -200,8 +200,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.3143588766499924",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.612234199217304",
+        "timestamp": 1770605149477,
         "rotation": 95,
         "width": 4,
         "type": "entrance"
@@ -214,8 +214,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.8627863999966036",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.5440768200817618",
+        "timestamp": 1770605149477,
         "rotation": 184,
         "width": 2,
         "type": "entrance"
@@ -228,8 +228,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.3496525497773435",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.2660479030771312",
+        "timestamp": 1770605149477,
         "rotation": 184,
         "width": 2,
         "type": "entrance"
@@ -242,8 +242,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.2130637420776188",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.6567957471974131",
+        "timestamp": 1770605149477,
         "rotation": 185,
         "width": 2,
         "type": "entrance"
@@ -256,8 +256,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.5585489058660128",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.9170403958934374",
+        "timestamp": 1770605149477,
         "rotation": 184,
         "width": 2,
         "type": "entrance"
@@ -270,8 +270,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.1468491949044709",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.1876202647846399",
+        "timestamp": 1770605149477,
         "rotation": 184,
         "width": 2,
         "type": "entrance"
@@ -284,8 +284,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.4433490507566875",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.1435777994390547",
+        "timestamp": 1770605149477,
         "rotation": 95,
         "width": 2,
         "type": "entrance"
@@ -298,8 +298,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.1782502984978912",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.9192450094961426",
+        "timestamp": 1770605149477,
         "rotation": 98,
         "width": 2,
         "type": "entrance"
@@ -312,8 +312,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.6241776175307122",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.5354413108448477",
+        "timestamp": 1770605149477,
         "rotation": 96,
         "width": 2,
         "type": "entrance"
@@ -326,8 +326,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.5321785108148307",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.5335950736385825",
+        "timestamp": 1770605149477,
         "rotation": 95,
         "width": 6,
         "type": "entrance"
@@ -340,36 +340,22 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.10126481133586773",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.08809862137830049",
+        "timestamp": 1770605149477,
         "rotation": 96,
         "width": 2,
         "type": "entrance"
       },
       "geometry": {
         "type": "Point",
-        "coordinates": [137.1106360367566, 35.184692173171186]
+        "coordinates": [137.11062299093845, 35.18473122927283]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.8277018973400501",
-        "timestamp": 1770587908606,
-        "rotation": 7,
-        "width": 2,
-        "type": "entrance"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [137.11069805024454, 35.184800133570874]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": "entrance-1770587908606-0.20064254412342164",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.589553666980277",
+        "timestamp": 1770605149477,
         "rotation": 185,
         "width": 2,
         "type": "entrance"
@@ -382,8 +368,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.8031536855854979",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.8829601256685639",
+        "timestamp": 1770605149477,
         "rotation": 184,
         "width": 2,
         "type": "entrance"
@@ -396,8 +382,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587908606-0.4006398749561678",
-        "timestamp": 1770587908606,
+        "id": "entrance-1770605149477-0.022989306027833",
+        "timestamp": 1770605149477,
         "rotation": 94,
         "width": 2,
         "type": "entrance"
@@ -410,8 +396,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587917933-0.7260855517056901",
-        "timestamp": 1770587917933,
+        "id": "entrance-1770605149477-0.25444446433179546",
+        "timestamp": 1770605149477,
         "rotation": 184,
         "width": 2,
         "type": "entrance"
@@ -424,8 +410,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587934432-0.09963844072713801",
-        "timestamp": 1770587934432,
+        "id": "entrance-1770605149477-0.8568396406061545",
+        "timestamp": 1770605149477,
         "rotation": 183,
         "width": 2,
         "type": "entrance"
@@ -438,8 +424,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587971323-0.9915748873879419",
-        "timestamp": 1770587971323,
+        "id": "entrance-1770605149477-0.9614833499743015",
+        "timestamp": 1770605149477,
         "rotation": 96,
         "width": 2,
         "type": "entrance"
@@ -452,8 +438,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587983098-0.4797912456717076",
-        "timestamp": 1770587983098,
+        "id": "entrance-1770605149477-0.8402474245242004",
+        "timestamp": 1770605149477,
         "rotation": 96,
         "width": 2,
         "type": "entrance"
@@ -466,8 +452,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770587995627-0.6327077750639003",
-        "timestamp": 1770587995627,
+        "id": "entrance-1770605149477-0.6629178108525667",
+        "timestamp": 1770605149477,
         "rotation": 96,
         "width": 2,
         "type": "entrance"
@@ -480,8 +466,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770588005451-0.8768483707103781",
-        "timestamp": 1770588005451,
+        "id": "entrance-1770605149477-0.7935596646492202",
+        "timestamp": 1770605149477,
         "rotation": 97,
         "width": 2,
         "type": "entrance"
@@ -494,8 +480,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770588257350-0.9933636263634984",
-        "timestamp": 1770588257350,
+        "id": "entrance-1770605149477-0.80608659093174",
+        "timestamp": 1770605149477,
         "rotation": 7,
         "width": 2,
         "type": "entrance"
@@ -508,8 +494,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770588277817-0.44114354508143516",
-        "timestamp": 1770588277817,
+        "id": "entrance-1770605149477-0.47753340415573153",
+        "timestamp": 1770605149477,
         "rotation": 95,
         "width": 2,
         "type": "entrance"
@@ -522,8 +508,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770588454253-0.21048255370647773",
-        "timestamp": 1770588454253,
+        "id": "entrance-1770605149477-0.19807415906455195",
+        "timestamp": 1770605149477,
         "rotation": 94,
         "width": 2,
         "type": "entrance"
@@ -536,8 +522,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770588478385-0.7859755845170837",
-        "timestamp": 1770588478385,
+        "id": "entrance-1770605149477-0.2855423022329908",
+        "timestamp": 1770605149477,
         "rotation": 95,
         "width": 2,
         "type": "entrance"
@@ -550,8 +536,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770588779222-0.5654844707164256",
-        "timestamp": 1770588779222,
+        "id": "entrance-1770605149477-0.11886719249231992",
+        "timestamp": 1770605149477,
         "rotation": 183,
         "width": 2,
         "type": "entrance"
@@ -564,8 +550,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770588800122-0.12117318272654476",
-        "timestamp": 1770588800122,
+        "id": "entrance-1770605149477-0.8941481036784543",
+        "timestamp": 1770605149477,
         "rotation": 94,
         "width": 2,
         "type": "entrance"
@@ -578,8 +564,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770588812604-0.9046701906494381",
-        "timestamp": 1770588812604,
+        "id": "entrance-1770605149477-0.4769691315491146",
+        "timestamp": 1770605149477,
         "rotation": 182,
         "width": 2,
         "type": "entrance"
@@ -592,8 +578,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770588823886-0.5898319967072372",
-        "timestamp": 1770588823886,
+        "id": "entrance-1770605149477-0.776019654450737",
+        "timestamp": 1770605149477,
         "rotation": 95,
         "width": 2,
         "type": "entrance"
@@ -606,8 +592,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770588892270-0.6625739288571324",
-        "timestamp": 1770588892271,
+        "id": "entrance-1770605149477-0.8389468798786757",
+        "timestamp": 1770605149477,
         "rotation": 87,
         "width": 2,
         "type": "entrance"
@@ -620,8 +606,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770588916639-0.22808682148722026",
-        "timestamp": 1770588916639,
+        "id": "entrance-1770605149477-0.5107106467942781",
+        "timestamp": 1770605149477,
         "rotation": 180,
         "width": 2,
         "type": "entrance"
@@ -634,8 +620,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770588951522-0.6604760329515756",
-        "timestamp": 1770588951522,
+        "id": "entrance-1770605149477-0.6620097139286001",
+        "timestamp": 1770605149477,
         "rotation": 83,
         "width": 2,
         "type": "entrance"
@@ -648,8 +634,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770588983166-0.398234341084056",
-        "timestamp": 1770588983166,
+        "id": "entrance-1770605149477-0.6056039834756018",
+        "timestamp": 1770605149477,
         "rotation": 89,
         "width": 10,
         "type": "entrance"
@@ -662,8 +648,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770589258364-0.2823731023370446",
-        "timestamp": 1770589258364,
+        "id": "entrance-1770605149477-0.7165258704320692",
+        "timestamp": 1770605149477,
         "rotation": 90,
         "width": 2,
         "type": "entrance"
@@ -676,8 +662,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770589271788-0.6191200431069512",
-        "timestamp": 1770589271788,
+        "id": "entrance-1770605149477-0.06466400447355702",
+        "timestamp": 1770605149477,
         "rotation": 88,
         "width": 2,
         "type": "entrance"
@@ -690,8 +676,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770589282311-0.8826233359013087",
-        "timestamp": 1770589282311,
+        "id": "entrance-1770605149477-0.7586485785007385",
+        "timestamp": 1770605149477,
         "rotation": 0,
         "width": 2,
         "type": "entrance"
@@ -704,8 +690,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770589290731-0.07471759704813896",
-        "timestamp": 1770589290731,
+        "id": "entrance-1770605149477-0.958349378689928",
+        "timestamp": 1770605149477,
         "rotation": 0,
         "width": 2,
         "type": "entrance"
@@ -718,8 +704,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770589294369-0.5210541173992129",
-        "timestamp": 1770589294369,
+        "id": "entrance-1770605149477-0.17684912589625956",
+        "timestamp": 1770605149477,
         "rotation": 89,
         "width": 2,
         "type": "entrance"
@@ -732,8 +718,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770589304735-0.5673690360165946",
-        "timestamp": 1770589304735,
+        "id": "entrance-1770605149477-0.46277371178232596",
+        "timestamp": 1770605149477,
         "rotation": 86,
         "width": 2,
         "type": "entrance"
@@ -746,8 +732,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770589312452-0.6082703716998135",
-        "timestamp": 1770589312452,
+        "id": "entrance-1770605149477-0.9069452457862224",
+        "timestamp": 1770605149477,
         "rotation": 177,
         "width": 2,
         "type": "entrance"
@@ -760,8 +746,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770589327823-0.8352688330075587",
-        "timestamp": 1770589327823,
+        "id": "entrance-1770605149477-0.08380593906442446",
+        "timestamp": 1770605149477,
         "rotation": 0,
         "width": 2,
         "type": "entrance"
@@ -774,8 +760,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770589578700-0.5586174121196504",
-        "timestamp": 1770589578700,
+        "id": "entrance-1770605149477-0.21457350776590112",
+        "timestamp": 1770605149477,
         "rotation": 171,
         "width": 2,
         "type": "entrance"
@@ -788,8 +774,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770589634372-0.02924322688738934",
-        "timestamp": 1770589634372,
+        "id": "entrance-1770605149477-0.3775868726453844",
+        "timestamp": 1770605149477,
         "rotation": 114,
         "width": 2,
         "type": "entrance"
@@ -802,8 +788,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770589919135-0.8610653188178045",
-        "timestamp": 1770589919135,
+        "id": "entrance-1770605149477-0.47617369069992377",
+        "timestamp": 1770605149477,
         "rotation": 93,
         "width": 2,
         "type": "entrance"
@@ -816,8 +802,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770589969550-0.6701952402407232",
-        "timestamp": 1770589969550,
+        "id": "entrance-1770605149477-0.7490243193188195",
+        "timestamp": 1770605149477,
         "rotation": 184,
         "width": 2,
         "type": "entrance"
@@ -830,8 +816,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770589996025-0.6354578769561425",
-        "timestamp": 1770589996025,
+        "id": "entrance-1770605149477-0.5726366284093087",
+        "timestamp": 1770605149477,
         "rotation": 94,
         "width": 2,
         "type": "entrance"
@@ -844,8 +830,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770590009374-0.7908788619739018",
-        "timestamp": 1770590009374,
+        "id": "entrance-1770605149477-0.4583119621161248",
+        "timestamp": 1770605149477,
         "rotation": 94,
         "width": 2,
         "type": "entrance"
@@ -858,8 +844,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770590261577-0.952986472535755",
-        "timestamp": 1770590261578,
+        "id": "entrance-1770605149477-0.5045936841177451",
+        "timestamp": 1770605149477,
         "rotation": 94,
         "width": 2,
         "type": "entrance"
@@ -872,8 +858,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770590274175-0.3778051354536085",
-        "timestamp": 1770590274175,
+        "id": "entrance-1770605149477-0.9079321751144265",
+        "timestamp": 1770605149477,
         "rotation": 183,
         "width": 2,
         "type": "entrance"
@@ -886,8 +872,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770590283394-0.059820393891078405",
-        "timestamp": 1770590283394,
+        "id": "entrance-1770605149477-0.794121457237334",
+        "timestamp": 1770605149477,
         "rotation": 94,
         "width": 2,
         "type": "entrance"
@@ -900,8 +886,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770590291630-0.8917417574929944",
-        "timestamp": 1770590291630,
+        "id": "entrance-1770605149477-0.2735191412650353",
+        "timestamp": 1770605149477,
         "rotation": 93,
         "width": 2,
         "type": "entrance"
@@ -914,8 +900,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770590367510-0.11215392185142004",
-        "timestamp": 1770590367510,
+        "id": "entrance-1770605149477-0.923561760378556",
+        "timestamp": 1770605149477,
         "rotation": 188,
         "width": 2,
         "type": "entrance"
@@ -928,8 +914,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770590431854-0.7380086368105662",
-        "timestamp": 1770590431854,
+        "id": "entrance-1770605149477-0.5013111654752168",
+        "timestamp": 1770605149477,
         "rotation": 95,
         "width": 2,
         "type": "entrance"
@@ -942,8 +928,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770590443086-0.7096723446150436",
-        "timestamp": 1770590443086,
+        "id": "entrance-1770605149477-0.1969036303904519",
+        "timestamp": 1770605149477,
         "rotation": 94,
         "width": 2,
         "type": "entrance"
@@ -956,8 +942,8 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "entrance-1770590450683-0.8134395885711905",
-        "timestamp": 1770590450683,
+        "id": "entrance-1770605149477-0.9275305696658444",
+        "timestamp": 1770605149477,
         "rotation": 95,
         "width": 2,
         "type": "entrance"
@@ -965,6 +951,90 @@
       "geometry": {
         "type": "Point",
         "coordinates": [137.11510039543697, 35.1837642814325]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "entrance-1770605149477-0.8099938551072626",
+        "timestamp": 1770605149477,
+        "rotation": 96,
+        "width": 6,
+        "type": "entrance"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [137.1112581723948, 35.18505851772677]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "entrance-1770605149477-0.12957331524596527",
+        "timestamp": 1770605149477,
+        "rotation": 95,
+        "width": 2,
+        "type": "entrance"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [137.11208348346014, 35.18490373924456]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "entrance-1770605149477-0.6575085392495046",
+        "timestamp": 1770605149477,
+        "rotation": 94,
+        "width": 2,
+        "type": "entrance"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [137.11215908355985, 35.18490860920494]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "entrance-1770605149477-0.3133854741817993",
+        "timestamp": 1770605149477,
+        "rotation": 6,
+        "width": 2,
+        "type": "entrance"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [137.1122334216068, 35.18463187405639]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "entrance-1770605149477-0.09547751416236716",
+        "timestamp": 1770605149477,
+        "rotation": 96,
+        "width": 2,
+        "type": "entrance"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [137.11298617075755, 35.18423106910214]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "entrance-1770605155777-0.15081558109837878",
+        "timestamp": 1770605155778,
+        "rotation": 97,
+        "width": 2,
+        "type": "entrance"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [137.11310958473211, 35.184235327488054]
       }
     }
   ]
