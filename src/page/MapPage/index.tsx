@@ -5,7 +5,7 @@ import FacilityPolygons from '@/components/FacilityPolygons';
 import { GEO_JSON_FACILITIES } from '@/consts/facilities';
 import { GEO_JSON_PASSAGES } from '@/consts/passages';
 import BottomSheet from '@/components/BottomSheet';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import FacilityHighlight from '@/components/FacilityHighlight';
 import FacilityData from '@/components/FacilityData';
 import LocationIndicator from '@/components/LocationIndicator';

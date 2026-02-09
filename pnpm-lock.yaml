@@ -68,6 +68,9 @@ importers:
       react-zoom-pan-pinch:
         specifier: ^3.7.0
         version: 3.7.0(react-dom@19.1.5(react@19.1.5))(react@19.1.5)
+      swr:
+        specifier: ^2.4.0
+        version: 2.4.0(react@19.1.5)
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3
@@ -4401,6 +4404,11 @@ packages:
   sweepline-intersections@1.5.0:
     resolution: {integrity: sha512-AoVmx72QHpKtItPu72TzFL+kcYjd67BPLDoR0LarIk+xyaRg+pDTMFXndIEvZf9xEKnJv6JdhgRMnocoG0D3AQ==}
 
+  swr@2.4.0:
+    resolution: {integrity: sha512-sUlC20T8EOt1pHmDiqueUWMmRRX03W7w5YxovWX7VR2KHEPCTMly85x05vpkP5i6Bu4h44ePSMD9Tc+G2MItFw==}
+    peerDependencies:
+      react: ^16.11.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
   terser@5.16.9:
     resolution: {integrity: sha512-HPa/FdTB9XGI2H1/keLFZHxl6WNvAI4YalHGtDQTlMnJcoqSab1UwL4l1hGEhs6/GmLHBZIg/YgB++jcbzoOEg==}
     engines: {node: '>=10'}
@@ -4551,6 +4559,11 @@ packages:
 
   urlpattern-polyfill@10.1.0:
     resolution: {integrity: sha512-IGjKp/o0NL3Bso1PymYURCJxMPNAf/ILOpendP9f5B6e1rTJgdgiOvgfoT8VxCAdY+Wisb9uhGaJJf3yZ2V9nw==}
+
+  use-sync-external-store@1.6.0:
+    resolution: {integrity: sha512-Pp6GSwGP/NrPIrxVFAIkOQeyw8lFenOHijQWkUTrDvrF4ALqylP2C/KCkeS9dpUM3KvYRQhna5vt7IL95+ZQ9w==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   uuid@9.0.1:
     resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
@@ -10964,6 +10977,12 @@ snapshots:
     dependencies:
       tinyqueue: 2.0.3
 
+  swr@2.4.0(react@19.1.5):
+    dependencies:
+      dequal: 2.0.3
+      react: 19.1.5
+      use-sync-external-store: 1.6.0(react@19.1.5)
+
   terser@5.16.9:
     dependencies:
       '@jridgewell/source-map': 0.3.11
@@ -11162,6 +11181,10 @@ snapshots:
       punycode: 2.3.1
 
   urlpattern-polyfill@10.1.0: {}
+
+  use-sync-external-store@1.6.0(react@19.1.5):
+    dependencies:
+      react: 19.1.5
 
   uuid@9.0.1: {}
 

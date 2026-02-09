@@ -13,7 +13,7 @@ interface RouteResponse {
   route: { lat: number; lng: number }[] | null;
 }
 
-async function fetchRoute(location: Coord, destinationId: FacilityId): Promise<Coord[]> {
+export async function fetchRoute(location: Coord, destinationId: FacilityId): Promise<Coord[]> {
   if (!location) return [];
 
   try {

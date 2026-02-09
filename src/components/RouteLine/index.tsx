@@ -7,9 +7,10 @@ import { useSetStartCoord, useStartCoord } from '@/hooks/useRoute';
 
 interface Props {
   route: Coord[] | undefined;
+  canChangeStartPoint?: boolean; // TODO
 }
 
-export default function RouteLine({ route }: Props) {
+export default function RouteLine({ route, canChangeStartPoint = true }: Props) {
   const updateStartCoord = useSetStartCoord();
   const startCoord = useStartCoord();
 
@@ -72,7 +73,7 @@ export default function RouteLine({ route }: Props) {
         <Marker
           longitude={startPoint[0]}
           latitude={startPoint[1]}
-          draggable
+          draggable={canChangeStartPoint}
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
