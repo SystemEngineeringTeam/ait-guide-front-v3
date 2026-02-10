@@ -9,6 +9,7 @@ import annex4ToB11 from './geojson/annex4-11.json';
 import b3ToAnnex3 from './geojson/3-annex3.json';
 import annex3ToBio from './geojson/annex3-bio.json';
 import b8ToCentralTerrace from './geojson/8-central-terrace.json';
+import dormitory from './geojson/dormitory.json';
 
 export const GEO_JSON_PASSAGES: GeoJSONPassage[] = [
   {
@@ -46,5 +47,9 @@ export const GEO_JSON_PASSAGES: GeoJSONPassage[] = [
   {
     type: 'passage',
     data: b8ToCentralTerrace as FeatureCollection,
+  },
+  {
+    type: 'passage',
+    data: dormitory as FeatureCollection,
   },
 ];
