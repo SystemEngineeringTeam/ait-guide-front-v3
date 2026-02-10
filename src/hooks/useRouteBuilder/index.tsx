@@ -160,11 +160,6 @@ export const useRouteBuilder = () => {
     [pointCounter],
   );
 
-  const isFacilityOrEntrance = (type?: PointType) => type === 'facility' || type === 'entrance';
-  const shouldSkipAutoConnect = (prevType?: PointType, nextType?: PointType) => {
-    return isFacilityOrEntrance(prevType) && isFacilityOrEntrance(nextType);
-  };
-
   const calculateRoadDistance = useCallback(
     (road: Road) => {
       const roadPoints = road.pointIds
@@ -194,9 +189,6 @@ export const useRouteBuilder = () => {
       setLastSelectedPointId((prevId) => {
         if (prevId) {
           const prevPoint = points.find((point) => point.id === prevId);
-          if (shouldSkipAutoConnect(prevPoint?.type, newPoint.type)) {
-            return newPoint.id;
-          }
           // Create road between previous point and new point
           const newRoad: Road = {
             id: roadCounter.toString(),
@@ -213,6 +205,59 @@ export const useRouteBuilder = () => {
       return newPoint;
     },
     [createPoint, points, roadCounter],
+  );
+
+  const addPointToRoad = useCallback(
+    (lng: number, lat: number, roadId: string) => {
+      const road = roads.find((r) => r.id === roadId);
+      if (!road) return null;
+
+      const newPoint = createPoint(lng, lat, 'point');
+      setPoints((prev) => [...prev, newPoint]);
+
+      // Find the closest segment in the road and insert the point there
+      const roadPoints = road.pointIds
+        .map((pointId) => points.find((p) => p.id === pointId))
+        .filter((p): p is RoadPoint => p !== undefined);
+
+      if (roadPoints.length < 2) return newPoint;
+
+      let minDistance = Infinity;
+      let insertIndex = road.pointIds.length;
+
+      // Calculate the closest segment
+      for (let i = 1; i < roadPoints.length; i += 1) {
+        const p1 = roadPoints[i - 1];
+        const p2 = roadPoints[i];
+
+        // Calculate perpendicular distance to the line segment
+        const dx = p2.lng - p1.lng;
+        const dy = p2.lat - p1.lat;
+        const t = Math.max(0, Math.min(1, ((lng - p1.lng) * dx + (lat - p1.lat) * dy) / (dx * dx + dy * dy)));
+        const closestLng = p1.lng + t * dx;
+        const closestLat = p1.lat + t * dy;
+
+        const distance = Math.sqrt((lng - closestLng) ** 2 + (lat - closestLat) ** 2);
+
+        if (distance < minDistance) {
+          minDistance = distance;
+          insertIndex = i;
+        }
+      }
+
+      // Insert the new point into the road
+      setRoads((prev) =>
+        prev.map((r) => {
+          if (r.id !== roadId) return r;
+          const newPointIds = [...r.pointIds];
+          newPointIds.splice(insertIndex, 0, newPoint.id);
+          return { ...r, pointIds: newPointIds };
+        }),
+      );
+
+      return newPoint;
+    },
+    [createPoint, points, roads],
   );
 
   const removePoint = useCallback((id: string) => {
@@ -291,9 +336,6 @@ export const useRouteBuilder = () => {
         if (prevId && prevId !== pointId) {
           const prevPoint = points.find((point) => point.id === prevId);
           const nextPoint = points.find((point) => point.id === pointId);
-          if (shouldSkipAutoConnect(prevPoint?.type, nextPoint?.type)) {
-            return pointId;
-          }
           // Create road between previous and current point
           const newRoad: Road = {
             id: roadCounter.toString(),
@@ -330,9 +372,21 @@ export const useRouteBuilder = () => {
 
   const handleMapClick: HandleMapClickFn = useCallback(
     (mapRef: React.RefObject<MapRef | null>) => (e: MouseEvent<HTMLDivElement>) => {
-      // Currently no special behavior needed
+      // If a road is selected, add a point to it
+      if (selectedRoadId && !mapRef.current) return;
+
+      if (selectedRoadId && mapRef.current) {
+        const canvas = mapRef.current.getCanvas();
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const lngLat = mapRef.current.unproject([x, y]);
+        addPointToRoad(lngLat.lng, lngLat.lat, selectedRoadId);
+        infoToast('経路に点を挿入しました');
+      }
     },
-    [],
+    [selectedRoadId, addPointToRoad],
   );
 
   const copyPointsToClipboard = useCallback(async () => {
@@ -528,6 +582,7 @@ export const useRouteBuilder = () => {
     updatePointName,
     changePointType,
     clearPoints,
+    addPointToRoad,
 
     // Road operations
     addRoad,
