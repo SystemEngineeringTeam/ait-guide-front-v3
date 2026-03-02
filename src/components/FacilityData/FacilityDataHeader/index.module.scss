@@ -10,14 +10,19 @@
     font-weight: bold;
   }
 
-  .icon {
-    width: $fontsize-lg;
-    height: $fontsize-lg;
-  }
+  .buttons {
+    display: flex;
+    gap: $gap-sm;
 
-  .routeButton {
-    &[data-active='true'] {
-      color: $color-primary;
+    .icon {
+      width: $fontsize-lg;
+      height: $fontsize-lg;
+    }
+
+    .iconButton {
+      &[data-active='true'] {
+        color: $color-primary;
+      }
     }
   }
 }

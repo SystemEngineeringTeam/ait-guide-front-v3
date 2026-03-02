@@ -1,10 +1,12 @@
 import { atom, useAtomValue, useSetAtom } from 'jotai';
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useOverlay } from './useOverlay';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useBottomSheetOpen } from './useBottomSheet';
 import { useFlyToFacility } from './useFlyTo';
 import { FacilityId } from '@/consts/facilityId';
+import { isFacilityId } from '@/utils/facilityId';
+import { setQueryParam } from '@/utils/queryParams';
 
 export type SelectedFacilityId = FacilityId | undefined;
 
@@ -33,6 +35,7 @@ export function useSetSelectedFacilityId() {
       router.push('/');
       openBottomSheet();
       closeOverlay();
+      setQueryParam('toId', id);
       if (id) flyTo(id);
     },
     [set, router, openBottomSheet, closeOverlay, flyTo],
@@ -52,3 +55,30 @@ export function useSelectedFacilityIdEvent(onChange: (id: SelectedFacilityId) =>
 }
 
 export type SetSelectedFacilityIdFn = ReturnType<typeof useSetSelectedFacilityId>;
+
+export function useSyncSelectedFacilityIdWithQuery() {
+  const id = useAtomValue(selectedFacilityIdAtom);
+  const flyTo = useFlyToFacility();
+  const set = useSetAtom(selectedFacilityIdAtom);
+  const searchParams = useSearchParams();
+  const openBottomSheet = useBottomSheetOpen();
+  const initializedFromQueryRef = useRef(false);
+
+  useEffect(() => {
+    if (initializedFromQueryRef.current) return;
+    initializedFromQueryRef.current = true;
+    if (id) return;
+
+    const toId = searchParams.get('toId');
+    if (!isFacilityId(toId)) return;
+    set(toId);
+    setTimeout(() => {
+      flyTo(toId);
+    }, 500);
+  }, [id, searchParams, set, flyTo]);
+
+  useEffect(() => {
+    if (!id) return;
+    openBottomSheet();
+  }, [id, openBottomSheet]);
+}

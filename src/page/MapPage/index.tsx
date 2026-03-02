@@ -13,7 +13,7 @@ import MapControlPanel from '@/components/MapControlPanel';
 import { GeoLocationCoordinates } from '@/hooks/useGeoLocation';
 import { GEO_JSON_ENTRANCES } from '@/consts/entrances';
 import EntranceMarkers from '@/components/EntranceMarkers';
-import { useSelectedFacilityId } from '@/hooks/useSelectedFacilityId';
+import { useSelectedFacilityId, useSyncSelectedFacilityIdWithQuery } from '@/hooks/useSelectedFacilityId';
 import { useBottomSheet } from '@/hooks/useBottomSheet';
 import Deers from '@/components/Deers';
 import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut';
@@ -35,17 +35,16 @@ export default function MapPage() {
   const [zoomForDeer, setZoomForDeer] = useState(17);
   const [showEntrances, setShowEntrances] = useState(false);
   const [showDeer, setShowDeer] = useState(false);
-  const { isOpen, close } = useOverlay('search');
+  const { isOpen, close: closeOverlay } = useOverlay('search');
   const route = useRoute();
 
-  useKeyboardShortcut({
-    onEscape: () => close(),
-  });
+  useSyncSelectedFacilityIdWithQuery();
 
   useKeyboardShortcut({
     onEscape: () => {
       setSelectedFacilityId(undefined);
       closeBottomSheet();
+      closeOverlay();
     },
   });
 
@@ -75,7 +74,7 @@ export default function MapPage() {
       <SearchOverlay
         overlayKey="search"
         isOpen={isOpen}
-        close={close}
+        close={closeOverlay}
         text={searchText}
         setText={setSearchText}
         selectedFacilityId={selectedId}
