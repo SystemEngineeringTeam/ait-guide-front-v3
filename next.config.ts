@@ -18,6 +18,7 @@ const nextConfig: NextConfig = {
       destination: `${API_URL}/api/:path*`,
     },
   ],
+  reactCompiler: true,
 };
 const withMDX = createMDX({});
 
