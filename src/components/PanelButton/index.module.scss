@@ -1,0 +1,37 @@
+.button {
+  padding: 10px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+
+  border: 2px solid $color-element-background;
+  border-radius: 6px;
+
+  background-color: $color-on-primary;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: $color-primary;
+    background-color: $color-on-primary;
+  }
+
+  &.active {
+    border-color: $color-primary;
+    background-color: $color-primary;
+    color: $color-on-primary;
+  }
+
+  &[data-selected='true'] {
+    border-color: $color-primary;
+    background-color: $color-primary;
+    color: $color-on-primary;
+  }
+}

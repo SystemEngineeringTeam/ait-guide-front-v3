@@ -1,0 +1,65 @@
+.panel {
+  min-width: 200px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-size: 14px;
+  z-index: $z-always-top;
+  max-width: 320px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+
+  &.open {
+    border: 1px solid #ddd;
+  }
+
+  &.closed {
+    width: 200px;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+
+    h3 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+    }
+  }
+
+  .toggleButton {
+    width: 100%;
+    background: none;
+    border: none;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &:hover {
+      color: #333;
+    }
+
+    .title {
+      font-size: 16px;
+      font-weight: 400;
+    }
+  }
+}
+
+.content {
+  padding: 16px;
+}
