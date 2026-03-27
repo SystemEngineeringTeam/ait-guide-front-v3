@@ -2,10 +2,13 @@ import { Coord } from '@/types/coord';
 import type { RouteEdgeId, RouteNodeId } from '../types/route';
 import { useEdgesSetter, useGetEdgeFn } from './useEdges';
 import { useGetNodeFn, useNodesSetter } from './useNodes';
+import { useSelectNodeSetter, useSelectEdgeSetter } from './useSelectedTarget';
 
 export const useRouteController = () => {
   const { addNode, removeNode, moveNode } = useNodesSetter();
   const { addEdge, removeEdge, removeEdgesByNodeId } = useEdgesSetter();
+  const { selectNode, resetNode } = useSelectNodeSetter();
+  const { selectEdge, resetEdge } = useSelectEdgeSetter();
   const getEdge = useGetEdgeFn();
   const getNode = useGetNodeFn();
 
@@ -26,9 +29,32 @@ export const useRouteController = () => {
     removeNode(nodeId);
   };
 
+  /** Feature クリック時の処理 */
+  const handleFeatureClick = (id: RouteNodeId | RouteEdgeId, target: string) => {
+    const isNode = target === 'nodeId';
+    const uuid = isNode ? getNode(id as RouteNodeId)?.uuid : getEdge(id as RouteEdgeId)?.uuid;
+
+    if (isNode) selectNode(uuid);
+    else selectEdge(uuid);
+  };
+
+  /** マップ右クリック時にノードを追加する関数 */
+  const handleMapContextMenu = (coord: Coord) => {
+    addNode(coord);
+  };
+
+  /** マップのクリック時の処理 */
+  const handleClickNotFeature = () => {
+    resetNode();
+    resetEdge();
+  };
+
   return {
     addMiddleNode,
     removeNodeAndEdges,
+    handleFeatureClick,
+    handleMapContextMenu,
+    handleClickNotFeature,
 
     moveNode,
   } as const;

@@ -10,7 +10,7 @@ import { COORD_AIT_CENTER } from '@/consts/coords';
 import { useFlyToEvent } from '@/hooks/useFlyTo';
 import { useResetNorhEvent } from '@/hooks/useResetNorth';
 import { FACILITY_POLYGON_FILL_LAYER_ID, FACILITY_POLYGON_LINE_LAYER_ID } from '@/consts/layerId';
-import type { SelectedFacilityId, SetSelectedFacilityIdFn } from '@/hooks/useSelectedFacilityId';
+import type { Coord } from '@/types/coord';
 
 const MIN_PITCH = 0 as const;
 const MAX_PITCH = 60 as const;
@@ -25,31 +25,28 @@ const INIT_VIEW_STATE: Partial<ViewState> = {
   bearing: 0,
 };
 
-export type HandleMapContextMenuFn = (
-  mapRef: React.RefObject<MapRef | null>,
-) => (e: React.MouseEvent<HTMLDivElement>) => void;
-
-export type HandleMapClickFn = (
-  mapRef: React.RefObject<MapRef | null>,
-) => (e: React.MouseEvent<HTMLDivElement>) => void;
-
-export type HandleClickFeatureFn = SetSelectedFacilityIdFn;
+export type HandleMapContextMenuFn = (coord: Coord, mapRef: MapRef) => void;
+export type HandleMapClickFn = (e: React.MouseEvent<HTMLDivElement>, mapRef: MapRef) => void;
+export type HandleClickFeatureFn<T extends string> = (id: T, featureTarget: string) => void;
 export type HandleClickNotFeatureFn = () => void;
 export type HandleHoverFeatureFn = (id: string | undefined) => void;
 export type HandleRotateFn = (bearing: number) => void;
 export type HandleMoveFn = (viewState: ViewState) => void;
 
-interface Props {
+interface Props<T extends string = string> {
   children?: React.ReactNode;
   className?: string;
 
   onMapContextMenu?: HandleMapContextMenuFn;
   onMapClick?: HandleMapClickFn;
-  onClickFeature?: HandleClickFeatureFn;
+  onClickFeature?: HandleClickFeatureFn<T>;
   onClickNotFeature?: HandleClickNotFeatureFn;
   onHoverFeature?: HandleHoverFeatureFn;
   onRotate?: HandleRotateFn;
   onMove?: HandleMoveFn;
+
+  featureTargets?: string[];
+  interactiveLayerIds?: string[];
 
   minPitch?: number;
   maxPitch?: number;
@@ -59,7 +56,7 @@ interface Props {
   initialViewState?: Partial<ViewState>;
 }
 
-export default function Map({
+export default function Map<T extends string = string>({
   children,
   className,
 
@@ -71,13 +68,16 @@ export default function Map({
   onRotate,
   onMove,
 
+  featureTargets = ['facilityId'],
+  interactiveLayerIds = [FACILITY_POLYGON_FILL_LAYER_ID, FACILITY_POLYGON_LINE_LAYER_ID],
+
   minPitch = MIN_PITCH,
   maxPitch = MAX_PITCH,
   minZoom = MIN_ZOOM,
   maxZoom = MAX_ZOOM,
   dragRotate = true,
   initialViewState = INIT_VIEW_STATE,
-}: Props) {
+}: Props<T>) {
   const isMouseDownRef = useRef(false);
   const isDraggingRef = useRef(false);
   const mapRef = useRef<MapRef>(null);
@@ -124,7 +124,7 @@ export default function Map({
       if (target.closest('.maplibregl-popup') || target.closest('.maplibregl-marker')) {
         return;
       }
-      onMapClick?.(mapRef)(e);
+      onMapClick?.(e, mapRef.current!);
     },
     [onMapClick],
   );
@@ -132,9 +132,19 @@ export default function Map({
   const handleClickFeature = useCallback(
     (e: MapLayerMouseEvent) => {
       const feature = e.features?.[0];
-      const facilityId: SelectedFacilityId = feature?.properties?.facilityId;
-      if (facilityId) onClickFeature?.(facilityId);
-      else onClickNotFeature?.();
+
+      const isFeatureClicked = featureTargets.some((target) => {
+        const targetId: T | undefined = feature?.properties?.[target];
+        if (targetId) {
+          onClickFeature?.(targetId, target);
+          return true;
+        }
+        return false;
+      });
+
+      if (!isFeatureClicked) {
+        onClickNotFeature?.();
+      }
     },
     [onClickFeature, onClickNotFeature],
   );
@@ -142,12 +152,18 @@ export default function Map({
   const handleHoverFeature = useCallback(
     (e: MapLayerMouseEvent) => {
       const feature = e.features?.[0];
-      const facilityId: string | undefined = feature?.properties?.facilityId;
 
-      if (facilityId) {
-        onHoverFeature?.(facilityId);
-        mapRef.current?.getCanvas().style.setProperty('cursor', 'pointer');
-      } else {
+      const isFeatureHovered = featureTargets.some((target) => {
+        const targetId: T | undefined = feature?.properties?.[target];
+        if (targetId) {
+          onHoverFeature?.(targetId);
+          mapRef.current?.getCanvas().style.setProperty('cursor', 'pointer');
+          return true;
+        }
+        return false;
+      });
+
+      if (!isFeatureHovered) {
         onHoverFeature?.(undefined);
         mapRef.current?.getCanvas().style.setProperty('cursor', 'grab');
       }
@@ -169,10 +185,25 @@ export default function Map({
     [onMove],
   );
 
+  const handleMapContextMenu = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (!mapRef.current) return;
+
+      const canvas = mapRef.current.getCanvas();
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const lngLat = mapRef.current.unproject([x, y]);
+      onMapContextMenu?.([lngLat.lng, lngLat.lat], mapRef.current);
+    },
+    [onMapContextMenu],
+  );
+
   return (
     <div
       className={classNames(styles.map, className)}
-      onContextMenu={onMapContextMenu?.(mapRef)}
+      onContextMenu={handleMapContextMenu}
       onClick={handleClickOuter}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
@@ -192,7 +223,7 @@ export default function Map({
         onMouseMove={handleHoverFeature}
         onRotate={handleRotate}
         onMove={handleMove}
-        interactiveLayerIds={[FACILITY_POLYGON_FILL_LAYER_ID, FACILITY_POLYGON_LINE_LAYER_ID]}
+        interactiveLayerIds={interactiveLayerIds}
       >
         {children}
       </GMap>

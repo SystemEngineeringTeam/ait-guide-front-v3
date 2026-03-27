@@ -1,5 +1,9 @@
-import styles from './index.module.scss';
+import SelectedNode from './SelectedNode';
 
 export default function NodePanelContent() {
-  return <div>node panel</div>;
+  return (
+    <div>
+      <SelectedNode />
+    </div>
+  );
 }

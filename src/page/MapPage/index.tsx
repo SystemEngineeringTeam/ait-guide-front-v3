@@ -23,6 +23,7 @@ import { useRoute, useSetRouteDestinationId } from '@/hooks/useRoute';
 import SearchOverlay from '@/components/SearchOverlay';
 import { useSearchText } from '@/hooks/useSearch';
 import { useOverlay } from '@/hooks/useOverlay';
+import type { FacilityId } from '@/consts/facilityId';
 
 export default function MapPage() {
   const [searchText, setSearchText] = useSearchText();
@@ -48,7 +49,7 @@ export default function MapPage() {
     },
   });
 
-  const handleClickFeature: HandleClickFeatureFn = useCallback(
+  const handleClickFeature: HandleClickFeatureFn<FacilityId> = useCallback(
     (id) => setSelectedFacilityId(id),
     [setSelectedFacilityId],
   );
@@ -83,7 +84,7 @@ export default function MapPage() {
 
       <MapControlPanel coord={coord} bearing={bearing} />
 
-      <Map
+      <Map<FacilityId>
         onClickFeature={handleClickFeature}
         onHoverFeature={setHoverId}
         onRotate={setBearing}

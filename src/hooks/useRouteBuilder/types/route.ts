@@ -1,13 +1,14 @@
 import { Coord } from '../../../types/coord';
-import { ROUTE_MODE } from '../consts/routeMode';
+import { ROUTE_NODE_TYPE } from '../consts/routeMode';
 
 export type UUID = string & { __brand: 'UUID' }; // UUID v4形式
 
-export type RouteNodeType = (typeof ROUTE_MODE)[number];
+export type RouteNodeType = (typeof ROUTE_NODE_TYPE)[number];
 export type RouteNodeId = `${RouteNodeType}:${UUID}`;
 
 export interface RouteNode {
-  id: RouteNodeId;
+  id: RouteNodeId; // 出力時に使用するID
+  uuid: UUID; // ID 変更時にノードを特定するための静的なID
   coord: Coord;
   type: RouteNodeType;
 }
@@ -17,6 +18,7 @@ export type RouteEdgeLevel = 1 | 2 | 3 | 4 | 5; // 1: 最優先 ~ 3: 裏道, 4: 
 
 export interface RouteEdge {
   id: RouteEdgeId;
+  uuid: UUID; // ID 変更時にエッジを特定するための静的なID
   nodeIds: [RouteNodeId, RouteNodeId];
   level: RouteEdgeLevel;
   hasStairs: boolean; // 階段の有無

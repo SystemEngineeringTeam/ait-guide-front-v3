@@ -37,29 +37,47 @@ const edgesGeoJsonAtom = atom((get) => {
     }),
   } satisfies FeatureCollection<LineString>;
 });
-const getEdgeAtom = atom((get) => (edgeId: RouteEdgeId) => {
+export const getEdgeAtom = atom((get) => {
   const edges = get(edgesAtom);
-  const edge = edges.find((e) => e.id === edgeId);
 
-  if (!edge) {
-    throw new Error(`Edge with id ${edgeId} not found`);
-  }
+  return (edgeId: RouteEdgeId) => {
+    const edge = edges.find((e) => e.id === edgeId);
 
-  return edge;
+    if (!edge) {
+      throw new Error(`Edge with id ${edgeId} not found`);
+    }
+
+    return edge;
+  };
+});
+export const getEdgeByUUIDAtom = atom((get) => {
+  const edges = get(edgesAtom);
+
+  return (uuid: string) => {
+    const edge = edges.find((e) => e.uuid === uuid);
+
+    if (!edge) {
+      throw new Error(`Edge with uuid ${uuid} not found`);
+    }
+
+    return edge;
+  };
 });
 
 /** エッジの更新関数たちを提供する */
 export const useEdgesSetter = () => {
+  const getSelectedEdgeLevel = useGetSelectedEdgeLevelFn();
   const setEdges = useSetAtom(edgesAtom);
-  const getEdgeLevel = useGetSelectedEdgeLevelFn();
 
   /** エッジを追加する関数 */
   const addEdge = (nodeIds: [RouteNodeId, RouteNodeId]) => {
-    const id = uuid() as RouteEdgeId;
+    const edgeUuid = uuid();
+    const id = edgeUuid as RouteEdgeId;
     const newEdge: RouteEdge = {
       id,
+      uuid: edgeUuid,
       nodeIds,
-      level: getEdgeLevel(),
+      level: getSelectedEdgeLevel(),
       hasStairs: false,
       isAccessible: false,
       isIndoor: false,

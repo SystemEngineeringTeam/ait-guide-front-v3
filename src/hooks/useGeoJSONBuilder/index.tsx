@@ -8,6 +8,7 @@ import EntranceMarkers from './components/EntranceMarkers';
 import { HandleMapClickFn, HandleMapContextMenuFn } from '@/components/Map';
 import { FacilityFillColor, DEFAULT_COLOR } from '@/consts/colors';
 import { errorToast } from '@/utils/toast';
+import { Coord } from '@/types/coord';
 
 export type PolygonFeature = Feature<Polygon> | null;
 export type MultiPolygonFeature = Feature<MultiPolygon> | null;
@@ -193,34 +194,23 @@ export const useGeoJSONBuilder = () => {
   }, []);
 
   const handleMapContextMenu: HandleMapContextMenuFn = useCallback(
-    (mapRef: React.RefObject<MapRef | null>) => (e: MouseEvent<HTMLDivElement>) => {
-      e.preventDefault();
-
-      if (!mapRef.current) return;
-
-      const canvas = mapRef.current.getCanvas();
-      const rect = canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      const lngLat = mapRef.current.unproject([x, y]);
-
+    (coord: Coord, mapRef: MapRef) => {
       if (facilityMode === 'polygon') {
         if (polygonSubMode === 'outline') {
-          addPoint(lngLat.lng, lngLat.lat);
+          addPoint(coord[0], coord[1]);
         } else {
           // 1階ポイント追加時に外枠にスナップ
-          let finalLng = lngLat.lng;
-          let finalLat = lngLat.lat;
+          let finalLng = coord[0];
+          let finalLat = coord[1];
 
           const SNAP_THRESHOLD_PX = 15;
-          const clickPoint = { x, y };
+          const clickPoint = { x: coord[0], y: coord[1] };
           let minDistance = Number.POSITIVE_INFINITY;
 
           // 外枠のポイントから最も近い点を探す
           if (points.length > 0) {
             for (const point of points) {
-              const projectedPoint = mapRef.current.project([point.longitude, point.latitude]);
+              const projectedPoint = mapRef.project([point.longitude, point.latitude]);
               const dist = Math.hypot(clickPoint.x - projectedPoint.x, clickPoint.y - projectedPoint.y);
 
               if (dist < minDistance) {
@@ -233,7 +223,7 @@ export const useGeoJSONBuilder = () => {
 
           // 外枠の線分から最も近い点を探す
           if (points.length > 1) {
-            const projectedPoints = points.map((point) => mapRef.current!.project([point.longitude, point.latitude]));
+            const projectedPoints = points.map((point) => mapRef.project([point.longitude, point.latitude]));
 
             for (let i = 0; i < projectedPoints.length; i += 1) {
               const v = projectedPoints[i];
@@ -258,7 +248,7 @@ export const useGeoJSONBuilder = () => {
 
               if (dist < minDistance) {
                 minDistance = dist;
-                const lngLatOnSegment = mapRef.current!.unproject([closestPoint.x, closestPoint.y]);
+                const lngLatOnSegment = mapRef.unproject([closestPoint.x, closestPoint.y]);
                 finalLng = lngLatOnSegment.lng;
                 finalLat = lngLatOnSegment.lat;
               }
@@ -268,32 +258,31 @@ export const useGeoJSONBuilder = () => {
           if (minDistance <= SNAP_THRESHOLD_PX) {
             addFloorPoint(finalLng, finalLat);
           } else {
-            addFloorPoint(lngLat.lng, lngLat.lat);
+            addFloorPoint(coord[0], coord[1]);
           }
         }
       } else if (facilityMode === 'entrance') {
-        addEntrance(lngLat.lng, lngLat.lat);
+        addEntrance(coord[0], coord[1]);
       }
     },
     [addPoint, addFloorPoint, addEntrance, facilityMode, polygonSubMode, points],
   );
 
   const handleMapClick: HandleMapClickFn = useCallback(
-    (mapRef: React.RefObject<MapRef | null>) => (e: MouseEvent<HTMLDivElement>) => {
-      if (!mapRef.current) return;
+    (e, mapRef) => {
       if (facilityMode !== 'polygon') return;
 
       const ptsToUse = polygonSubMode === 'outline' ? points : floorPoints;
       if (ptsToUse.length < 2) return;
 
-      const canvas = mapRef.current.getCanvas();
+      const canvas = mapRef.getCanvas();
       const rect = canvas.getBoundingClientRect();
       const clickPoint = {
         x: e.clientX - rect.left,
         y: e.clientY - rect.top,
       };
 
-      const projectedPoints = ptsToUse.map((point) => mapRef.current!.project([point.longitude, point.latitude]));
+      const projectedPoints = ptsToUse.map((point) => mapRef.project([point.longitude, point.latitude]));
 
       let minDistance = Number.POSITIVE_INFINITY;
       let insertIndex = -1;
@@ -322,7 +311,7 @@ export const useGeoJSONBuilder = () => {
       const THRESHOLD_PX = 10;
       if (insertIndex < 0 || minDistance > THRESHOLD_PX) return;
 
-      const lngLat = mapRef.current.unproject([clickPoint.x, clickPoint.y]);
+      const lngLat = mapRef.unproject([clickPoint.x, clickPoint.y]);
       if (polygonSubMode === 'outline') {
         insertPointAt(insertIndex, lngLat.lng, lngLat.lat);
       } else {

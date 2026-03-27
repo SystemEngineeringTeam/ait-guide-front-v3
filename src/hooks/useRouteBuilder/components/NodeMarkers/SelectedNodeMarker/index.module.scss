@@ -1,0 +1,18 @@
+.marker {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: #999999;
+  border: solid 4px #000000;
+
+  &[data-type='facility'] {
+    background-color: #fe6a6b;
+  }
+  &[data-type='entrance'] {
+    background-color: #FFA405;
+  }
+  
+  &[data-type='passage'] {
+    background-color: #4169E2;
+  }
+}

@@ -34,4 +34,15 @@
     background-color: $color-primary;
     color: $color-on-primary;
   }
+
+  &[data-danger='true'] {
+    border-color: $color-error;
+    background-color: $color-error;
+    color: $color-on-error;
+
+    &:hover {
+      border-color: darken($color-error, 10%);
+      background-color: darken($color-error, 10%);
+    }
+  }
 }

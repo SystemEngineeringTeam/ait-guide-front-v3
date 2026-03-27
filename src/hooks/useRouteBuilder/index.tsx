@@ -1,10 +1,11 @@
 import EdgeLines from './components/EdgeLines';
 import NodeMarkers from './components/NodeMarkers';
 import RouteBuilderPanel from './components/RouteBuilderPanel';
-import { useRouteController } from './hooks/useRoute';
+import { useRouteController } from './hooks/useRouteController';
 
 export const useRouteBuilder = () => {
-  const { addMiddleNode } = useRouteController();
+  const { addMiddleNode, moveNode, removeNodeAndEdges, handleFeatureClick, handleMapContextMenu, handleClickNotFeature } =
+    useRouteController();
 
   const panel = <RouteBuilderPanel />;
   const nodeMarkers = <NodeMarkers />;
@@ -12,6 +13,11 @@ export const useRouteBuilder = () => {
 
   return {
     addMiddleNode,
+    moveNode,
+    removeNodeAndEdges,
+    handleFeatureClick,
+    handleMapContextMenu,
+    handleClickNotFeature,
 
     // components
     panel,

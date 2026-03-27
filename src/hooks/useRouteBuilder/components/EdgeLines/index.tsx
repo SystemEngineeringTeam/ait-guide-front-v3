@@ -2,6 +2,7 @@
 
 import { Layer, Source } from 'react-map-gl/maplibre';
 import { useEdgesGeoJSONValue } from '../../hooks/useEdges';
+import { ROUTE_EDGE_LINE_LAYER_ID } from '@/consts/layerId';
 
 export default function EdgeLines() {
   const edges = useEdgesGeoJSONValue();
@@ -9,6 +10,7 @@ export default function EdgeLines() {
   return (
     <Source type="geojson" data={edges}>
       <Layer
+        id={ROUTE_EDGE_LINE_LAYER_ID}
         type="line"
         paint={{
           // 太さ (edgeLevel)

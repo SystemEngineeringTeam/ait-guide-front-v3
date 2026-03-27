@@ -27,26 +27,43 @@ const nodesGeoJsonAtom = atom((get) => {
     ),
   } satisfies FeatureCollection<Point>;
 });
-export const getNodeAtom = atom((get) => (nodeId: RouteNodeId) => {
+export const getNodeAtom = atom((get) => {
   const nodes = get(nodesAtom);
-  const node = nodes.find((n) => n.id === nodeId);
 
-  if (!node) {
-    throw new Error(`Node with id ${nodeId} not found`);
-  }
+  return (nodeId: RouteNodeId) => {
+    const node = nodes.find((n) => n.id === nodeId);
 
-  return node;
+    if (!node) {
+      throw new Error(`Node with id ${nodeId} not found`);
+    }
+
+    return node;
+  };
+});
+export const getNodeByUUIDAtom = atom((get) => {
+  const nodes = get(nodesAtom);
+
+  return (uuid: string) => {
+    const node = nodes.find((n) => n.uuid === uuid);
+
+    if (!node) {
+      throw new Error(`Node with uuid ${uuid} not found`);
+    }
+
+    return node;
+  };
 });
 
 /** ノードの更新関数たちを提供する */
 export const useNodesSetter = () => {
-  const setNodes = useSetAtom(nodesAtom);
   const getSelectedNodeType = useGetSelectedNodeTypeFn();
+  const setNodes = useSetAtom(nodesAtom);
 
   /** ノードを追加する関数 */
   const addNode = (coord: Coord) => {
     const newNode: RouteNode = {
       id: `${getSelectedNodeType()}:${uuid()}`,
+      uuid: uuid(),
       coord,
       type: getSelectedNodeType(),
     };
