@@ -1,3 +1,5 @@
+'use client';
+
 import { Source, Layer } from 'react-map-gl/maplibre';
 import { useMemo } from 'react';
 import { type FeatureCollection } from 'geojson';

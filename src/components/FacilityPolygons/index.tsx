@@ -7,7 +7,6 @@ import { DEFAULT_COLOR } from '@/consts/colors';
 import type { FeatureCollection, MultiPolygon, Feature } from 'geojson';
 import { useMemo } from 'react';
 import { FACILITY_POLYGON_FILL_LAYER_ID, FACILITY_POLYGON_LINE_LAYER_ID } from '@/consts/layerId';
-import { FacilityId } from '@/consts/facilityId';
 
 interface Props {
   facilities: GeoJSONData[];
