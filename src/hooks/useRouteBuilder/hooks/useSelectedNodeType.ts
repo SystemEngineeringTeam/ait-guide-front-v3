@@ -1,4 +1,4 @@
-import { RouteNodeType } from '@/types/route';
+import { RouteNodeType } from '@/hooks/useRouteBuilder/types/route';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 
 const selectedNodeTypeAtom = atom<RouteNodeType>('passage');

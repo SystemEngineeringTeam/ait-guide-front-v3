@@ -1,13 +1,33 @@
 import { Coord } from '@/types/coord';
-import type { RouteNode, RouteNodeId, RouteNodeType } from '@/types/route';
+import type { RouteNode, RouteNodeId, RouteNodeType } from '@/hooks/useRouteBuilder/types/route';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
-import { useGetUserIdFn } from './useUserId';
 import { uuid } from '../utils/uuid';
 import { useGetSelectedNodeTypeFn } from './useSelectedNodeType';
+import type { Feature, FeatureCollection, Point } from 'geojson';
 
 const nodesAtom = atomWithStorage<RouteNode[]>('nodes', []);
-const getNodeAtom = atom((get) => (nodeId: RouteNodeId) => {
+const nodesGeoJsonAtom = atom((get) => {
+  const nodes = get(nodesAtom);
+  return {
+    type: 'FeatureCollection' as const,
+    features: nodes.map(
+      (node) =>
+        ({
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: node.coord,
+          },
+          properties: {
+            nodeId: node.id,
+            nodeType: node.type,
+          },
+        }) satisfies Feature<Point>,
+    ),
+  } satisfies FeatureCollection<Point>;
+});
+export const getNodeAtom = atom((get) => (nodeId: RouteNodeId) => {
   const nodes = get(nodesAtom);
   const node = nodes.find((n) => n.id === nodeId);
 
@@ -21,13 +41,12 @@ const getNodeAtom = atom((get) => (nodeId: RouteNodeId) => {
 /** ノードの更新関数たちを提供する */
 export const useNodesSetter = () => {
   const setNodes = useSetAtom(nodesAtom);
-  const userId = useGetUserIdFn();
   const getSelectedNodeType = useGetSelectedNodeTypeFn();
 
   /** ノードを追加する関数 */
   const addNode = (coord: Coord) => {
     const newNode: RouteNode = {
-      id: `${getSelectedNodeType()}:${userId()}:${uuid()}`,
+      id: `${getSelectedNodeType()}:${uuid()}`,
       coord,
       type: getSelectedNodeType(),
     };
@@ -36,7 +55,18 @@ export const useNodesSetter = () => {
 
   /** 既存ノードの type を変更する関数 */
   const changeNodeType = (nodeId: RouteNodeId, type: RouteNodeType) => {
-    setNodes((prev) => prev.map((node) => (node.id === nodeId ? { ...node, type } : node)));
+    const newId = `${type}:${uuid()}` as RouteNodeId;
+
+    setNodes((prev) =>
+      prev.map((node) => {
+        if (node.id !== nodeId) {
+          return node;
+        }
+        return { ...node, type, id: newId };
+      }),
+    );
+
+    return newId;
   };
 
   /** ノードを削除する関数 */
@@ -59,6 +89,10 @@ export const useGetNodeFn = () => {
 /** ノードの配列を提供する */
 export const useNodesValue = () => {
   return useAtomValue(nodesAtom);
+};
+
+export const useNodesGeoJSONValue = () => {
+  return useAtomValue(nodesGeoJsonAtom);
 };
 
 /** ノードの配列を提供する */

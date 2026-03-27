@@ -1,4 +1,4 @@
-import { RouteEdgeLevel } from '@/types/route';
+import { RouteEdgeLevel } from '@/hooks/useRouteBuilder/types/route';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 
 const selectedEdgeLevelAtom = atom<RouteEdgeLevel>(1);

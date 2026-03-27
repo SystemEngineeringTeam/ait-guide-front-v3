@@ -9,7 +9,7 @@ import { GEO_JSON_ENTRANCES } from '@/consts/entrances';
 import { useRouteBuilder } from '@/hooks/useRouteBuilder';
 
 export default function RouteBuildPage() {
-  const { panel } = useRouteBuilder();
+  const { panel, nodeMarkers, edgeLines } = useRouteBuilder();
 
   return (
     <>
@@ -18,6 +18,8 @@ export default function RouteBuildPage() {
         <FacilitiesPolygons facilities={[...GEO_JSON_FACILITIES, ...GEO_JSON_PASSAGES]} />
         <EntranceMarkers entrances={GEO_JSON_ENTRANCES} />
         <FacilityNames facilities={GEO_JSON_FACILITIES} />
+        {edgeLines}
+        {nodeMarkers}
       </Map>
     </>
   );

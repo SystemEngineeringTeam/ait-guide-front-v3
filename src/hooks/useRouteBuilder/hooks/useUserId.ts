@@ -1,4 +1,4 @@
-import { UserId } from '@/types/route';
+import { UserId } from '../types/userId';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 

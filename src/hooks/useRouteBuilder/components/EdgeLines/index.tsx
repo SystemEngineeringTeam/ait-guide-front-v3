@@ -1,0 +1,48 @@
+'use client';
+
+import { Layer, Source } from 'react-map-gl/maplibre';
+import { useEdgesGeoJSONValue } from '../../hooks/useEdges';
+
+export default function EdgeLines() {
+  const edges = useEdgesGeoJSONValue();
+
+  return (
+    <Source type="geojson" data={edges}>
+      <Layer
+        type="line"
+        paint={{
+          // 太さ (edgeLevel)
+          'line-width': [
+            'match',
+            ['get', 'edgeLevel'],
+            5, // レベル 5
+            10,
+            4, // レベル 4
+            8,
+            3, // レベル 3
+            6,
+            2, // レベル 2
+            4,
+            1, // レベル 1
+            2,
+            2, // デフォルト
+          ],
+
+          // 色 (isAccessible)
+          'line-color': ['case', ['get', 'isAccessible'], '#4169E2', '#6f6f6f'],
+
+          // 透明度 (isIndoor)
+          'line-opacity': ['case', ['get', 'isIndoor'], 0.5, 1],
+
+          // 波線 (hasStairs)
+          'line-dasharray': [
+            'case',
+            ['get', 'hasStairs'],
+            ['literal', [0.5, 0.5]], // 波線っぽい
+            ['literal', [1, 0]], // 実線
+          ],
+        }}
+      />
+    </Source>
+  );
+}

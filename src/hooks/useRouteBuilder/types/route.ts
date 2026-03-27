@@ -1,10 +1,10 @@
-import { Coord } from './coord';
+import { Coord } from '../../../types/coord';
+import { ROUTE_MODE } from '../consts/routeMode';
 
 export type UUID = string & { __brand: 'UUID' }; // UUID v4形式
-export type UserId = string & { __brand: 'UserId' }; // 10文字以内
 
-export type RouteNodeType = 'entrance' | 'passage' | 'facility';
-export type RouteNodeId = `${RouteNodeType}:${UserId}:${UUID}`;
+export type RouteNodeType = (typeof ROUTE_MODE)[number];
+export type RouteNodeId = `${RouteNodeType}:${UUID}`;
 
 export interface RouteNode {
   id: RouteNodeId;
@@ -12,7 +12,7 @@ export interface RouteNode {
   type: RouteNodeType;
 }
 
-export type RouteEdgeId = `${UserId}:${UUID}`;
+export type RouteEdgeId = `${UUID}`;
 export type RouteEdgeLevel = 1 | 2 | 3 | 4 | 5; // 1: 最優先 ~ 3: 裏道, 4: あまり使われない, 5: 知る人ぞ知るルート
 
 export interface RouteEdge {
