@@ -1,5 +1,13 @@
+import { useSelectedEdgeValue } from '@/hooks/useRouteBuilder/hooks/useSelectedTarget';
 import styles from './index.module.scss';
+import SelectedEdge from './SelectedEdge';
 
 export default function EdgePanelContent() {
-  return <div>edge panel</div>;
+  const selected = useSelectedEdgeValue();
+
+  return (
+    <div className={styles.container}>
+      {selected && <SelectedEdge edge={selected} />}
+    </div>
+  );
 }

@@ -79,7 +79,7 @@ export const useEdgesSetter = () => {
       nodeIds,
       level: getSelectedEdgeLevel(),
       hasStairs: false,
-      isAccessible: false,
+      isAccessible: true,
       isIndoor: false,
     };
     setEdges((prev) => [...prev, newEdge]);
