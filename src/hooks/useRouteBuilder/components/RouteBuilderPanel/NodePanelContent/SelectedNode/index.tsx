@@ -4,18 +4,18 @@ import styles from './index.module.scss';
 import { useSelectedNodeValue } from '../../../../hooks/useSelectedTarget';
 import PanelButton from '@/components/PanelButton';
 import { useNodesSetter } from '@/hooks/useRouteBuilder/hooks/useNodes';
-import type { RouteNodeId, RouteNodeType } from '@/hooks/useRouteBuilder/types/route';
 import { TYPE_NAMES } from '@/hooks/useRouteBuilder/consts/routeMode';
+import { RouteNodeType, UUID } from '@/hooks/useRouteBuilder/types/route';
 
 export default function SelectedNode() {
   const selectedNode = useSelectedNodeValue();
   const { changeNodeType, removeNode } = useNodesSetter();
 
-  const handleChangeNodeType = (nodeId: RouteNodeId, type: RouteNodeType) => () => {
+  const handleChangeNodeType = (nodeId: UUID, type: RouteNodeType) => () => {
     changeNodeType(nodeId, type);
   };
 
-  const handleRemoveNode = (nodeId: RouteNodeId) => () => {
+  const handleRemoveNode = (nodeId: UUID) => () => {
     removeNode(nodeId);
   };
 
@@ -27,7 +27,7 @@ export default function SelectedNode() {
             <PanelButton
               key={type.type}
               selected={selectedNode.type === type.type}
-              onClick={handleChangeNodeType(selectedNode.id, type.type)}
+              onClick={handleChangeNodeType(selectedNode.uuid, type.type)}
             >
               {TYPE_NAMES.find((t) => t.type === type.type)?.name || type.type}
             </PanelButton>
@@ -35,7 +35,7 @@ export default function SelectedNode() {
       </div>
 
       {selectedNode && (
-        <PanelButton emoji="🗑️" onClick={handleRemoveNode(selectedNode.id)} danger>
+        <PanelButton emoji="🗑️" onClick={handleRemoveNode(selectedNode.uuid)} danger>
           ノード削除
         </PanelButton>
       )}

@@ -9,24 +9,17 @@ import FacilityNames from '@/components/FacilitiesNames';
 import { GEO_JSON_PASSAGES } from '@/consts/passages';
 import { GEO_JSON_ENTRANCES } from '@/consts/entrances';
 import { useRouteBuilder } from '@/hooks/useRouteBuilder';
-import { RouteEdgeId, RouteNodeId } from '@/hooks/useRouteBuilder/types/route';
 import { ROUTE_EDGE_LINE_LAYER_ID, ROUTE_NODE_MARKER_LAYER_ID } from '@/consts/layerId';
+import { UUID } from '@/hooks/useRouteBuilder/types/route';
 
 export default function RouteBuildPage() {
-  const {
-    panel,
-    nodeMarkers,
-    edgeLines,
-    addMiddleNode,
-    handleMapContextMenu,
-    clickFeature,
-    handleClickNotFeature,
-  } = useRouteBuilder();
+  const { panel, nodeMarkers, edgeLines, addMiddleNode, handleMapContextMenu, clickFeature, handleClickNotFeature } =
+    useRouteBuilder();
 
   return (
     <>
       {panel}
-      <Map<RouteNodeId | RouteEdgeId>
+      <Map<UUID>
         className={styles.map}
         minZoom={16}
         maxZoom={24}

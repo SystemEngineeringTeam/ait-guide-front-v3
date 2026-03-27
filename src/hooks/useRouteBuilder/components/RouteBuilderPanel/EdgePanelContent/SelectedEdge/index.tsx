@@ -13,7 +13,7 @@ export default function SelectedEdge({ edge }: Props) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const level = Number(e.target.value) as RouteEdge['level'];
-    changeEdgeLevel(edge.id, level);
+    changeEdgeLevel(edge.uuid, level);
   };
 
   return (
@@ -38,7 +38,7 @@ export default function SelectedEdge({ edge }: Props) {
             type="checkbox"
             id="stairs"
             checked={edge.hasStairs}
-            onChange={(e) => changeEdgeHasStairs(edge.id, e.target.checked)}
+            onChange={(e) => changeEdgeHasStairs(edge.uuid, e.target.checked)}
           />
           <label htmlFor="stairs">🪜 階段</label>
         </div>
@@ -48,7 +48,7 @@ export default function SelectedEdge({ edge }: Props) {
             type="checkbox"
             id="accessible"
             checked={edge.isAccessible}
-            onChange={(e) => changeEdgeIsAccessible(edge.id, e.target.checked)}
+            onChange={(e) => changeEdgeIsAccessible(edge.uuid, e.target.checked)}
           />
           <label htmlFor="accessible">👩‍🦽 バリアフリー</label>
         </div>
@@ -58,7 +58,7 @@ export default function SelectedEdge({ edge }: Props) {
             type="checkbox"
             id="indoor"
             checked={edge.isIndoor}
-            onChange={(e) => changeEdgeIsIndoor(edge.id, e.target.checked)}
+            onChange={(e) => changeEdgeIsIndoor(edge.uuid, e.target.checked)}
           />
           <label htmlFor="indoor">🏠 屋内</label>
         </div>

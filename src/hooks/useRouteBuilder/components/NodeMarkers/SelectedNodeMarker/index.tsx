@@ -15,7 +15,7 @@ export default function SelectedNodeMarker({ node }: Props) {
   const handleDragStart = () => {};
 
   const handleDragEnd = (e: MarkerDragEvent) => {
-    moveNode(node.id, [e.lngLat.lng, e.lngLat.lat]);
+    moveNode(node.uuid, [e.lngLat.lng, e.lngLat.lat]);
   };
 
   return (

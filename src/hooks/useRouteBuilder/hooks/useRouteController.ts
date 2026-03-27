@@ -1,9 +1,9 @@
 import { Coord } from '@/types/coord';
-import type { RouteEdgeId, RouteNodeId } from '../types/route';
 import { useEdgesSetter, useGetEdgeFn } from './useEdges';
 import { useGetNodeFn, useNodesSetter } from './useNodes';
 import { useSelectNodeSetter, useSelectEdgeSetter, useGetSelectedNodeFn } from './useSelectedTarget';
 import { useGetRouteModeFn } from './useRouteMode';
+import { UUID } from '../types/route';
 
 export const useRouteController = () => {
   const { addNode, removeNode, moveNode } = useNodesSetter();
@@ -16,45 +16,44 @@ export const useRouteController = () => {
   const getMode = useGetRouteModeFn();
 
   /** エッジの途中にノードを追加する関数 */
-  const addMiddleNode = (id: RouteNodeId | RouteEdgeId, targetType: 'edgeId' | 'nodeId' | {}, coord: Coord) => {
+  const addMiddleNode = (id: UUID, targetType: 'edgeId' | 'nodeId' | {}, coord: Coord) => {
     if (targetType !== 'edgeId') return;
 
     try {
-      const edgeId = id as RouteEdgeId;
-      const edge = getEdge(edgeId);
+      const edge = getEdge(id);
       const edgeNodes = edge.nodeIds.map((nodeId) => getNode(nodeId));
 
       const newNode = addNode(coord); // 中点のノードを追加
-      addEdge([edgeNodes[0].id, newNode.id]); // 既存エッジの始点と中点を結ぶエッジを追加
-      addEdge([newNode.id, edgeNodes[1].id]); // 中点と既存エッジの終点を結ぶエッジを追加
-      removeEdge(edgeId);
+      addEdge([edgeNodes[0].uuid, newNode.uuid]); // 既存エッジの始点と中点を結ぶエッジを追加
+      addEdge([newNode.uuid, edgeNodes[1].uuid]); // 中点と既存エッジの終点を結ぶエッジを追加
+      removeEdge(id);
     } catch (e) {
       console.error('エッジが見つかりませんでした', e);
     }
   };
 
   /** ノードとそれに紐づくエッジを削除する関数 */
-  const removeNodeAndEdges = (nodeId: RouteNodeId) => {
+  const removeNodeAndEdges = (nodeId: UUID) => {
     removeEdgesByNodeId(nodeId);
     removeNode(nodeId);
   };
 
   /** Feature クリック時の処理 */
-  const clickFeature = (id: RouteNodeId | RouteEdgeId, targetType: 'edgeId' | 'nodeId' | {}) => {
+  const clickFeature = (id: UUID, targetType: 'edgeId' | 'nodeId' | {}) => {
     if (targetType === 'edgeId') {
-      const target = getEdge(id as RouteEdgeId);
+      const target = getEdge(id);
       selectEdge(target.uuid);
     } else if (targetType === 'nodeId') {
       const prevSelectedNode = getSelectedNode(); // 変更前の選択ノードを取得
 
-      const target = getNode(id as RouteNodeId);
+      const target = getNode(id as UUID);
       selectNode(target.uuid);
 
       const mode = getMode();
       if (mode !== 'edge') return;
 
       if (prevSelectedNode) {
-        addEdge([prevSelectedNode.id, target.id]);
+        addEdge([prevSelectedNode.uuid, target.uuid]);
       }
     }
   };
@@ -66,7 +65,7 @@ export const useRouteController = () => {
       const prevNode = getSelectedNode();
       const newNode = addNode(coord);
       selectNode(newNode.uuid);
-      if (prevNode) addEdge([prevNode.id, newNode.id]);
+      if (prevNode) addEdge([prevNode.uuid, newNode.uuid]);
     }
   };
 

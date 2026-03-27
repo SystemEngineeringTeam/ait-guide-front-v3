@@ -1,4 +1,4 @@
-import type { RouteEdge, RouteEdgeId, RouteEdgeLevel, RouteNodeId } from '@/hooks/useRouteBuilder/types/route';
+import type { RouteEdge, RouteEdgeLevel, UUID } from '@/hooks/useRouteBuilder/types/route';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import { uuid } from '../utils/uuid';
@@ -27,7 +27,7 @@ const edgesGeoJsonAtom = atom((get) => {
           coordinates: [fromNode.coord, toNode.coord],
         },
         properties: {
-          edgeId: edge.id,
+          edgeId: edge.uuid,
           edgeLevel: edge.level,
           hasStairs: edge.hasStairs,
           isAccessible: edge.isAccessible,
@@ -40,8 +40,8 @@ const edgesGeoJsonAtom = atom((get) => {
 export const getEdgeAtom = atom((get) => {
   const edges = get(edgesAtom);
 
-  return (edgeId: RouteEdgeId) => {
-    const edge = edges.find((e) => e.id === edgeId);
+  return (edgeId: UUID) => {
+    const edge = edges.find((e) => e.uuid === edgeId);
 
     if (!edge) {
       throw new Error(`Edge with id ${edgeId} not found`);
@@ -70,11 +70,9 @@ export const useEdgesSetter = () => {
   const setEdges = useSetAtom(edgesAtom);
 
   /** エッジを追加する関数 */
-  const addEdge = (nodeIds: [RouteNodeId, RouteNodeId]) => {
+  const addEdge = (nodeIds: [UUID, UUID]) => {
     const edgeUuid = uuid();
-    const id = edgeUuid as RouteEdgeId;
     const newEdge: RouteEdge = {
-      id,
       uuid: edgeUuid,
       nodeIds,
       level: getSelectedEdgeLevel(),
@@ -86,31 +84,31 @@ export const useEdgesSetter = () => {
   };
 
   /** 既存エッジの level を変更する関数 */
-  const changeEdgeLevel = (edgeId: RouteEdgeId, level: RouteEdgeLevel) => {
-    setEdges((prev) => prev.map((edge) => (edge.id === edgeId ? { ...edge, level } : edge)));
+  const changeEdgeLevel = (edgeId: UUID, level: RouteEdgeLevel) => {
+    setEdges((prev) => prev.map((edge) => (edge.uuid === edgeId ? { ...edge, level } : edge)));
   };
 
   /** 既存エッジの 階段の有無 を変更する関数 */
-  const changeEdgeHasStairs = (edgeId: RouteEdgeId, hasStairs: boolean) => {
-    setEdges((prev) => prev.map((edge) => (edge.id === edgeId ? { ...edge, hasStairs } : edge)));
+  const changeEdgeHasStairs = (edgeId: UUID, hasStairs: boolean) => {
+    setEdges((prev) => prev.map((edge) => (edge.uuid === edgeId ? { ...edge, hasStairs } : edge)));
   };
   /** 既存エッジの バリアフリーの有無 を変更する関数 */
-  const changeEdgeIsAccessible = (edgeId: RouteEdgeId, isAccessible: boolean) => {
-    setEdges((prev) => prev.map((edge) => (edge.id === edgeId ? { ...edge, isAccessible } : edge)));
+  const changeEdgeIsAccessible = (edgeId: UUID, isAccessible: boolean) => {
+    setEdges((prev) => prev.map((edge) => (edge.uuid === edgeId ? { ...edge, isAccessible } : edge)));
   };
 
   /** 既存エッジの 屋内か を変更する関数 */
-  const changeEdgeIsIndoor = (edgeId: RouteEdgeId, isIndoor: boolean) => {
-    setEdges((prev) => prev.map((edge) => (edge.id === edgeId ? { ...edge, isIndoor } : edge)));
+  const changeEdgeIsIndoor = (edgeId: UUID, isIndoor: boolean) => {
+    setEdges((prev) => prev.map((edge) => (edge.uuid === edgeId ? { ...edge, isIndoor } : edge)));
   };
 
   /** エッジを削除する関数 */
-  const removeEdge = (edgeId: RouteEdgeId) => {
-    setEdges((prev) => prev.filter((edge) => edge.id !== edgeId));
+  const removeEdge = (edgeId: UUID) => {
+    setEdges((prev) => prev.filter((edge) => edge.uuid !== edgeId));
   };
 
   /** ノードIDに紐づくエッジを削除する関数 */
-  const removeEdgesByNodeId = (nodeId: RouteNodeId) => {
+  const removeEdgesByNodeId = (nodeId: UUID) => {
     setEdges((prev) => prev.filter((edge) => !edge.nodeIds.includes(nodeId)));
   };
 
@@ -131,7 +129,7 @@ export const useGetEdgeFn = () => {
 };
 
 /** edgeId からエッジ情報を提供する */
-export const useEdge = (edgeId: RouteEdgeId) => {
+export const useEdge = (edgeId: UUID) => {
   const getEdge = useGetEdgeFn();
   return getEdge(edgeId);
 };

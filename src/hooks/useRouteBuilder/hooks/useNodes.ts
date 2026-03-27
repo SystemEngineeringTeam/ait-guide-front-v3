@@ -1,5 +1,5 @@
 import { Coord } from '@/types/coord';
-import type { RouteNode, RouteNodeId, RouteNodeType } from '@/hooks/useRouteBuilder/types/route';
+import type { RouteNode, RouteNodeType, UUID } from '@/hooks/useRouteBuilder/types/route';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import { uuid } from '../utils/uuid';
@@ -20,7 +20,7 @@ const nodesGeoJsonAtom = atom((get) => {
             coordinates: node.coord,
           },
           properties: {
-            nodeId: node.id,
+            nodeId: node.uuid,
             nodeType: node.type,
           },
         }) satisfies Feature<Point>,
@@ -30,8 +30,8 @@ const nodesGeoJsonAtom = atom((get) => {
 export const getNodeAtom = atom((get) => {
   const nodes = get(nodesAtom);
 
-  return (nodeId: RouteNodeId) => {
-    const node = nodes.find((n) => n.id === nodeId);
+  return (nodeId: UUID) => {
+    const node = nodes.find((n) => n.uuid === nodeId);
 
     if (!node) {
       throw new Error(`Node with id ${nodeId} not found`);
@@ -62,7 +62,6 @@ export const useNodesSetter = () => {
   /** ノードを追加する関数 */
   const addNode = (coord: Coord) => {
     const newNode: RouteNode = {
-      id: `${getSelectedNodeType()}:${uuid()}`,
       uuid: uuid(),
       coord,
       type: getSelectedNodeType(),
@@ -72,29 +71,27 @@ export const useNodesSetter = () => {
   };
 
   /** 既存ノードの type を変更する関数 */
-  const changeNodeType = (nodeId: RouteNodeId, type: RouteNodeType) => {
-    const newId = `${type}:${uuid()}` as RouteNodeId;
-
+  const changeNodeType = (nodeId: UUID, type: RouteNodeType) => {
     setNodes((prev) =>
       prev.map((node) => {
-        if (node.id !== nodeId) {
+        if (node.uuid !== nodeId) {
           return node;
         }
-        return { ...node, type, id: newId };
+        return { ...node, type };
       }),
     );
 
-    return newId;
+    return nodeId;
   };
 
   /** ノードを移動する関数 */
-  const moveNode = (nodeId: RouteNodeId, newCoord: Coord) => {
-    setNodes((prev) => prev.map((node) => (node.id === nodeId ? { ...node, coord: newCoord } : node)));
+  const moveNode = (nodeId: UUID, newCoord: Coord) => {
+    setNodes((prev) => prev.map((node) => (node.uuid === nodeId ? { ...node, coord: newCoord } : node)));
   };
 
   /** ノードを削除する関数 */
-  const removeNode = (nodeId: RouteNodeId) => {
-    setNodes((prev) => prev.filter((node) => node.id !== nodeId));
+  const removeNode = (nodeId: UUID) => {
+    setNodes((prev) => prev.filter((node) => node.uuid !== nodeId));
   };
 
   return {

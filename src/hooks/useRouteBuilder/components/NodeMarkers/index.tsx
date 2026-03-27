@@ -30,11 +30,11 @@ export default function NodeMarkers() {
               '#999999', // その他
             ],
             // 選択中のノードは不透明にする
-            'circle-opacity': ['match', ['get', 'nodeId'], selected?.id ?? '', 0.5, 1],
+            'circle-opacity': ['match', ['get', 'nodeId'], selected?.uuid ?? '', 0.5, 1],
             // 選択中のノードはアウトラインを赤色にする
-            'circle-stroke-color': ['match', ['get', 'nodeId'], selected?.id ?? '', '#000000', '#FFFFFF'],
-            'circle-stroke-opacity': ['match', ['get', 'nodeId'], selected?.id ?? '', 0.5, 1],
-            'circle-stroke-width': ['match', ['get', 'nodeId'], selected?.id ?? '', 4, 2],
+            'circle-stroke-color': ['match', ['get', 'nodeId'], selected?.uuid ?? '', '#000000', '#FFFFFF'],
+            'circle-stroke-opacity': ['match', ['get', 'nodeId'], selected?.uuid ?? '', 0.5, 1],
+            'circle-stroke-width': ['match', ['get', 'nodeId'], selected?.uuid ?? '', 4, 2],
             'circle-radius': 7,
           }}
         />
