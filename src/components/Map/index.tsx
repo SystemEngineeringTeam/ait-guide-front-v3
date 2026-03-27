@@ -27,7 +27,7 @@ const INIT_VIEW_STATE: Partial<ViewState> = {
 
 export type HandleMapContextMenuFn = (coord: Coord, mapRef: MapRef) => void;
 export type HandleMapClickFn = (e: React.MouseEvent<HTMLDivElement>, mapRef: MapRef) => void;
-export type HandleClickFeatureFn<T extends string> = (id: T, featureTarget: string) => void;
+export type HandleClickFeatureFn<T extends string> = (id: T, featureTarget: string, coord: Coord) => void;
 export type HandleClickNotFeatureFn = () => void;
 export type HandleHoverFeatureFn = (id: string | undefined) => void;
 export type HandleRotateFn = (bearing: number) => void;
@@ -40,6 +40,7 @@ interface Props<T extends string = string> {
   onMapContextMenu?: HandleMapContextMenuFn;
   onMapClick?: HandleMapClickFn;
   onClickFeature?: HandleClickFeatureFn<T>;
+  onRightClickFeature?: HandleClickFeatureFn<T>;
   onClickNotFeature?: HandleClickNotFeatureFn;
   onHoverFeature?: HandleHoverFeatureFn;
   onRotate?: HandleRotateFn;
@@ -63,6 +64,7 @@ export default function Map<T extends string = string>({
   onMapContextMenu,
   onMapClick,
   onClickFeature,
+  onRightClickFeature,
   onClickNotFeature,
   onHoverFeature,
   onRotate,
@@ -136,7 +138,8 @@ export default function Map<T extends string = string>({
       const isFeatureClicked = featureTargets.some((target) => {
         const targetId: T | undefined = feature?.properties?.[target];
         if (targetId) {
-          onClickFeature?.(targetId, target);
+          const coord: Coord = [e.lngLat.lng, e.lngLat.lat];
+          onClickFeature?.(targetId, target, coord);
           return true;
         }
         return false;
@@ -147,6 +150,23 @@ export default function Map<T extends string = string>({
       }
     },
     [onClickFeature, onClickNotFeature],
+  );
+
+  const handleClickRightFeature = useCallback(
+    (e: MapLayerMouseEvent) => {
+      const feature = e.features?.[0];
+
+      featureTargets.some((target) => {
+        const targetId: T | undefined = feature?.properties?.[target];
+        if (targetId) {
+          const coord: Coord = [e.lngLat.lng, e.lngLat.lat];
+          onRightClickFeature?.(targetId, target, coord);
+          return true;
+        }
+        return false;
+      });
+    },
+    [onRightClickFeature, featureTargets],
   );
 
   const handleHoverFeature = useCallback(
@@ -220,6 +240,7 @@ export default function Map<T extends string = string>({
         minZoom={minZoom}
         dragRotate={dragRotate}
         onClick={handleClickFeature}
+        onContextMenu={handleClickRightFeature}
         onMouseMove={handleHoverFeature}
         onRotate={handleRotate}
         onMove={handleMove}

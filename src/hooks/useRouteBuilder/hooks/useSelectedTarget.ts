@@ -37,7 +37,7 @@ export const useSelectNodeSetter = () => {
 
 /** 選択されたターゲットを取得する関数を提供する */
 export const useGetSelectedNodeFn = () => {
-  return useAtomCallback((get) => () => get(selectedNodeAtom));
+  return useAtomCallback((get) => get(selectedNodeAtom));
 };
 
 /** 選択されたターゲットを提供する */

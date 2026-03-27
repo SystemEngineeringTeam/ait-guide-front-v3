@@ -4,8 +4,14 @@ import RouteBuilderPanel from './components/RouteBuilderPanel';
 import { useRouteController } from './hooks/useRouteController';
 
 export const useRouteBuilder = () => {
-  const { addMiddleNode, moveNode, removeNodeAndEdges, handleFeatureClick, handleMapContextMenu, handleClickNotFeature } =
-    useRouteController();
+  const {
+    addMiddleNode,
+    moveNode,
+    removeNodeAndEdges,
+    clickFeature,
+    handleMapContextMenu,
+    handleClickNotFeature,
+  } = useRouteController();
 
   const panel = <RouteBuilderPanel />;
   const nodeMarkers = <NodeMarkers />;
@@ -15,7 +21,7 @@ export const useRouteBuilder = () => {
     addMiddleNode,
     moveNode,
     removeNodeAndEdges,
-    handleFeatureClick,
+    clickFeature,
     handleMapContextMenu,
     handleClickNotFeature,
 

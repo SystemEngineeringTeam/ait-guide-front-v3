@@ -13,7 +13,15 @@ import { RouteEdgeId, RouteNodeId } from '@/hooks/useRouteBuilder/types/route';
 import { ROUTE_EDGE_LINE_LAYER_ID, ROUTE_NODE_MARKER_LAYER_ID } from '@/consts/layerId';
 
 export default function RouteBuildPage() {
-  const { panel, nodeMarkers, edgeLines, handleMapContextMenu, handleFeatureClick, handleClickNotFeature } = useRouteBuilder();
+  const {
+    panel,
+    nodeMarkers,
+    edgeLines,
+    addMiddleNode,
+    handleMapContextMenu,
+    clickFeature,
+    handleClickNotFeature,
+  } = useRouteBuilder();
 
   return (
     <>
@@ -25,8 +33,9 @@ export default function RouteBuildPage() {
         dragRotate={false}
         featureTargets={['nodeId', 'edgeId']}
         interactiveLayerIds={[ROUTE_NODE_MARKER_LAYER_ID, ROUTE_EDGE_LINE_LAYER_ID]}
-        onClickFeature={handleFeatureClick}
+        onClickFeature={clickFeature}
         onMapContextMenu={handleMapContextMenu}
+        onRightClickFeature={addMiddleNode}
         onClickNotFeature={handleClickNotFeature}
       >
         <FacilitiesPolygons facilities={[...GEO_JSON_FACILITIES, ...GEO_JSON_PASSAGES]} />
