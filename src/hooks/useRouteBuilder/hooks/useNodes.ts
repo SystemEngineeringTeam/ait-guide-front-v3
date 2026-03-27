@@ -51,6 +51,7 @@ export const useNodesSetter = () => {
       type: getSelectedNodeType(),
     };
     setNodes((prev) => [...prev, newNode]);
+    return newNode;
   };
 
   /** 既存ノードの type を変更する関数 */
@@ -69,6 +70,11 @@ export const useNodesSetter = () => {
     return newId;
   };
 
+  /** ノードを移動する関数 */
+  const moveNode = (nodeId: RouteNodeId, newCoord: Coord) => {
+    setNodes((prev) => prev.map((node) => (node.id === nodeId ? { ...node, coord: newCoord } : node)));
+  };
+
   /** ノードを削除する関数 */
   const removeNode = (nodeId: RouteNodeId) => {
     setNodes((prev) => prev.filter((node) => node.id !== nodeId));
@@ -76,8 +82,9 @@ export const useNodesSetter = () => {
 
   return {
     addNode,
-    changeNodeType,
     removeNode,
+    changeNodeType,
+    moveNode,
   } as const;
 };
 

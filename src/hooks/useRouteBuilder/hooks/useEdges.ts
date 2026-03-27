@@ -54,7 +54,7 @@ export const useEdgesSetter = () => {
   const getEdgeLevel = useGetSelectedEdgeLevelFn();
 
   /** エッジを追加する関数 */
-  const add = (nodeIds: [RouteNodeId, RouteNodeId]) => {
+  const addEdge = (nodeIds: [RouteNodeId, RouteNodeId]) => {
     const id = uuid() as RouteEdgeId;
     const newEdge: RouteEdge = {
       id,
@@ -87,17 +87,23 @@ export const useEdgesSetter = () => {
   };
 
   /** エッジを削除する関数 */
-  const remove = (edgeId: RouteEdgeId) => {
+  const removeEdge = (edgeId: RouteEdgeId) => {
     setEdges((prev) => prev.filter((edge) => edge.id !== edgeId));
   };
 
+  /** ノードIDに紐づくエッジを削除する関数 */
+  const removeEdgesByNodeId = (nodeId: RouteNodeId) => {
+    setEdges((prev) => prev.filter((edge) => !edge.nodeIds.includes(nodeId)));
+  };
+
   return {
-    add,
+    addEdge,
+    removeEdge,
+    removeEdgesByNodeId,
     changeEdgeLevel,
     changeEdgeHasStairs,
     changeEdgeIsAccessible,
     changeEdgeIsIndoor,
-    remove,
   } as const;
 };
 

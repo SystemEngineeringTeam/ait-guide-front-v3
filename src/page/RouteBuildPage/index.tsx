@@ -1,3 +1,5 @@
+'use client';
+
 import { GEO_JSON_FACILITIES } from '@/consts/facilities';
 import styles from './index.module.scss';
 import Map from '@/components/Map';
