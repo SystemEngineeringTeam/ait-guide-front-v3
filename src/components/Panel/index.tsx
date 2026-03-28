@@ -2,13 +2,15 @@
 
 import { useState } from 'react';
 import styles from './index.module.scss';
+import classNames from 'classnames';
 
 interface Props {
   title: string;
   children: React.ReactNode;
+  className?: string;
 }
 
-export default function Panel({ title, children }: Props) {
+export default function Panel({ title, children, className }: Props) {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
@@ -20,7 +22,7 @@ export default function Panel({ title, children }: Props) {
         </button>
       </div>
 
-      {isOpen && <div className={styles.content}>{children}</div>}
+      {isOpen && <div className={classNames(styles.content, className)}>{children}</div>}
     </div>
   );
 }

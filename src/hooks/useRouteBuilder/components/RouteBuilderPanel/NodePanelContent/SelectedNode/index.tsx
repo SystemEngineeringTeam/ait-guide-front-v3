@@ -21,9 +21,9 @@ export default function SelectedNode() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.buttons}>
-        {selectedNode &&
-          TYPE_NAMES.map((type) => (
+      {selectedNode && (
+        <div className={styles.buttons}>
+          {TYPE_NAMES.map((type) => (
             <PanelButton
               key={type.type}
               selected={selectedNode.type === type.type}
@@ -32,7 +32,8 @@ export default function SelectedNode() {
               {TYPE_NAMES.find((t) => t.type === type.type)?.name || type.type}
             </PanelButton>
           ))}
-      </div>
+        </div>
+      )}
 
       {selectedNode && (
         <PanelButton emoji="🗑️" onClick={handleRemoveNode(selectedNode.uuid)} danger>
