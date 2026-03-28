@@ -2,7 +2,7 @@ import type { RouteEdge, RouteEdgeLevel, UUID } from '@/hooks/useRouteBuilder/ty
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import { uuid } from '../utils/uuid';
-import { useGetSelectedEdgeLevelFn } from './useSelectedEdgeLevel';
+import { useGetEdgeDefaultOptionsFn } from './useDefaultEdgeOptions';
 import type { Feature, FeatureCollection, LineString } from 'geojson';
 import { getNodeAtom } from './useNodes';
 
@@ -66,19 +66,17 @@ export const getEdgeByUUIDAtom = atom((get) => {
 
 /** エッジの更新関数たちを提供する */
 export const useEdgesSetter = () => {
-  const getSelectedEdgeLevel = useGetSelectedEdgeLevelFn();
+  const getDefaultEdgeOptions = useGetEdgeDefaultOptionsFn();
   const setEdges = useSetAtom(edgesAtom);
 
   /** エッジを追加する関数 */
   const addEdge = (nodeIds: [UUID, UUID]) => {
     const edgeUuid = uuid();
+    const defaultOptions = getDefaultEdgeOptions();
     const newEdge: RouteEdge = {
       uuid: edgeUuid,
       nodeIds,
-      level: getSelectedEdgeLevel(),
-      hasStairs: false,
-      isAccessible: true,
-      isIndoor: false,
+      ...defaultOptions,
     };
     setEdges((prev) => [...prev, newEdge]);
   };
