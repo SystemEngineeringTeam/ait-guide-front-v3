@@ -6,16 +6,19 @@ import PanelButton from '@/components/PanelButton';
 import { useNodesSetter } from '@/hooks/useRouteBuilder/hooks/useNodes';
 import { TYPE_NAMES } from '@/hooks/useRouteBuilder/consts/routeMode';
 import { RouteNodeType, UUID } from '@/hooks/useRouteBuilder/types/route';
+import { useEdgesSetter } from '@/hooks/useRouteBuilder/hooks/useEdges';
 
 export default function SelectedNode() {
   const selectedNode = useSelectedNodeValue();
   const { changeNodeType, removeNode } = useNodesSetter();
+  const { removeEdgesByNodeId } = useEdgesSetter();
 
   const handleChangeNodeType = (nodeId: UUID, type: RouteNodeType) => () => {
     changeNodeType(nodeId, type);
   };
 
   const handleRemoveNode = (nodeId: UUID) => () => {
+    removeEdgesByNodeId(nodeId);
     removeNode(nodeId);
   };
 
