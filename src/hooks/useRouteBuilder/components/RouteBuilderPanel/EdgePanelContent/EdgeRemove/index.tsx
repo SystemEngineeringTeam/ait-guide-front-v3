@@ -12,7 +12,7 @@ export default function EdgeRemove() {
   return (
     <div className={styles.container}>
       <PanelButton emoji="🗑️" selected onClick={() => removeEdge(selectedEdge.uuid)} danger>
-        削除
+        エッジ削除
       </PanelButton>
     </div>
   );
