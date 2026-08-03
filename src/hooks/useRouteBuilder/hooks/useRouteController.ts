@@ -54,8 +54,6 @@ export const useRouteController = () => {
         const autoReflectOptions = getAutoReflectOptions();
         const edgeOptions = getEdgeOptions();
 
-        console.log(autoReflectOptions);
-        console.log(edgeOptions);
         if (autoReflectOptions.level) changeEdgeLevel(target.uuid, edgeOptions.level);
         if (autoReflectOptions.hasStairs) changeEdgeHasStairs(target.uuid, edgeOptions.hasStairs);
         if (autoReflectOptions.isAccessible) changeEdgeIsAccessible(target.uuid, edgeOptions.isAccessible);
