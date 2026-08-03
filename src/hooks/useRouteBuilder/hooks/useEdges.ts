@@ -78,7 +78,25 @@ export const useEdgesSetter = () => {
       nodeIds,
       ...defaultOptions,
     };
-    setEdges((prev) => [...prev, newEdge]);
+
+    setEdges((prev) => {
+      // 同じノードを両端に持つエッジは作成できないようにする
+      if (newEdge.nodeIds[0] === newEdge.nodeIds[1]) {
+        console.error('Cannot create an edge with the same node as both endpoints');
+        return prev;
+      }
+      // すでに同じノードを両端に持つエッジが存在する場合は追加しない
+      const exists = prev.some(
+        (edge) =>
+          (edge.nodeIds[0] === newEdge.nodeIds[0] && edge.nodeIds[1] === newEdge.nodeIds[1]) ||
+          (edge.nodeIds[0] === newEdge.nodeIds[1] && edge.nodeIds[1] === newEdge.nodeIds[0]),
+      );
+      if (exists) {
+        console.error('An edge with the same endpoints already exists');
+        return prev;
+      }
+      return [...prev, newEdge];
+    });
   };
 
   /** 既存エッジの level を変更する関数 */
