@@ -1,0 +1,35 @@
+.marker {
+  div {
+    width: 16px;
+    height: sqrt(3) * 8px;
+    // 三角形
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    background-color: #000;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      // 三角形
+      width: 100%;
+      height: 100%;
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      background-color: #fff;
+
+      transform: scale(0.5);
+      transform-origin: center;
+    }
+
+    &:nth-child(1) {
+      transform: translateY(15px) rotate(0deg);
+    }
+
+    // 上下反転
+    &:nth-child(2) {
+      transform: translateY(-15px) rotate(180deg);
+    }
+  }
+}
