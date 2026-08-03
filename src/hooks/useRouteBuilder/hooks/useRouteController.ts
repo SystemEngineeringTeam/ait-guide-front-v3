@@ -4,7 +4,7 @@ import { useGetNodeFn, useNodesSetter } from './useNodes';
 import { useSelectNodeSetter, useSelectEdgeSetter, useGetSelectedNodeFn } from './useSelectedTarget';
 import { useGetRouteModeFn } from './useRouteMode';
 import { UUID } from '../types/route';
-import { useGetAutoReflectFn } from './useAutoReflect';
+import { useGetAutoReflectFn, useGetAutoReflectOptionsFn } from './useAutoReflect';
 import { useGetEdgeDefaultOptionsFn } from './useDefaultEdgeOptions';
 
 export const useRouteController = () => {
@@ -17,6 +17,7 @@ export const useRouteController = () => {
   const getNode = useGetNodeFn();
   const getMode = useGetRouteModeFn();
   const getAutoReflect = useGetAutoReflectFn();
+  const getAutoReflectOptions = useGetAutoReflectOptionsFn();
   const { changeEdgeLevel, changeEdgeHasStairs, changeEdgeIsAccessible, changeEdgeIsIndoor } = useEdgesSetter();
   const getEdgeOptions = useGetEdgeDefaultOptionsFn();
 
@@ -50,11 +51,15 @@ export const useRouteController = () => {
       const autoReflect = getAutoReflect();
 
       if (autoReflect) {
+        const autoReflectOptions = getAutoReflectOptions();
         const edgeOptions = getEdgeOptions();
-        changeEdgeLevel(target.uuid, edgeOptions.level);
-        changeEdgeHasStairs(target.uuid, edgeOptions.hasStairs);
-        changeEdgeIsAccessible(target.uuid, edgeOptions.isAccessible);
-        changeEdgeIsIndoor(target.uuid, edgeOptions.isIndoor);
+
+        console.log(autoReflectOptions);
+        console.log(edgeOptions);
+        if (autoReflectOptions.level) changeEdgeLevel(target.uuid, edgeOptions.level);
+        if (autoReflectOptions.hasStairs) changeEdgeHasStairs(target.uuid, edgeOptions.hasStairs);
+        if (autoReflectOptions.isAccessible) changeEdgeIsAccessible(target.uuid, edgeOptions.isAccessible);
+        if (autoReflectOptions.isIndoor) changeEdgeIsIndoor(target.uuid, edgeOptions.isIndoor);
       } else {
         selectEdge(target.uuid);
       }

@@ -21,3 +21,8 @@ export interface RouteEdge {
   isAccessible: boolean; // バリアフリー対応の有無
   isIndoor: boolean; // 屋内か
 }
+
+export type RouteEdgeOptions = Omit<RouteEdge, 'uuid' | 'nodeIds'>;
+
+export type RouteEdgeOptionsKey = keyof RouteEdgeOptions;
+export type RouteAutoReflectOptions = Record<RouteEdgeOptionsKey, boolean>;

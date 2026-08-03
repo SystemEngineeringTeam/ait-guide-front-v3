@@ -1,8 +1,8 @@
-import { RouteEdge, RouteEdgeLevel } from '@/hooks/useRouteBuilder/types/route';
+import { RouteEdgeLevel, RouteEdgeOptions } from '@/hooks/useRouteBuilder/types/route';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { useAtomCallback } from 'jotai/utils';
 
-const defaultEdgeOptionsAtom = atom<Omit<RouteEdge, 'uuid' | 'nodeIds'>>({
+const defaultEdgeOptionsAtom = atom<RouteEdgeOptions>({
   level: 1,
   hasStairs: false,
   isAccessible: false,

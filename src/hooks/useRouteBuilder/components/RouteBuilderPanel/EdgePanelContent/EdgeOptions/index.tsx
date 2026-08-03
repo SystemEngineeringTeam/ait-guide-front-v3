@@ -1,16 +1,21 @@
 'use client';
 
+import AutoReflectOption from './AutoReflectOption';
 import styles from './index.module.scss';
-import type { RouteEdge } from '@/hooks/useRouteBuilder/types/route';
+import type { RouteAutoReflectOptions, RouteEdge, RouteEdgeOptionsKey } from '@/hooks/useRouteBuilder/types/route';
 
 interface Props {
   autoReflect: boolean;
+  handleChangeAutoReflect: (reflect: boolean) => void;
+
+  autoReflectOptions: RouteAutoReflectOptions;
+  handleChangeAutoReflectOptions: (key: RouteEdgeOptionsKey, value: boolean) => void;
+
   level: RouteEdge['level'];
   hasStairs: RouteEdge['hasStairs'];
   isAccessible: RouteEdge['isAccessible'];
   isIndoor: RouteEdge['isIndoor'];
 
-  handleChangeAutoReflect: (reflect: boolean) => void;
   handleChangeLevel: (level: RouteEdge['level']) => void;
   handleChangeHasStairs: (hasStairs: RouteEdge['hasStairs']) => void;
   handleChangeIsAccessible: (isAccessible: RouteEdge['isAccessible']) => void;
@@ -19,11 +24,15 @@ interface Props {
 
 export default function EdgeOptions({
   autoReflect,
+  handleChangeAutoReflect,
+
+  autoReflectOptions,
+  handleChangeAutoReflectOptions,
+
   level,
   hasStairs,
   isAccessible,
   isIndoor,
-  handleChangeAutoReflect,
   handleChangeLevel,
   handleChangeHasStairs,
   handleChangeIsAccessible,
@@ -39,7 +48,7 @@ export default function EdgeOptions({
             checked={autoReflect}
             onChange={(e) => handleChangeAutoReflect(e.target.checked)}
           />
-          <label htmlFor="reflect">選択して反映</label>
+          <label htmlFor="reflect">✨ 選択して反映</label>
         </div>
       </div>
 
@@ -56,6 +65,12 @@ export default function EdgeOptions({
           onChange={(e) => handleChangeLevel(Number(e.target.value) as RouteEdge['level'])}
         />
         <span>裏道</span>
+        <AutoReflectOption
+          isEnabled={autoReflect}
+          optionKey="level"
+          handleChange={handleChangeAutoReflectOptions}
+          selected={autoReflectOptions.level}
+        />
       </div>
 
       <div className={styles.options}>
@@ -67,6 +82,12 @@ export default function EdgeOptions({
             onChange={(e) => handleChangeHasStairs(e.target.checked)}
           />
           <label htmlFor="stairs">🪜 階段</label>
+          <AutoReflectOption
+            isEnabled={autoReflect}
+            optionKey="hasStairs"
+            handleChange={handleChangeAutoReflectOptions}
+            selected={autoReflectOptions.hasStairs}
+          />
         </div>
 
         <div className={styles.item}>
@@ -77,6 +98,12 @@ export default function EdgeOptions({
             onChange={(e) => handleChangeIsAccessible(e.target.checked)}
           />
           <label htmlFor="accessible">👩‍🦽 バリアフリー❌</label>
+          <AutoReflectOption
+            isEnabled={autoReflect}
+            optionKey="isAccessible"
+            handleChange={handleChangeAutoReflectOptions}
+            selected={autoReflectOptions.isAccessible}
+          />
         </div>
 
         <div className={styles.item}>
@@ -87,6 +114,12 @@ export default function EdgeOptions({
             onChange={(e) => handleChangeIsIndoor(e.target.checked)}
           />
           <label htmlFor="indoor">🏠 屋内</label>
+          <AutoReflectOption
+            isEnabled={autoReflect}
+            optionKey="isIndoor"
+            handleChange={handleChangeAutoReflectOptions}
+            selected={autoReflectOptions.isIndoor}
+          />
         </div>
       </div>
     </div>
