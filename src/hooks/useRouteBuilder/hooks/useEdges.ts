@@ -107,7 +107,6 @@ export const useEdgesSetter = () => {
 
   /** ノードIDに紐づくエッジを削除する関数 */
   const removeEdgesByNodeId = (nodeId: UUID) => {
-    console.log("削除", nodeId);
     setEdges((prev) => prev.filter((edge) => !edge.nodeIds.includes(nodeId)));
   };
 
