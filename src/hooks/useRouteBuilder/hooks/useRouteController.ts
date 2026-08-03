@@ -4,6 +4,8 @@ import { useGetNodeFn, useNodesSetter } from './useNodes';
 import { useSelectNodeSetter, useSelectEdgeSetter, useGetSelectedNodeFn } from './useSelectedTarget';
 import { useGetRouteModeFn } from './useRouteMode';
 import { UUID } from '../types/route';
+import { useGetAutoReflectFn } from './useAutoReflect';
+import { useGetEdgeDefaultOptionsFn } from './useDefaultEdgeOptions';
 
 export const useRouteController = () => {
   const { addNode, removeNode, moveNode } = useNodesSetter();
@@ -14,6 +16,9 @@ export const useRouteController = () => {
   const getEdge = useGetEdgeFn();
   const getNode = useGetNodeFn();
   const getMode = useGetRouteModeFn();
+  const getAutoReflect = useGetAutoReflectFn();
+  const { changeEdgeLevel, changeEdgeHasStairs, changeEdgeIsAccessible, changeEdgeIsIndoor } = useEdgesSetter();
+  const getEdgeOptions = useGetEdgeDefaultOptionsFn();
 
   /** エッジの途中にノードを追加する関数 */
   const addMiddleNode = (id: UUID, targetType: 'edgeId' | 'nodeId' | {}, coord: Coord) => {
@@ -42,7 +47,17 @@ export const useRouteController = () => {
   const clickFeature = (id: UUID, targetType: 'edgeId' | 'nodeId' | {}) => {
     if (targetType === 'edgeId') {
       const target = getEdge(id);
-      selectEdge(target.uuid);
+      const autoReflect = getAutoReflect();
+
+      if (autoReflect) {
+        const edgeOptions = getEdgeOptions();
+        changeEdgeLevel(target.uuid, edgeOptions.level);
+        changeEdgeHasStairs(target.uuid, edgeOptions.hasStairs);
+        changeEdgeIsAccessible(target.uuid, edgeOptions.isAccessible);
+        changeEdgeIsIndoor(target.uuid, edgeOptions.isIndoor);
+      } else {
+        selectEdge(target.uuid);
+      }
     } else if (targetType === 'nodeId') {
       const prevSelectedNode = getSelectedNode(); // 変更前の選択ノードを取得
 

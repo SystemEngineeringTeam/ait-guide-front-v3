@@ -4,25 +4,26 @@ import styles from './index.module.scss';
 import type { RouteEdge } from '@/hooks/useRouteBuilder/types/route';
 
 interface Props {
-  title: string;
-
+  autoReflect: boolean;
   level: RouteEdge['level'];
   hasStairs: RouteEdge['hasStairs'];
   isAccessible: RouteEdge['isAccessible'];
   isIndoor: RouteEdge['isIndoor'];
 
+  handleChangeAutoReflect: (reflect: boolean) => void;
   handleChangeLevel: (level: RouteEdge['level']) => void;
   handleChangeHasStairs: (hasStairs: RouteEdge['hasStairs']) => void;
   handleChangeIsAccessible: (isAccessible: RouteEdge['isAccessible']) => void;
   handleChangeIsIndoor: (isIndoor: RouteEdge['isIndoor']) => void;
 }
 
-export default function SelectedEdge({
-  title,
+export default function EdgeOptions({
+  autoReflect,
   level,
   hasStairs,
   isAccessible,
   isIndoor,
+  handleChangeAutoReflect,
   handleChangeLevel,
   handleChangeHasStairs,
   handleChangeIsAccessible,
@@ -30,7 +31,19 @@ export default function SelectedEdge({
 }: Props) {
   return (
     <div className={styles.content}>
-      <h3 className={styles.title}>{title}</h3>
+      <div>
+        <div className={styles.item}>
+          <input
+            type="checkbox"
+            id="reflect"
+            checked={autoReflect}
+            onChange={(e) => handleChangeAutoReflect(e.target.checked)}
+          />
+          <label htmlFor="reflect">選択して反映</label>
+        </div>
+      </div>
+
+      <h3 className={styles.title}>デフォルトオプション</h3>
 
       <div className={styles.labelbox}>
         <span>主要</span>
@@ -63,7 +76,7 @@ export default function SelectedEdge({
             checked={isAccessible}
             onChange={(e) => handleChangeIsAccessible(e.target.checked)}
           />
-          <label htmlFor="accessible">👩‍🦽 バリアフリー</label>
+          <label htmlFor="accessible">👩‍🦽 バリアフリー❌</label>
         </div>
 
         <div className={styles.item}>
