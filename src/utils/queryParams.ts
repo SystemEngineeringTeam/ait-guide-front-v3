@@ -6,6 +6,26 @@ export function getFromQueryParam(key: string): string | undefined {
   return params.get(key) ?? undefined;
 }
 
+function isEmbeddedInIframe() {
+  try {
+    return window.self !== window.top;
+  } catch {
+    return true;
+  }
+}
+
+function postSearchParamsToParent(url: URL) {
+  if (!isEmbeddedInIframe()) return;
+
+  window.parent.postMessage(
+    {
+      type: 'searchParams',
+      params: Object.fromEntries(url.searchParams.entries()),
+    },
+    '*',
+  );
+}
+
 /**
  * useSyncExternalStore用
  */
@@ -43,4 +63,5 @@ export function setQueryParam(key: string, value: string | undefined) {
   else url.searchParams.delete(key);
 
   history.pushState({}, '', url);
+  postSearchParamsToParent(url);
 }
